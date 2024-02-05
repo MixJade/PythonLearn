@@ -1,0 +1,149 @@
+import requests
+from lxml import etree
+import xlwt
+
+ua = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) \
+AppleWebKit/537.36 (KHTML, like Gecko) \\Chrome/86.0.4240.198 Safari/537.36"'}
+
+
+def role_data():
+    print("开始爬取原神角色数据")
+    url = "https://bbs.mihoyo.com/ys/obc/channel/map/189/25?bbs_presentation_style=no_header"
+    # url = "https://api-static.mihoyo.com/common/blackboard/ys_obc/v1/home/content/list?app_sn=ys_obc&channel_id=189"
+    yuan_shen = requests.get(url, headers=ua)
+    yuan_shen.encoding = "utf-8"
+    yuan_shen01 = yuan_shen.text
+    yuan_shen02 = etree.HTML(yuan_shen01)
+    role = yuan_shen02.xpath('//div[@class="collection-avatar__title"]/text()')
+    wang_zhi = yuan_shen02.xpath('//a[@class="collection-avatar__item"]/@href')
+    print("一共有" + str(len(role)) + "个角色，角色数据如下：")
+
+    role_all = []
+
+    url02 = "https://bbs.mihoyo.com"
+    for i in range(len(wang_zhi)):
+        role_url = url02 + wang_zhi[i]
+        rs02 = requests.get(role_url, headers=ua)
+        rs02.encoding = "utf-8"
+        body02 = rs02.text
+        html02 = etree.HTML(body02)
+        role_four = html02.xpath(
+            '//ul[@class="obc-tmpl__switch-list"]/li[@data-index="7"]/table/tbody/tr/td/div/span/text()')
+        lei_xing = html02.xpath(
+            '//ul[@class="obc-tmpl__switch-list"]/li[@data-index="7"]/table/tbody/tr/td[@class="h3"]/text()')
+        stars = len(html02.xpath('//div[@class="obc-tmp-character__mobile--stars"]/i'))
+        qi_ta = html02.xpath('//div[@class="obc-tmp-character__value"]/text()')
+        xia_zui = html02.xpath('//div[@data-part="skill"]/ul[2]/li[1]/div/div/table/tbody/tr[last()-1]/td[11]/text()')
+        xia_zui[0] = xia_zui[0][19:-17]
+        lifedata = str(role_four[0])
+        for live in lifedata:
+            if live == ',':
+                lifedata = lifedata.replace(live, '')
+        role_four[0] = lifedata
+        role_four[2] = role_four[2][7:10]
+        role_four.insert(3, lei_xing[4])
+        role_four.append(stars)
+        role_four.append(qi_ta[0])
+        role_four.append(qi_ta[3])
+        role_four.append(qi_ta[5])
+        role_four.append(xia_zui[0])
+        role_four.insert(0, role[i])
+        role_all.append(role_four)
+
+    print("每道数据" + str(len(role_all[0])) + "个词条\n" + str(role_all))
+    role_data_xls(role_all)
+
+
+def role_data_xls(roleall):
+    print("开始画表，表名：sy原神角色数据")
+    workbook = xlwt.Workbook(encoding='utf-8')
+    worksheet = workbook.add_sheet("roleData")
+    worksheet.write(0, 0, label='ID')
+    worksheet.write(0, 1, label='名字')
+    worksheet.write(0, 2, label='生命')
+    worksheet.write(0, 3, label='防御')
+    worksheet.write(0, 4, label='攻击')
+    worksheet.write(0, 5, label='突破类型')
+    worksheet.write(0, 6, label='突破数值')
+    worksheet.write(0, 7, label='星级')
+    worksheet.write(0, 8, label='生日')
+    worksheet.write(0, 9, label='武器类型')
+    worksheet.write(0, 10, label='称号')
+    worksheet.write(0, 11, label='下落伤害')
+
+    for i in range(len(roleall)):
+        worksheet.write(i + 1, 0, label=i)
+        for j in range(len(roleall[0])):
+            worksheet.write(i + 1, j + 1, label=roleall[i][j])
+    workbook.save(r"sy原神角色数据.xls")
+
+
+def saber_data():
+    print("开始爬取原神武器数据")
+    url = "https://bbs.mihoyo.com/ys/obc/channel/map/189/5?bbs_presentation_style=no_header"
+    yuan_shen = requests.get(url, headers=ua)
+    yuan_shen.encoding = "utf-8"
+    yuan_shen01 = yuan_shen.text
+    yuan_shen02 = etree.HTML(yuan_shen01)
+    saber_name = yuan_shen02.xpath('//div[@class="collection-avatar__title"]/text()')
+    wang_zhi = yuan_shen02.xpath('//a[@class="collection-avatar__item"]/@href')
+    print("一共有" + str(len(saber_name)) + "把武器，武器数据如下")
+    saber_all = []
+
+    url02 = "https://bbs.mihoyo.com"
+    for i in range(len(saber_name)):
+        saber_name_url = url02 + wang_zhi[i]
+        rs02 = requests.get(saber_name_url, headers=ua)
+        rs02.encoding = "utf-8"
+        body02 = rs02.text
+        html02 = etree.HTML(body02)
+        ci_tiao = html02.xpath('//div[@style="order: 2;"]/div/ul[2]/li[last()]/table/tbody/tr/td/ul/li/text()')
+        ci_tiao[0] = int(ci_tiao[0][6:])
+        if len(ci_tiao) < 2:
+            ci_tiao.append("无")
+        max_level = html02.xpath('//div[@style="order: 2;"]/div/ul[1]/li[last()]/text()')
+        max_level[0] = max_level[0][7:-5]
+        lei_xing = html02.xpath('//div[@style="order: 0;"]/div/table/tbody/tr[2]/td/text()')
+        if len(str(lei_xing)) > 9:
+            lei_xing[0] = lei_xing[0][5:]
+        star = len(html02.xpath('//div[@style="order: 0;"]/div/table/tbody/tr[3]/td/i'))
+        tu_po_need = html02.xpath('//div[@style="order: 2;"]//span[@class="obc-tmpl__icon-text"]/text()')
+        tu_po_need = tu_po_need[-3:]
+        ci_tiao.insert(0, saber_name[i])
+        ci_tiao.insert(1, star)
+        ci_tiao.append(max_level[0])
+        ci_tiao.append(lei_xing[0])
+        ci_tiao.append(tu_po_need[0])
+        ci_tiao.append(tu_po_need[1])
+        ci_tiao.append(tu_po_need[2])
+        saber_all.append(ci_tiao)
+
+    print("每道数据" + str(len(saber_all[0])) + "个词条\n" + str(saber_all))
+    saber_data_xls(saber_all)
+
+
+def saber_data_xls(saber_all):
+    print("开始画表，表名：sy原神武器数据")
+    workbook = xlwt.Workbook(encoding='utf-8')
+    worksheet = workbook.add_sheet("saberData")
+    worksheet.write(0, 0, label='ID')
+    worksheet.write(0, 1, label='武器名')
+    worksheet.write(0, 2, label='星级')
+    worksheet.write(0, 3, label='最大白值')
+    worksheet.write(0, 4, label='副词条')
+    worksheet.write(0, 5, label='最大等级')
+    worksheet.write(0, 6, label='武器类型')
+    worksheet.write(0, 7, label='突破材料')
+    worksheet.write(0, 8, label='突破其二')
+    worksheet.write(0, 9, label='突破其三')
+
+    for i in range(len(saber_all)):
+        worksheet.write(i + 1, 0, label=i)
+        for j in range(len(saber_all[0])):
+            worksheet.write(i + 1, j + 1, label=saber_all[i][j])
+    workbook.save(r"sy原神武器数据.xls")
+
+
+if __name__ == "__main__":
+    role_data()
+    saber_data()
