@@ -1,5 +1,9 @@
 # PyCharm无法识别pip命令
 
+> 2024年2月1日 16:53
+> 
+> (这里有一个问题，如果你打开了其它的项目，使用pip install下载依赖会下到原来的项目)
+
 在python终端输入`pip install requests`的命令时，弹出以下报错:
 
 ```text
@@ -10,8 +14,10 @@
 
 首先去pyCharm编辑器找到python.exe的位置，然后将其所在文件夹的路径输入到系统的环境变量中：
 
-```bash
+```text
 C:\MyCode\PythonLearn\venv\Scripts
 ```
 
 添加的过程：【高级系统设置】-【环境变量】-下划【系统变量】-【Path】-【编辑】-在打开的弹框中【新建】-输入"Scripts"文件夹的路径。
+
+* 如果以后换到其他项目中，记得这里也要修改
