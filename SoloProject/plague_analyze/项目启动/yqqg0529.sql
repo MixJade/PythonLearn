@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 50540
  Source Host           : localhost:3306
- Source Schema         : shixun0515
+ Source Schema         : play
 
  Target Server Type    : MySQL
  Target Server Version : 50540

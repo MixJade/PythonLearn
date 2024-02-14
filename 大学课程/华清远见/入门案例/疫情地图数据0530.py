@@ -10,7 +10,7 @@ def shuju02():
         host="localhost",
         user="root",
         passwd="root",
-        database="shixun0515",
+        database="play",
         charset="utf8"
     )
 

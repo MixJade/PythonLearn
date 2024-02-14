@@ -58,7 +58,7 @@ def shujucharu(charu):
         host="localhost",
         user="root",
         passwd="root",
-        database="shixun0515",
+        database="play",
         charset="utf8"
     )
     # 创建游标
@@ -84,7 +84,7 @@ def val_data():
         host="localhost",
         user="root",
         passwd="root",
-        database="shixun0515",
+        database="play",
         charset="utf8"
     )
     # 创建游标

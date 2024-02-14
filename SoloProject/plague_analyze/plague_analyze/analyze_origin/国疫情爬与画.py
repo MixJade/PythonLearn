@@ -63,7 +63,7 @@ def shujucharu(charu):
                 host="localhost",
                 user="root",
                 passwd="root",
-                database="shixun0515",
+                database="play",
                 charset="utf8"
                 )
     # 创建游标
@@ -89,7 +89,7 @@ def valdata():
                 host="localhost",
                 user="root",
                 passwd="root",
-                database="shixun0515",
+                database="play",
                 charset="utf8"
                 )
     cur = con.cursor()
@@ -112,7 +112,7 @@ def shuju01():
         host="localhost",
         user="root",
         passwd="root",
-        database="shixun0515",
+        database="play",
         charset="utf8"
     )
 

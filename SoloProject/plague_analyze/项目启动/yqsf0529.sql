@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 50540
  Source Host           : localhost:3306
- Source Schema         : shixun0515
+ Source Schema         : play
 
  Target Server Type    : MySQL
  Target Server Version : 50540
@@ -23,7 +23,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `yqsf0529`;
 CREATE TABLE `yqsf0529`  (
   `序列` int(255) NOT NULL DEFAULT 0,
-  `时间` date NOT NULL DEFAULT '0000-00-00',
+  `时间` date NOT NULL DEFAULT '2019-12-01',
   `省份名称` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `现存确诊` int(255) NULL DEFAULT NULL,
   `累计确诊` int(255) NULL DEFAULT NULL,
