@@ -68,11 +68,11 @@
 
 ## git五连
 
-```
-$ git init
-$ git remote add origin git@github.com:MixJade/PythonLearn.git
-$ git add .
-$ git commit -m "first commit"
-$ git branch -M main
-$ git push -u origin main
+```bash
+git init
+git remote add origin git@github.com:MixJade/PythonLearn.git
+git add .
+git commit -m "first commit"
+git branch -M main
+git push -u origin main
 ```
