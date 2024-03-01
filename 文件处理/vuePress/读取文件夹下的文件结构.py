@@ -9,7 +9,7 @@ def list_files(dir_path: str) -> dict[str, str | list]:
 
     :param dir_path: 目标文件夹
     """
-    result = {'text': os.path.basename(dir_path), 'child': []}
+    result = {'text': os.path.basename(dir_path), 'collapsible': 'true', 'children': []}
 
     # 遍历目录下的所有子目录和文件
     for item in os.listdir(dir_path):
@@ -17,16 +17,26 @@ def list_files(dir_path: str) -> dict[str, str | list]:
 
         # 如果是文件，则直接添加文件名
         if os.path.isfile(item_path):
-            result['child'].append(item)
+            children_str: str = item_path.replace(target_dir, "").replace("\\", "/")
+            result['children'].append(children_str)
         # 如果是目录，则递归调用该函数
         else:
-            result['child'].append(list_files(item_path))
+            result['children'].append(list_files(item_path))
 
     return result
 
 
 # 目标文件夹
 target_dir = r"E:\MyCode\TsLearn\my-page\docs"
-# 需要输出结构的文件夹
+# javaLearn的文件夹输出结构
 files_list = list_files(target_dir + r"\javaLearn")
-print(files_list)
+print(r'"/javaLearn/":', end=' ')
+print(files_list['children'], end=',\n')
+# tsLearn的文件夹输出结构
+files_list = list_files(target_dir + r"\tsLearn")
+print(r'"/tsLearn/":', end=' ')
+print(files_list['children'], end=',\n')
+# pyLearn的文件夹输出结构
+files_list = list_files(target_dir + r"\pyLearn")
+print(r'"/pyLearn/":', end=' ')
+print(files_list['children'], end=',\n')

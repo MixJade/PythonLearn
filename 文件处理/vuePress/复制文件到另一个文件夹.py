@@ -11,6 +11,7 @@ def copy_files(src_dir: str, dst_dir: str) -> None:
     :param src_dir: 源文件夹
     :param dst_dir: 目标文件夹，不存在会自动新建
     """
+    print("目标文件夹:", dst_dir)
     if not os.path.exists(dst_dir):
         # 如果目标文件夹不存在则自动新建
         os.makedirs(dst_dir)
@@ -29,7 +30,7 @@ def copy_files(src_dir: str, dst_dir: str) -> None:
 # 存放代码的公共文件夹
 code_dir = r"E:\MyCode"
 # 目标文件夹
-target_dir = r"E:\MyCode\TsLearn\my-page\docs"
+target_dir = code_dir + r"\TsLearn\my-page\docs"
 # 复制Java笔记
 copy_files(code_dir + r'\JavaLearn\知识\2023年', target_dir + r"\javaLearn")
 # 复制Python笔记
