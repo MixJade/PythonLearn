@@ -28,7 +28,7 @@ def copy_files(src_dir: str, dst_dir: str) -> None:
 
 
 # 存放代码的公共文件夹
-code_dir = r"E:\MyCode"
+code_dir = r"C:\MyCode"
 # 目标文件夹
 target_dir = code_dir + r"\TsLearn\my-page\docs"
 # 复制Java笔记

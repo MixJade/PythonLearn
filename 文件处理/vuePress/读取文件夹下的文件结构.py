@@ -3,6 +3,8 @@
 # @Software: PyCharm
 import os
 
+from 文件处理.替换指定两行间的内容 import replace_content_in_two_lines
+
 
 def list_files(dir_path: str) -> dict[str, str | list]:
     """读取文件下的目录结构，并输出成vuePress的配置文件形式
@@ -27,16 +29,33 @@ def list_files(dir_path: str) -> dict[str, str | list]:
 
 
 # 目标文件夹
-target_dir = r"E:\MyCode\TsLearn\my-page\docs"
+target_dir = r"C:\MyCode\TsLearn\my-page\docs"
+
+# 输出的字符串
+result_str: str = 'sidebar: {\n'
+
 # javaLearn的文件夹输出结构
 files_list = list_files(target_dir + r"\javaLearn")
-print(r'"/javaLearn/":', end=' ')
-print(files_list['children'], end=',\n')
+result_str += r'"/javaLearn/": '
+result_str += files_list['children'].__str__()
+result_str += ',\n'
 # tsLearn的文件夹输出结构
 files_list = list_files(target_dir + r"\tsLearn")
-print(r'"/tsLearn/":', end=' ')
-print(files_list['children'], end=',\n')
+result_str += r'"/tsLearn/": '
+result_str += files_list['children'].__str__()
+result_str += ',\n'
 # pyLearn的文件夹输出结构
 files_list = list_files(target_dir + r"\pyLearn")
-print(r'"/pyLearn/":', end=' ')
-print(files_list['children'], end=',\n')
+result_str += r'"/pyLearn/": '
+result_str += files_list['children'].__str__()
+result_str += ',\n'
+
+# 最终输出
+result_str += '},\n'
+print(result_str)
+
+# 然后写入
+replace_content_in_two_lines(target_dir + r"\.vuepress\config.js",
+                             start_str="// 天地自然，秽炁分散。",
+                             end_str="// 乾罗答那，洞罡太玄；",
+                             content=result_str)
