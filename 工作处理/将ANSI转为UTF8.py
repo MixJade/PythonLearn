@@ -1,0 +1,13 @@
+# coding=utf-8
+# @Time    : 2024/3/7 20:07
+# @Software: PyCharm
+
+file_name = '输入文件/待删除数据.csv'
+# 打开原始文件，以 ANSI 编码
+# mbcs是微软用来表示默认编码的。
+with open(file_name, 'r', encoding='mbcs') as file:
+    contents = file.read()
+
+# 写入新文件，以 UTF-8 编码
+with open(file_name, 'w', encoding='utf-8') as file:
+    file.write(contents)
