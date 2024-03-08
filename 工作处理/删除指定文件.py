@@ -23,4 +23,4 @@ need_del_file = ['有标题但不匹配的md.md',
                  'TABLE_ONE.sql',
                  ]
 # 调用函数，删除目录及其子目录下的指定文件
-delete_specific_files(r'E:\MyCode\PythonLearn\输入文件', need_del_file)
+delete_specific_files(r'../输入文件', need_del_file)
