@@ -29,7 +29,10 @@ def list_files(dir_path: str) -> dict[str, str | list]:
 
 
 # 目标文件夹
-target_dir = r"C:\MyCode\TsLearn\my-page\docs"
+# 存放代码的公共文件夹
+# (当前文件的上三级目录)等价于r"C:\MyCode"
+code_dir = os.path.abspath(os.path.join(os.getcwd(), "..", "..", ".."))
+target_dir = code_dir + r"\TsLearn\my-page\docs"
 
 # 输出的字符串
 result_str: str = 'sidebar: {\n'
