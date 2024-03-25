@@ -3,7 +3,19 @@
 # @Software: PyCharm
 import os
 
-from 文件处理.替换指定两行间的内容 import replace_content_in_two_lines
+
+def replace_content_in_two_lines(file_path: str, content: str) -> None:
+    """
+    详情见替换指定两行间的内容中的replace_content_in_two_lines方法
+    """
+    with open(file_path, encoding="utf-8") as f:
+        lines = f.readlines()
+    start_index = next(index for index, line in enumerate(lines) if "// 天地自然，秽炁分散。" in line)
+    end_index = next(index for index, line in enumerate(lines) if "// 乾罗答那，洞罡太玄；" in line)
+    lines[start_index + 1:end_index] = [content]
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.writelines(lines)
+    print(f"文件:‘{file_path}’的内容替换成功")
 
 
 def list_files(dir_path: str) -> dict[str, str | list]:
@@ -59,6 +71,4 @@ print(result_str)
 
 # 然后写入
 replace_content_in_two_lines(target_dir + r"\.vuepress\config.js",
-                             start_str="// 天地自然，秽炁分散。",
-                             end_str="// 乾罗答那，洞罡太玄；",
                              content=result_str)
