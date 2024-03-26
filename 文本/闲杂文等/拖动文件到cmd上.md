@@ -13,7 +13,7 @@
 例如：
 假设我们的脚本名字是myScript.cmd，内容如下：
 
-```cmd
+```bash
 @echo off
 pushd %~dp0
 echo You dropped %1 on me!

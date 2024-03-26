@@ -1,3 +1,4 @@
+@echo off
 chcp 65001 >nul
 cd ../文件处理/vuePress
 python 复制文件到另一个文件夹.py
