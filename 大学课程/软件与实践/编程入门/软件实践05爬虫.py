@@ -9,6 +9,7 @@ from lxml import etree
 
 url = "https://music.163.com/playlist?id=6686195225"
 base_url = 'https://link.hhtjim.com/163/'  # 外链地址
+# noinspection SpellCheckingInspection
 ua = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) \
 AppleWebKit/537.36 (KHTML, like Gecko) \\Chrome/86.0.4240.198 Safari/537.36"'}
 # 2. 请求 content：

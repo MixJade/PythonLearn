@@ -2,6 +2,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 # 导入数据集
+# noinspection DuplicatedCode
 mnist = tf.keras.datasets.mnist
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 print("训练集样本及标签", train_images.shape, train_labels.shape)
