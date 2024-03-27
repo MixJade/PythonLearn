@@ -2,7 +2,7 @@
 # @Time    : 2024/3/7 20:07
 # @Software: PyCharm
 
-# file_name = '输入文件/待删除数据.csv'
+# file_name = 'inputFile/待删除数据.csv'
 file_name = input("请输入ANSI文件路径(可直接拖入终端):")
 
 try:
