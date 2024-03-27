@@ -1,10 +1,8 @@
 .idea/
 settings.py
 __pycache__/
-大学课程/A2兼收并蓄/*
-!大学课程/A2兼收并蓄/README.md
-输出文件/*
-!输出文件/README.md
 # Jupyter的文件
 .ipynb_checkpoints/
 output/
+# 不追踪结果数据
+*结果.csv
