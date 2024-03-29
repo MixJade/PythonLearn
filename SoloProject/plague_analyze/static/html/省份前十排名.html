@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>疫情省份十排名</title>
+
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/map.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+</head>
+<body>
+
+<div class="data">
+    <div class="data-title">
+        <div class="title-center "><label style="color:red">疫情省份前十排名</label></div>
+    </div>
+
+    <div align="center">
+        <label for="dd" style="color:red">请选择:</label>
+        <select id="dd" onchange="zhu()">
+            <option value="现存确诊">现存确诊</option>
+            <option value="累计确诊">累计确诊</option>
+            <option value="治愈人数">治愈人数</option>
+            <option value="死亡人数">死亡人数</option>
+        </select>
+    </div>
+
+
+    <div id="main" style="width: 100%;height:580px;"></div>
+
+</div>
+</body>
+<script>
+   $(function(){
+        zhu()
+   })
+//柱状图数据
+function zhu() {
+    const v = $("#dd").val();
+    const chart = echarts.init(document.getElementById('main'), 'white', {renderer: 'canvas'});
+    $.ajax({
+              type: "GET",
+              url: "/qian02/",
+              data:{"pm":v},
+              success: function (result) {
+                    chart.setOption(result);
+             }
+      });
+}
+
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>全国疫情地图分析</title>
+
+    <link rel="stylesheet" href="/static/css/common.css">
+    <link rel="stylesheet" href="/static/css/map.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.2/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/js/china.js"></script>
+</head>
+<body>
+
+<div class="data">
+    <div class="data-title">
+        <div class="title-center" style="color:red">全国疫情地图分析test02</div>
+    </div>
+
+    <div align="center">
+        <label style="color:red">请选择分析地图的类型:</label>
+        <select id="dd" onchange="zhu()">
+            <option value="现存确诊">现存确诊</option>
+            <option value="累计确诊">累计确诊</option>
+            <option value="治愈人数">治愈人数</option>
+            <option value="死亡人数">死亡人数</option>
+        </select>
+    </div>
+
+
+    <div id="main" style="width: 100%;height:600px;"></div>
+
+</div>
+</body>
+<script>
+   $(function(){
+        zhu()
+   })
+//柱状图数据
+function zhu() {
+      var v = $("#dd").val()
+      var chart = echarts.init(document.getElementById('main'), 'white', {renderer: 'canvas'});
+      $.ajax({
+              type: "GET",
+              url: "/qian05/",
+              data:{"lm":v},
+              success: function (result) {
+                  console.log(result)
+                    chart.setOption(result);
+             }
+      });
+}
+
+</script>
+</html>
