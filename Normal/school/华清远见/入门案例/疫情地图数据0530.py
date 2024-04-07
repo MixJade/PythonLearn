@@ -1,54 +1,30 @@
-from  pyecharts import options as opts
-from pyecharts.charts import Map
-import pymysql
 import pandas as pd
-import datetime
+from pyecharts import options as opts
+from pyecharts.charts import Map
 
 
-def shuju02():
-    con = pymysql.Connect(
-        host="localhost",
-        user="root",
-        passwd="root",
-        database="play",
-        charset="utf8"
-    )
-
-    cur = con.cursor()
-    curdata = datetime.datetime.now().strftime("%Y-%m-%d")
-    # 定义sql查询
-    sql = "select * from yqsf0529 where 时间='%s'" % curdata
-    # 执行批量插入
-    cur.execute(sql)
-    # 获取结果集
-    rs = cur.fetchall()
-    cur.close()
-    return rs
-
-
-def sfdtcha(pm):
+def province_data(pm: str) -> list[tuple[str, str]]:
     # 运行查询数据，获取结果
-    sfshuju = shuju02()
-    df = pd.DataFrame(sfshuju, columns=["id", "time", "sf", "xcqz", "ljqz", "zy", "sw"])
-    listx = list(df["sf"])
+    province_1108 = pd.read_csv("../../A1输入数据/province1108.csv")
+    df = province_1108[["时间", "省份名称", "现存确诊", "累计确诊", "治愈人数", "死亡人数"]]
+    list_key = list(df["省份名称"])
     if pm == "现存确诊":
         # 把数据转换成列表,取出名字
-        listy = list(df["xcqz"])
+        list_val = list(df["现存确诊"])
     elif pm == "累计确诊":
-        listy = list(df["ljqz"])
+        list_val = list(df["累计确诊"])
     elif pm == "治愈人数":
-        listy = list(df["zy"])
+        list_val = list(df["治愈人数"])
     else:
-        listy = list(df["sw"])
+        list_val = list(df["死亡人数"])
 
     # 存入字典
-    dtsj = list(zip(listx, listy))
-    return dtsj
+    return list(zip(list_key, list_val))
 
 
-def sfyqmap(pm) -> Map:
-    sequence = sfdtcha(pm)
-    year = datetime.datetime.now().strftime("%Y-%m-%d") + pm
+def get_map_data(pm) -> Map:
+    sequence = province_data(pm)
+    year = "2022-11-08" + pm
     c = (
         Map(opts.InitOpts(width='1200px', height='600px'))  # opts.InitOpts() 设置初始参数:width=画布宽,height=画布高
         .add(series_name=year, data_pair=sequence, maptype="china")  # 系列名称(显示在中间的名称 )、数据 、地图类型
@@ -59,10 +35,10 @@ def sfyqmap(pm) -> Map:
     return c
 
 
-def mapwulai(pm):
-    mapwu = sfyqmap(pm)
-    mapwu.render(path='地图分析之里.html')
+def paint_map(pm):
+    map_data = get_map_data(pm)
+    map_data.render(path='../../A2兼收并蓄/地图分析之里.html')
 
 
 if __name__ == "__main__":
-    mapwulai("现存确诊")
+    paint_map("现存确诊")

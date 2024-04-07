@@ -3,7 +3,7 @@ import pymysql
 
 def connect_mysql():
     """连接数据库，查询，插入"""
-    connection = pymysql.connect(host="localhost", user="root", passwd="root", database="play")
+    connection = pymysql.connect(host="localhost", user="root", passwd="MC@:(==ni2024", database="play")
     # 下面是py与mysql的通行车辆(游标)
     curcat = connection.cursor()
     sq1 = "select * from students"
