@@ -2,6 +2,7 @@
 # @Time    : 2024/4/13 16:15
 # @Software: PyCharm
 import os
+import shutil
 
 # 搜索的文件夹路径
 folder_path = r"../../outputFile/章节拆分/"
@@ -21,3 +22,5 @@ with open(output_file, 'w', encoding='utf-8') as outfile:
                 outfile.write(readfile.read())
                 # 在文件间添加一个空行
                 outfile.write("\n")
+    # 合成完，删除原文件夹
+    shutil.rmtree(folder_path)
