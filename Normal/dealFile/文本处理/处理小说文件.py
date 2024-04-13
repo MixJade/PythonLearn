@@ -70,9 +70,9 @@ def creat_file_by_cha(buffer_str: list[str], cha_num: int) -> None:
     # 如果目标文件夹不存在则自动新建
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
-    # 拼接文件名
-    chapter_name = f"第{cha_num}章 {buffer_str[0].strip()}"
-    # print(chapter_name)
+    # 拼接文件名(章节号至少三位，不足部分用0补齐)
+    chapter_name = f"第{cha_num :03d}章 {buffer_str[0].strip()}"
+    print(chapter_name)
     file_name = dst_dir + chapter_name + ".txt"
     # 写入新文件
     with open(file_name, 'w', encoding='utf-8') as f:
