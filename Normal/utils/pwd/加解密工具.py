@@ -1,11 +1,10 @@
 # coding=utf-8
 # @Time    : 2024/4/15 15:59
 # @Software: PyCharm
-import base64
-from base64 import b64encode
+from base64 import b64encode, b64decode
 
 # noinspection PyPackageRequirements
-from Crypto.Cipher import AES
+from Crypto.Cipher import AES, ARC4
 # noinspection PyPackageRequirements
 from Crypto.Util.Padding import pad
 # noinspection PyPackageRequirements
@@ -64,10 +63,27 @@ def decrypt_text_aes(ciphertext: str, key1: bytes, iv1: bytes) -> str:
     key1, iv1 = pad_key_string(key1), pad_iv_string(iv1)
     cipher = AES.new(key1, AES.MODE_CBC, iv1)
     # base64解码为二进制数据
-    cipher_byte = base64.b64decode(ciphertext)
+    cipher_byte = b64decode(ciphertext)
     pt = unpad(cipher.decrypt(cipher_byte), AES.block_size)
     # 二进制数据解码为UTF-8明文
     return pt.decode('utf-8')
+
+
+def rc4_encrypt(data: str, key1: bytes) -> str:
+    """rc4加密"""
+    enc = ARC4.new(key1)
+    res = enc.encrypt(data.encode('utf-8'))
+    res = b64encode(res)
+    return res.decode('utf-8')
+
+
+def rc4_decrypt(ciphertext: str, key1: bytes) -> str:  # 解密
+    """rc4解密"""
+    ciphertext = b64decode(ciphertext)
+    enc = ARC4.new(key1)
+    res = enc.decrypt(ciphertext)
+    # 二进制数据解码为UTF-8明文
+    return res.decode('utf-8')
 
 
 if __name__ == "__main__":
@@ -75,7 +91,7 @@ if __name__ == "__main__":
     iv = input("请输入偏移量:").encode()
 
     while True:
-        print("\n===加密扣1,解密扣2,重设密钥扣3,终止按0===")
+        print("\n===AES加密扣1,AES解密扣2,RC4加密扣4,RC4解密扣5,重设密钥扣3,终止按0===")
         choose = input("请输入你的选择：")
         # match-case 语法(等于switch)
         match choose:
@@ -85,6 +101,12 @@ if __name__ == "__main__":
             case '2':
                 ciphertext1 = input("输入密文:")
                 print(decrypt_text_aes(ciphertext1, key, iv))
+            case '4':
+                plaintext1 = input("输入明文:")
+                print(rc4_encrypt(plaintext1, key))
+            case '5':
+                plaintext1 = input("输入密文:")
+                print(rc4_decrypt(plaintext1, key))
             case '3':
                 print(f"当前密钥:{key}\n当前偏移量:{iv}")
                 key = input("请输入密钥:").encode()
