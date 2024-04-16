@@ -45,6 +45,7 @@ def encrypt_file(filename: str, key2: bytes, iv2: bytes) -> None:
     with open(filename, 'rb') as file:
         plaintext = file.read()
 
+    key2, iv2 = pad_key_iv_string(key2, iv2)  # 处理密钥、偏移量
     # AES的CBC模式加密
     cipher = AES.new(key2, AES.MODE_CBC, iv2)
     ct_bytes = cipher.encrypt(pad(plaintext, AES.block_size))
@@ -64,6 +65,7 @@ def decrypt_file(filename: str, key2: bytes, iv2: bytes) -> None:
     with open(filename, 'rb') as file:
         ciphertext = file.read()
     # AES的CBC模式解密
+    key2, iv2 = pad_key_iv_string(key2, iv2)  # 处理密钥、偏移量
     cipher = AES.new(key2, AES.MODE_CBC, iv2)
     plain_bytes = unpad(cipher.decrypt(ciphertext), AES.block_size)
     # 打印明文
@@ -73,7 +75,6 @@ def decrypt_file(filename: str, key2: bytes, iv2: bytes) -> None:
 if __name__ == "__main__":
     key = input("请输入密钥:").encode()
     iv = input("请输入偏移量:").encode()
-    key, iv = pad_key_iv_string(key, iv)  # 处理密钥、偏移量
     while True:
         print("\n===加密扣1,解密扣2,重设密钥扣3,终止按0===")
         choose = input("请输入你的选择：")
