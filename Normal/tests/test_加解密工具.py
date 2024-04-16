@@ -3,7 +3,7 @@
 # @Software: PyCharm
 from unittest import TestCase
 
-from utils.pwd.加解密工具 import encrypt_text_aes, decrypt_text_aes, rc4_encrypt, rc4_decrypt
+from utils.加解密工具 import encrypt_text_aes, decrypt_text_aes, rc4_encrypt, rc4_decrypt
 
 # 测试的密钥与偏移量
 key = 'WhatCannotBeSeen'.encode()
