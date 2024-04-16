@@ -6,9 +6,7 @@ from base64 import b64encode, b64decode
 # noinspection PyPackageRequirements
 from Crypto.Cipher import AES, ARC4
 # noinspection PyPackageRequirements
-from Crypto.Util.Padding import pad
-# noinspection PyPackageRequirements
-from Crypto.Util.Padding import unpad
+from Crypto.Util.Padding import pad, unpad
 
 
 def pad_key_string(input_bytes: bytes) -> bytes:
