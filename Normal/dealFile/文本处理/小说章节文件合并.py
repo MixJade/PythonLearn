@@ -4,11 +4,11 @@
 import os
 import shutil
 
-# 搜索的文件夹路径
-folder_path = r"../../outputFile/章节拆分/"
+# 搜索的文件夹路径(一定得斜杠结尾)
+folder_path = r"../../outputFile/测试章节拆分/"
 
-# 最终结果的文件
-output_file = "../../outputFile/合并txt文件.md"
+# 最终结果的文件(输入文件夹的同级,名称是文件夹的名字)
+output_file = os.path.dirname(folder_path) + ".md"
 
 # 遍历文件夹中所有txt文件
 with open(output_file, 'w', encoding='utf-8') as outfile:

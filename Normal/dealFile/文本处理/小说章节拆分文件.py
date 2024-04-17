@@ -66,7 +66,9 @@ def creat_file_by_cha(buffer_str: list[str], cha_num: int) -> None:
     :param buffer_str: 待写入的文件内容
     :param cha_num: 输出的章节名
     """
-    dst_dir = r"../../outputFile/章节拆分/"
+    # 提取输入的文件名作为章节名
+    dir_name = os.path.basename(input_filename).split(".")[0]
+    dst_dir = r"../../outputFile/" + f"{dir_name}/"
     # 如果目标文件夹不存在则自动新建
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
