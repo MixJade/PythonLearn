@@ -21,5 +21,7 @@ pattern1 = re.compile(r"^.{0,12}$")
 pattern2 = re.compile(r"第[一二三四五六七八九十百]+章")
 # 正则表达式(匹配数字章节)
 pattern3 = re.compile(r"第\d+章")
+# 正则表达式(匹配连续空行)
+pattern4 = re.compile(r"^\n+$")
 # 调用函数，指定文件和正则表达式
 find_matches(r'../../inputFile/文本处理/测试章节拆分.txt', pattern1)
