@@ -4,6 +4,9 @@
 import os
 import re
 
+"""包括文件拆分、连续空行最多只有两个、正则表达式去除脚注
+"""
+
 
 def process_file(infile: str) -> None:
     """将小说根据章节拆分成不同文件
