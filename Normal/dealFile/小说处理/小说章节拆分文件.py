@@ -86,6 +86,6 @@ def creat_file_by_cha(buffer_str: list[str], cha_num: int) -> None:
 
 
 if __name__ == '__main__':
-    input_filename = r"../../inputFile/文本处理/测试章节拆分.txt"
+    input_filename = r"../文本处理/data/测试章节拆分.txt"
     # 通过章节拆分文件
     process_file(input_filename)

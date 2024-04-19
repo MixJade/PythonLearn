@@ -41,4 +41,4 @@ def get_table_name(query: str) -> str:
 
 
 # 使用示例
-merge_sql_files("../../inputFile/SQL文件/合并sql文件", "../../outputFile/合成的sql文件.sql")
+merge_sql_files("data/合并sql文件", "../../outputFile/合成的sql文件.sql")

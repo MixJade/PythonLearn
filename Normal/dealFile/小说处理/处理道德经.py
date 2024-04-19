@@ -5,7 +5,7 @@ import re
 
 """处理包括：去除括号包裹内容、消除空格、句子末尾添加换行、紧凑的两行插入空行
 """
-file_name = r"../../inputFile/文本处理/测试章节拆分.txt"
+file_name = r"../文本处理/data/测试章节拆分.txt"
 
 # 使用 'r' 模式打开文件进行读取
 with open(file_name, 'r', encoding='utf8') as f:

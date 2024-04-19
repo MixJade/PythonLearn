@@ -4,7 +4,7 @@
 import pandas as pd
 
 # 读取csv文件
-df = pd.read_csv(r'../inputFile/表格处理/拆分csv压缩字段.csv')
+df = pd.read_csv(r'data/拆分csv压缩字段.csv')
 print(df.head())
 
 # 将csv转为feather(更快、压缩的数据文件)
