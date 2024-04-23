@@ -25,7 +25,11 @@ def input_file_name():
     """循环输入要重命名的文件路径
     """
     base_name = input("请输入基础名字：")
-    i = 1
+    i = input("请输入起始序列(默认1)：")
+    if i.isdigit():
+        i = int(i)
+    else:
+        i = 1
     while True:
         random_string = input("请输入文件路径(输入exit退出)：")
         if random_string.lower() == 'exit':
