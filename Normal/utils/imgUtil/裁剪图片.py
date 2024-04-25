@@ -41,4 +41,4 @@ if __name__ == '__main__':
                 x_t, y_t = input("输入第2个点的坐标,空格分割:").split(' ')
             print(f"当前点:{x_o},{y_o} {x_t},{y_t}")
         else:
-            cut_img(random_string, x_o, y_o, x_t, y_t)
+            cut_img(random_string.strip('"'), x_o, y_o, x_t, y_t)
