@@ -55,7 +55,7 @@ if __name__ == '__main__':
     print(f"目标宽高为:{t_width, t_height}")
     while True:
         filename = input("输入图片路径(0退出/1重设宽高):")
-        if filename == '0':
+        if filename == '0' or filename == '':
             break
         elif filename == '1':
             print("""=========================

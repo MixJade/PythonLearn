@@ -22,7 +22,7 @@ if __name__ == '__main__':
     print(f"当前点:{x_o},{y_o} {x_t},{y_t}")
     while True:
         random_string = input("输入文件路径(0退出/1重设坐标)：")
-        if random_string == '0':
+        if random_string == '0' or random_string == '':
             break
         elif random_string == '1':
             print("""=========================

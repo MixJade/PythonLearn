@@ -31,8 +31,8 @@ def input_file_name():
     else:
         i = 1
     while True:
-        random_string = input("请输入文件路径(输入exit退出)：")
-        if random_string.lower() == 'exit':
+        random_string = input("请输入文件路径(输0退出)：")
+        if random_string.lower() == '0' or random_string.lower() == '':
             break
         rename_file(random_string, f"{base_name}{i:03d}")
         i += 1
