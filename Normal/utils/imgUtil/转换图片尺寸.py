@@ -61,7 +61,7 @@ if __name__ == '__main__':
             print("""=========================
     方案1 [1920 1080]
     方案2 [128 128]
-    其它n 自定义宽高
+    其它 自定义宽高,空格分割
 =========================""")
             plan_str = input("请选择你的方案:")
             if plan_str == '1':
@@ -70,7 +70,11 @@ if __name__ == '__main__':
                 t_width, t_height = 128, 128
             else:
                 # 输入格式如: 1 2
-                t_width, t_height = input("输入目标宽高,空格分割:").split(' ')
+                ts_width, ts_height = plan_str.split(' ')
+                try:
+                    t_width, t_height = int(ts_width), int(ts_height)
+                except ValueError:
+                    t_width, t_height = 1920, 1080
             print(f"目标宽高为:{t_width, t_height}")
         else:
             filename = filename.strip('"')  # 去除首尾可能存在的双引号
