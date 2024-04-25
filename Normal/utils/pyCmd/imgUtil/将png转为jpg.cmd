@@ -1,5 +1,5 @@
 @echo off
 chcp 65001 >nul
-cd ../
+cd ../../imgUtil
 python 将png转为jpg.py
 pause
