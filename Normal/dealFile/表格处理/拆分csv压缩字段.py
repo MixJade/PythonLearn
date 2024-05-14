@@ -4,7 +4,7 @@
 import pandas as pd
 
 # 读取CSV文件(如果读取失败，请将对应csv文件转为utf8格式)
-inputCsv: str = '../../inputFile/表格处理/拆分csv压缩字段.csv'
+inputCsv: str = 'data/拆分csv压缩字段.csv'
 df = pd.read_csv(inputCsv)
 
 # 获取需要的列

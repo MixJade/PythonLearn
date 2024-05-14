@@ -28,6 +28,6 @@ only_in_data2 = pd.merge(data2, data3)
 print(f'只在子表中的有{len(only_in_data2)}个')
 
 # 存储结果，使用index=0去除dataframe默认的行索引
-only_in_data1.to_csv('需添加的数据.csv', index=False)
-only_in_data2.to_csv('需删除的数据.csv', index=False)
+only_in_data1.to_csv('需添加的数据结果.csv', index=False)
+only_in_data2.to_csv('需删除的数据结果.csv', index=False)
 print("差异文件已输出")

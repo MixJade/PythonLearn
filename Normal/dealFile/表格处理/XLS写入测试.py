@@ -9,4 +9,4 @@ worksheet.write(0, 1, label='列2')  # 将‘列2’作为标题
 for i in range(len(a)):  # 循环将a和b列表的数据插入至excel
     worksheet.write(i + 1, 0, label=a[i])
     worksheet.write(i + 1, 1, label=b[i])
-workbook.save(r"xlwt_test.xls")  # 这里save需要特别注意，文件格式只能是xls
+workbook.save(r"xlwt_test结果.xls")  # 这里save需要特别注意，文件格式只能是xls

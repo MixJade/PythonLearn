@@ -4,7 +4,7 @@
 import pandas as pd
 
 # 输入的csv文件
-inputFile = '../../inputFile/SQL文件/待删除数据.csv'
+inputFile = 'data/待删除数据.csv'
 
 # 读取CSV文件(如果读取失败，请手动将对应csv文件转为utf8格式)
 df = pd.read_csv(inputFile, encoding='utf-8')

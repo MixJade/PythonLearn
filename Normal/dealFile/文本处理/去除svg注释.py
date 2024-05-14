@@ -4,7 +4,7 @@
 import subprocess
 
 svg_path: str = input("请输入需要去除注释的svg路径:")
-# svg_path: str = r"C:\MyCode\门户流程示意图.svg"
+# svg_path: str = r"C:\MyCode\测试流程示意图.svg"
 res_text_list: list[str] = []
 
 # 去除有注释的行
