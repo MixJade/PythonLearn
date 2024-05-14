@@ -48,7 +48,7 @@ def process_markdown(input_file: str, output_file: str):
                     tit_name = re.search(pattern3, line).group(1)
                     new_line = f'### {first_title_num}.{second_title_num}.{third_title_num} {tit_name}\n'
                 else:
-                    new_line = f'### {first_title_num}.{second_title_num}.{third_title_num} {line[3:]}'
+                    new_line = f'### {first_title_num}.{second_title_num}.{third_title_num} {line[4:]}'
                 results.append(new_line)
             else:
                 results.append(line)
@@ -80,7 +80,7 @@ def process_markdown2(input_file: str):
                     tit_name = re.search(pattern1, line).group(1)
                     new_line = f'## {turn_num_to_chinese(first_title_num)}、{tit_name}\n'
                 else:
-                    new_line = f'## {turn_num_to_chinese(first_title_num)}、{line[2:]}'
+                    new_line = f'## {turn_num_to_chinese(first_title_num)}、{line[3:]}'
                 results.append(new_line)
             # 匹配三级标题
             elif line.startswith('### '):
@@ -89,7 +89,7 @@ def process_markdown2(input_file: str):
                     tit_name = re.search(pattern2, line).group(1)
                     new_line = f'### {first_title_num}.{second_title_num} {tit_name}\n'
                 else:
-                    new_line = f'### {first_title_num}.{second_title_num} {line[3:]}'
+                    new_line = f'### {first_title_num}.{second_title_num} {line[4:]}'
                 results.append(new_line)
             # 匹配四级标题
             elif line.startswith('#### '):
@@ -98,7 +98,7 @@ def process_markdown2(input_file: str):
                     tit_name = re.search(pattern3, line).group(1)
                     new_line = f'#### {first_title_num}.{second_title_num}.{third_title_num} {tit_name}\n'
                 else:
-                    new_line = f'#### {first_title_num}.{second_title_num}.{third_title_num} {line[3:]}'
+                    new_line = f'#### {first_title_num}.{second_title_num}.{third_title_num} {line[5:]}'
                 results.append(new_line)
             else:
                 results.append(line)
