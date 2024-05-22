@@ -61,13 +61,16 @@ def decrypt_text_aes(ciphertext: str, key1: bytes, iv1: bytes) -> str:
     :param iv1: 偏移量
     :return: 明文
     """
-    key1, iv1 = pad_key_iv_string(key1, iv1)  # 处理密钥、偏移量
-    cipher = AES.new(key1, AES.MODE_CBC, iv1)
-    # base64解码为二进制数据
-    cipher_byte = b64decode(ciphertext)
-    pt = unpad(cipher.decrypt(cipher_byte), AES.block_size)
-    # 二进制数据解码为UTF-8明文
-    return pt.decode('utf-8')
+    try:
+        key1, iv1 = pad_key_iv_string(key1, iv1)  # 处理密钥、偏移量
+        cipher = AES.new(key1, AES.MODE_CBC, iv1)
+        # base64解码为二进制数据
+        cipher_byte = b64decode(ciphertext)
+        pt = unpad(cipher.decrypt(cipher_byte), AES.block_size)
+        # 二进制数据解码为UTF-8明文
+        return pt.decode('utf-8')
+    except ValueError:
+        return "AES解密失败"
 
 
 def rc4_encrypt(data: str, key1: bytes) -> str:
