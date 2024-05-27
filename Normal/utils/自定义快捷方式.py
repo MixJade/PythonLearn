@@ -18,6 +18,7 @@ class MyDirBtn:
 
 # 设置链接配置
 myBtn: list = [
+    MyDirBtn(name="Python脚本", path=r"\PythonLearn\Normal\utils\pyCmd", bg_color="#89e051"),
     MyDirBtn(name="Python笔记", path=r"\PythonLearn\docs", bg_color="#00FF00"),
     MyDirBtn(name="前端笔记", path=r"\TsLearn\docs", bg_color="#13cff4"),
     MyDirBtn(name="Java笔记", path=r"\JavaLearn\docs\2023", bg_color="#ff226d"),
