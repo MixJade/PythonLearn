@@ -39,6 +39,7 @@ def jump_dir(dir_path: str):
 # 设置主界面
 root = tk.Tk()
 root.geometry('300x240')
+root.title("我的快捷方式")
 
 # 循环放入按钮
 for item in myBtn:
