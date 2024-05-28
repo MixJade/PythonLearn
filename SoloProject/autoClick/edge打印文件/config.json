@@ -1,8 +1,7 @@
 {
   "myEdge": {
     "remark": "打开的地址,与最终保存的文件夹,必须是全英文",
-    "url": "https://print.yingyutifen.cn/print/pc.html?aptmId=3229520",
-    "outputDir": "C:\\MyCode\\PythonLearn\\AutoClick\\outputFile"
+    "url": "https://print.yingyutifen.cn/print/pc.html?aptmId=3229520"
   },
   "fileName": {
     "remark": "最终文件名称",
