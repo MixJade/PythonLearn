@@ -1,29 +1,16 @@
 # coding=utf-8
 # @Time    : 2024/3/1 17:07
 # @Software: PyCharm
+import json
 import os
 
 
-def replace_content_in_two_lines(file_path: str, content: str) -> None:
-    """
-    详情见替换指定两行间的内容中的replace_content_in_two_lines方法
-    """
-    with open(file_path, encoding="utf-8") as f:
-        lines = f.readlines()
-    start_index = next(index for index, line in enumerate(lines) if "// 天地自然，秽炁分散。" in line)
-    end_index = next(index for index, line in enumerate(lines) if "// 乾罗答那，洞罡太玄；" in line)
-    lines[start_index + 1:end_index] = [content]
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.writelines(lines)
-    print(f"文件:‘{file_path}’的内容替换成功")
-
-
-def list_files(dir_path: str) -> dict[str, str | list]:
+def list_files(dir_path: str) -> dict[str, bool | list | str]:
     """读取文件下的目录结构，并输出成vuePress的配置文件形式
 
     :param dir_path: 目标文件夹
     """
-    result = {'text': os.path.basename(dir_path), 'collapsible': 'true', 'children': []}
+    result = {"text": os.path.basename(dir_path), "collapsible": True, "children": []}
 
     # 遍历目录下的所有子目录和文件
     for item in os.listdir(dir_path):
@@ -40,35 +27,60 @@ def list_files(dir_path: str) -> dict[str, str | list]:
     return result
 
 
+def get_first_child(data: dict[str, bool | list | str]) -> str:
+    """查询嵌套目录结构的第一个路径
+    """
+    if 'children' in data and len(data['children']) > 0:  # 如果存在children并且children不是空列表
+        if isinstance(data['children'][0], dict):  # 如果children的第元素是字典类型，即还有更深层的嵌套结构
+            return get_first_child(data['children'][0])  # 继续深入
+        else:
+            return data['children'][0]  # 如果children的第元素不是字典类型，即已经达到最深层，返回该元素
+    else:
+        return ""  # 如果不存在children或children是空列表，返回空字符串
+
+
 # 目标文件夹
 # 存放代码的公共文件夹
 # (当前文件的上三级目录)等价于r"C:\MyCode"
 code_dir = os.path.abspath(os.path.join(os.getcwd(), "../../../.."))
 target_dir = code_dir + r"\TsLearn\my-page\docs"
 
-# 输出的字符串
-result_str: str = 'sidebar: {\n'
+# 创建一个空字典
+my_sidebar: dict[str, bool | list | str] = {}  # 侧边栏
+my_navbar = []  # 导航栏
+
+
+def get_dir_json(dir_name: str, navbar_tit: str) -> None:
+    """调用对应函数，并写入到侧边栏与导航栏的配置中
+    """
+    files_list = list_files(target_dir + "/" + dir_name)
+    my_sidebar[f"/{dir_name}/"] = files_list['children']  # 向字典中放入一个键值对
+    # 配置导航栏
+    my_navbar.append({
+        "text": navbar_tit,
+        "link": get_first_child(files_list['children'][0])
+    })
+
 
 # javaLearn的文件夹输出结构
-files_list = list_files(target_dir + r"\javaLearn")
-result_str += r'"/javaLearn/": '
-result_str += files_list['children'].__str__()
-result_str += ',\n'
+get_dir_json(r"javaLearn", "Java")
 # tsLearn的文件夹输出结构
-files_list = list_files(target_dir + r"\tsLearn")
-result_str += r'"/tsLearn/": '
-result_str += files_list['children'].__str__()
-result_str += ',\n'
+get_dir_json(r"tsLearn", "TS")
 # pyLearn的文件夹输出结构
-files_list = list_files(target_dir + r"\pyLearn")
-result_str += r'"/pyLearn/": '
-result_str += files_list['children'].__str__()
-result_str += ',\n'
+get_dir_json(r"pyLearn", "Python")
 
-# 最终输出
-result_str += '},\n'
-print(result_str)
+# 把dict转换为json字符串
+sidebar_json_str = json.dumps(my_sidebar, ensure_ascii=False)
+print(sidebar_json_str)
+# 导航栏转json
+navbar_json_str = json.dumps(my_navbar, ensure_ascii=False)
+print(navbar_json_str)
 
-# 然后写入
-replace_content_in_two_lines(target_dir + r"\.vuepress\config.js",
-                             content=result_str)
+# 然后写入侧边栏
+with open(target_dir + r"\.vuepress\mySidebar.json", 'w', encoding="utf-8") as f:
+    f.write(sidebar_json_str)
+print("文件mySidebar.json内容替换成功")
+# 再写入导航栏
+with open(target_dir + r"\.vuepress\myNavbar.json", 'w', encoding="utf-8") as f:
+    f.write(navbar_json_str)
+print("文件myNavbar.json内容替换成功")
