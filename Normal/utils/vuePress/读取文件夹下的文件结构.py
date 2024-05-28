@@ -27,7 +27,7 @@ def list_files(dir_path: str) -> dict[str, bool | list | str]:
     return result
 
 
-def get_first_child(data: dict[str, bool | list | str]) -> str:
+def get_first_child(data: dict[str, bool | list | str] | str) -> str:
     """查询嵌套目录结构的第一个路径
     """
     if 'children' in data and len(data['children']) > 0:  # 如果存在children并且children不是空列表
@@ -35,6 +35,8 @@ def get_first_child(data: dict[str, bool | list | str]) -> str:
             return get_first_child(data['children'][0])  # 继续深入
         else:
             return data['children'][0]  # 如果children的第元素不是字典类型，即已经达到最深层，返回该元素
+    elif isinstance(data, str):
+        return data  # 如果是字符串类型就直接返回
     else:
         return ""  # 如果不存在children或children是空列表，返回空字符串
 
