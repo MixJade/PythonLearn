@@ -31,8 +31,8 @@ pyautogui.press(keys='enter')
 time.sleep(3)
 pyautogui.press(keys='enter')  # 按下Enter
 time.sleep(1)
-# 设置文件名,并创建文件夹
-filePath: str = os.path.join(os.getcwd(), f"{time.time() * 1000:.0f}")
+# 设置文件名,并创建文件夹(保存到桌面)
+filePath: str = f"%userprofile%\\Desktop\\{time.time() * 1000:.0f}"
 os.makedirs(filePath)
 fileName = config['fileName']['default']
 pyautogui.write(f'{filePath}\\{fileName}', interval=0.05)
