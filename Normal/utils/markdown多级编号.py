@@ -11,8 +11,6 @@ def process_markdown(input_file: str, output_file: str):
     results = []
     # 标题顺序
     first_title_num = 0
-    second_title_num = 0
-    third_title_num = 0
     # 标题编号匹配表达式
     pattern1 = re.compile(r'# 第\d+章 (.*)')
     pattern2 = re.compile(r'## \d+\.\d+ (.*)')
@@ -33,6 +31,7 @@ def process_markdown(input_file: str, output_file: str):
             # 匹配二级标题
             elif line.startswith('## '):
                 second_title_num += 1
+                third_title_num = 0
                 # 判断该章节标题是否已经被标号
                 if pattern2.match(line):
                     tit_name = re.search(pattern2, line).group(1)
@@ -64,8 +63,6 @@ def process_markdown2(input_file: str):
     results = []
     # 标题顺序
     first_title_num = 0
-    second_title_num = 0
-    third_title_num = 0
     # 标题编号匹配表达式
     pattern1 = re.compile(r'## [一二三四五六七八九十百]+、(.*)')
     pattern2 = re.compile(r'### \d+\.\d+ (.*)')
@@ -85,6 +82,7 @@ def process_markdown2(input_file: str):
             # 匹配三级标题
             elif line.startswith('### '):
                 second_title_num += 1
+                third_title_num = 0
                 if pattern2.match(line):
                     tit_name = re.search(pattern2, line).group(1)
                     new_line = f'### {first_title_num}.{second_title_num} {tit_name}\n'
