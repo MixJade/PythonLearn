@@ -32,11 +32,13 @@ time.sleep(3)
 pyautogui.press(keys='enter')  # 按下Enter
 time.sleep(1)
 # 设置文件名,并创建文件夹(保存到桌面)
-filePath: str = f"%userprofile%\\Desktop\\{time.time() * 1000:.0f}"
+dir_name = f"{time.time() * 1000:.0f}"
+filePath = os.path.join(os.path.expanduser("~"), "Desktop", dir_name)
 os.makedirs(filePath)
 fileName = config['fileName']['default']
-pyautogui.write(f'{filePath}\\{fileName}', interval=0.05)
-pyautogui.press(keys='enter', presses=2, interval=0.5)  # 按下Enter(确保当前输入法是中文)
+pyautogui.press(keys='shift')  # 按下shift(当前输入法由中文切换至英文)
+pyautogui.write(f'%userprofile%\\Desktop\\{dir_name}\\{fileName}', interval=0.05)
+pyautogui.press(keys='enter')  # 按下Enter(保存文件)
 
 # 最后关闭浏览器
 pyautogui.hotkey('ctrl', 'shift', 'w')
