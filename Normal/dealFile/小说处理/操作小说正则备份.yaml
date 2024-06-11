@@ -12,11 +12,7 @@ pa2:
 pa2-2:
   source: ？\n\n”
   target: ？”\n\n
-# 3 双引号后换行
-pa3:
-  source: ”
-  target: ”\n\n
-# 4 冒号后换行
+# 3 冒号后换行
 pa4:
   source: ：
   target: ：\n\n
