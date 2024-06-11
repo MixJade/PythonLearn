@@ -24,3 +24,6 @@ pa5:
 pa6:
   source: ^\n+$
   target:
+# 7 匹配字符过多的行
+pa7:
+  source: .{200,}
