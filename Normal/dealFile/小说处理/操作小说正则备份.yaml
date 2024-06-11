@@ -1,0 +1,29 @@
+# 1 句号、问号后面换两行
+pa1:
+  source: 。
+  target: 。\n\n
+pa1-2:
+  source: ？
+  target: ？\n\n
+# 2 句号、问号后面的双引号合并
+pa2:
+  source: 。\n\n”
+  target: 。”\n\n
+pa2-2:
+  source: ？\n\n”
+  target: ？”\n\n
+# 3 感叹号+引号后换两行
+pa3:
+  source: ！”
+  target: ！”\n\n
+# 5 引号后的逗号合为一句
+pa5:
+  source: ”\n+，
+  target: ”，
+# 6 多个空行合并为一个
+pa6:
+  source: ^\n+$
+  target:
+# 7 匹配字符过多的行
+pa7:
+  source: .{200,}
