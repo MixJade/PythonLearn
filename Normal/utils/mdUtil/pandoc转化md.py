@@ -5,7 +5,7 @@ import subprocess
 
 
 def turn_md_epub() -> None:
-    input_md = input("请输入md文件路径")
+    input_md = input("请输入md文件路径:")
     if input_md.endswith(".md"):
         output_epub = input_md[:-len("md")] + "epub"
         command = [
@@ -15,7 +15,7 @@ def turn_md_epub() -> None:
         ]
 
         subprocess.run(command, check=True)
-        print("文件输出至：" + output_epub)
+        print("文件输出至:" + output_epub)
     else:
         print("请输入md格式的文件")
         return
