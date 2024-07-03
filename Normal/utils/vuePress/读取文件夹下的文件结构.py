@@ -3,6 +3,7 @@
 # @Software: PyCharm
 import json
 import os
+from pprint import pprint
 
 
 def list_files(dir_path: str) -> dict[str, bool | list | str]:
@@ -72,11 +73,11 @@ get_dir_json(r"tsLearn", "TS")
 get_dir_json(r"pyLearn", "Python")
 
 # 把dict转换为json字符串
+pprint(my_sidebar)
 sidebar_json_str = json.dumps(my_sidebar, ensure_ascii=False)
-print(sidebar_json_str)
 # 导航栏转json
+pprint(my_navbar)
 navbar_json_str = json.dumps(my_navbar, ensure_ascii=False)
-print(navbar_json_str)
 
 # 然后写入侧边栏
 with open(target_dir + r"\.vuepress\mySidebar.json", 'w', encoding="utf-8") as f:
