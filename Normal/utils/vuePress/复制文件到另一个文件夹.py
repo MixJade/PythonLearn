@@ -21,6 +21,8 @@ def copy_files(src_dir: str, dst_dir: str) -> None:
         dst_file: str = os.path.join(dst_dir, filename)
         # 遍历目录下的所有子目录和文件
         if os.path.isfile(src_file):
+            if not src_file.endswith(".md"):
+                continue  # 不处理非md文件
             # `shutil.copy2`还复制文件的元数据(如修改时间和权限位)
             shutil.copy2(src_file, dst_file)
         else:
