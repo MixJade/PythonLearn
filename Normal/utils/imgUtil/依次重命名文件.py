@@ -51,6 +51,27 @@ def rename_all_file(file_path: str, begin_num: int) -> None:
         begin_num += 1
 
 
+def rename_all_file_by_update_time(file_path: str, begin_num: int) -> None:
+    """批量重命名文件夹下所有文件(修改时间排序)
+
+    :param file_path: 目标文件夹下的某个文件
+    :param begin_num: 起始序列
+    """
+    # 获取文件路径
+    directory = os.path.dirname(file_path)
+    # 获取文件夹中所有的文件（只读取文件，不读取文件夹）
+    files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    # 获取每个文件的修改时间并放入一个字典中
+    files_modification_time = {f: os.path.getmtime(os.path.join(directory, f)) for f in files}
+    # 按照修改时间排序文件名
+    files_sorted_by_time = sorted(files_modification_time.items(), key=lambda item: item[1])
+    # 打印文件名和修改时间
+    for file, timestamp in files_sorted_by_time:
+        # 按文件名顺序重命名
+        rename_file(os.path.join(directory, file), f"{base_name}{begin_num:03d}")
+        begin_num += 1
+
+
 if __name__ == "__main__":
     # 循环输入要重命名的文件路径
     base_name = input("请输入基础名字：")
@@ -60,9 +81,15 @@ if __name__ == "__main__":
     else:
         i = 1
     # 选择方案
-    print("方案1:依次重命名文件,方案2:重命名文件夹下所有文件")
+    print("方案1:依次重命名文件,\n"
+          "方案2:重命名文件夹下所有文件,\n"
+          "方案3:重命名文件夹下所有文件(修改时间排序)\n\n")
     plan_str = input("请选择你的方案:")
     # 方案2:重命名文件夹下所有文件
+    if plan_str == '3':
+        file_string = input("输入目标文件夹下某个文件路径：")
+        rename_all_file_by_update_time(file_string.strip('"'), i)
+    # 方案3:重命名文件夹下所有文件(修改时间排序)
     if plan_str == '2':
         file_string = input("输入目标文件夹下某个文件路径：")
         rename_all_file(file_string.strip('"'), i)
