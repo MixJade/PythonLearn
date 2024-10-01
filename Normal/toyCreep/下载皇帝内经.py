@@ -28,8 +28,6 @@ book_content: str = f"""---
 title: 《{book_name}》
 language: zh-CN
 ---
-
-# {book_name}
 """
 
 for i in range(len(chapter_urls)):
@@ -38,7 +36,7 @@ for i in range(len(chapter_urls)):
     # 章节内容，每一句都是一个元素，使用unicodedata的NFKC标准
     chapter_content: list[str] = chapter_dom.xpath(
         '//div[contains(@class, "sons")]/div[contains(@class, "cont")]/div[contains(@class, "contson")]/p/text()')
-    book_content += f"\n\n## {i + 1} {chapter_names[i]}"
+    book_content += f"\n\n# {i + 1} {chapter_names[i]}"
     for item in chapter_content:
         book_content += "\n\n" + unicodedata.normalize('NFKC', item)
 
