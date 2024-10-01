@@ -22,6 +22,6 @@ for i in range(len(listImg)):
     # 获取图片的二进制文本
     img = rs.content
     # 保存路径
-    path = f"../输出文件/图片{i}.gif"
+    path = f"../outputFile/图片{i}.gif"
     with open(path, 'wb') as f:
         f.write(img)
