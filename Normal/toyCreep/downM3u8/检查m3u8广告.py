@@ -2,7 +2,7 @@
 # @Time    : 2024/10/2 15:12
 # @Software: PyCharm
 
-m3u8_file_path = "../../outputFile/downM3u8/lldq2/mixed.m3u8"
+m3u8_file_path = "../../outputFile/downM3u8/swbj/mixed.m3u8"
 # 读取文件所有的行
 with open(m3u8_file_path, 'r') as ts_f:
     lines = ts_f.readlines()
@@ -10,6 +10,8 @@ with open(m3u8_file_path, 'r') as ts_f:
 result = []
 for i in range(len(lines)):
     if lines[i].startswith('#EXT-X-DISCONTINUITY'):
+        if i + 7 > len(lines):
+            continue
         # 将每个播放列表开头的ts文件名称，以及前三个ts文件的时长放入
         result.append((
             lines[i + 1].strip(),  # 当前文件时长
