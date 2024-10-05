@@ -2,7 +2,7 @@
 # @Time    : 2024/10/2 15:12
 # @Software: PyCharm
 
-m3u8_file_path = "../../outputFile/downM3u8/swbj/mixed.m3u8"
+m3u8_file_path = "../../outputFile/downM3u8/swbj/index.m3u8"
 # 读取文件所有的行
 with open(m3u8_file_path, 'r') as ts_f:
     lines = ts_f.readlines()
