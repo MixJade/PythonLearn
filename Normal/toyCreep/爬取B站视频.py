@@ -8,7 +8,7 @@ import re
 import requests
 
 # 选择一个视频 ，只需要前半部分就可以啦
-url = r'https://www.bilibili.com/video/BV1Ck4y197i1/'
+url = r'https://www.bilibili.com/video/BV19G2GYjENP/'
 
 # 保存路径(斜线结尾)
 dir_path = r"../outputFile/creepB2/"
@@ -39,14 +39,30 @@ json_data = json.loads(html_data)
 
 videos = json_data['data']['dash']['video']  # 这里得到的是一个列表
 # 只需要baseUrl即可
-print(videos)
+print(videos[0])  # 只有视频有清晰度区分，如果id不是80说明没加cookie
 video_url = videos[0]['baseUrl']  # 视频地址
 
 # 同理，音频地址为
-
 audios = json_data['data']['dash']['audio']
 audio_url = audios[0]['baseUrl']
 
 resp1 = requests.get(url=video_url, headers=header)
 
 print("视频地址:" + video_url)
+with open(dir_path + 'test.mp4', mode='wb') as f:
+    f.write(resp1.content)
+
+resp2 = requests.get(url=audio_url, headers=header)
+
+print("音频地址:" + audio_url)
+with open(dir_path + 'test.mp3', mode='wb') as f:
+    f.write(resp2.content)
+
+# print("爬取完成")
+# 现在需要将视频和音频合并 需要模块ffmpeg 可以在网上看教程
+
+command = r'ffmpeg -i test.mp4 -i test.mp3 -acodec copy -vcodec copy testout.mp4'
+os.chdir(dir_path)  # 切换到目标目录
+os.system(command=command)
+
+# 做到这一步即成功了！！！！
