@@ -4,8 +4,8 @@
 import pandas as pd
 
 # 读取两个csv文件
-data1 = pd.read_csv(r'data/差异原表.csv')
-data2 = pd.read_csv(r'data/差异子表.csv')
+data1 = pd.read_csv(r'差异原表.csv')
+data2 = pd.read_csv(r'差异子表.csv')
 
 # 保证列相同
 data1 = data1[['HOME_ID', 'HOME_NM', 'DOG_ID']]
