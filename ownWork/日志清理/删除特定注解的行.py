@@ -1,7 +1,6 @@
 # coding=utf-8
 # @Time    : 2025-01-16 09:13:26
 # @Software: PyCharm
-import os
 
 
 def delete_lines(filename: str) -> None:
@@ -12,31 +11,30 @@ def delete_lines(filename: str) -> None:
     """
     target1 = '@MixJade Up'  # 向上删除注解
     target2 = '@MixJade Down'  # 向下删除注解
-    # 创建临时文件
-    temp_filename = filename + '.bak'
 
-    # 当需要保留的行找到时，把found设置为True
-    found = False
-
-    # 打开原始文件并创建一个新临时文件
-    with open(filename, 'r', encoding='utf-8') as file, open(temp_filename, 'w', encoding='utf-8') as temp_file:
-        for line in file:
-            # 如果找到向下删除注解，则设置found为False
-            if line.strip() == target2:
-                found = False
-            # 只有当found为True时才写入行
-            if found:
-                temp_file.write(line)
-            # 如果找到向上删除注解，则设置found为True
+    with open(filename, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+        up_index, down_index = 0, len(lines)
+        i = -1
+        for line in lines:
+            i = i + 1
+            # 如果找到向上删除注解
             if line.strip() == target1:
-                found = True
+                up_index = i
+            # 如果找到向下删除注解
+            if line.strip() == target2:
+                if i < down_index:
+                    down_index = i
+        if up_index == 0 and down_index == len(lines):
+            print("没有注解")
+        elif up_index > down_index:
+            print("注解位置有误")
+        else:
+            if up_index != 0:
+                up_index += 1  # 如果有这个注解就删掉它
+            with open(filename, 'w', encoding='utf-8') as wf:  # 以写入模式打开文件
+                wf.writelines(lines[up_index:down_index])  # 写入指定的行
 
-    # 替换原始文件
-    os.remove(filename)
-    os.rename(temp_filename, filename)
 
-
-# bug1: 连续两个up，第二个会失效
-# bug2: 没有up会全删
 # 使用函数,
 delete_lines(r"测试日志.txt")
