@@ -36,5 +36,7 @@ def delete_lines(filename: str) -> None:
     os.rename(temp_filename, filename)
 
 
+# bug1: 连续两个up，第二个会失效
+# bug2: 没有up会全删
 # 使用函数,
 delete_lines(r"测试日志.txt")
