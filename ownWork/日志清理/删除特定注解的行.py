@@ -37,4 +37,6 @@ def delete_lines(filename: str) -> None:
 
 
 # 使用函数,
-delete_lines(r"测试日志.txt")
+if __name__ == '__main__':
+    input_file1 = input("输入打了注解的日志文件:").strip('"')
+    delete_lines(input_file1)
