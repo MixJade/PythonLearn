@@ -22,7 +22,7 @@ def delete_lines(filename: str) -> None:
             if line.strip() == target1:
                 up_index = i
             # 如果找到向下删除注解
-            if line.strip() == target2:
+            elif line.strip() == target2:
                 if i < down_index:
                     down_index = i
         if up_index == 0 and down_index == len(lines):
