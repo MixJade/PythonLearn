@@ -7,6 +7,13 @@ import re
 
 import requests
 
+"""遇到下载不了的，可以在手机上缓存
+手机存储路径：Android/data/tv.danmaku.bili/download
+然后上传到电脑上，执行：
+
+ffmpeg -i video.m4s -i audio.m4s -acodec copy -vcodec copy testout.mp4
+"""
+
 # 选择一个视频 ，只需要前半部分就可以啦
 url = r'https://www.bilibili.com/video/BV19G2GYjENP/'
 
