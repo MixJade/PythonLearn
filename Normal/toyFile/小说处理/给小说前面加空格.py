@@ -23,7 +23,7 @@ with open(input_file_path, "r", encoding='utf-8') as f:
                 or line == '\n'
                 or line.startswith('title')
                 or line.startswith('language')):
-            line = "&nbsp;" * 4 + line
+            line = "　　" + line
         # 如果当前行不为空且上一行也不为空，那么在当前行前插入一个空行
         if line.strip() != '' and not last_line_was_blank:
             results.append("\n")
