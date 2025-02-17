@@ -15,7 +15,7 @@ results = []
 
 # 读取文件
 with open(input_file_path, "r", encoding='utf-8') as f:
-    last_line_was_blank = True  # 用一个标志位记录上一行是否为空行
+    # last_line_was_blank = True  # 用一个标志位记录上一行是否为空行
     for line in f:
         # 给正文的每一行前面加上空格
         if not (line.startswith('---')
@@ -25,10 +25,10 @@ with open(input_file_path, "r", encoding='utf-8') as f:
                 or line.startswith('language')):
             line = "　　" + line
         # 如果当前行不为空且上一行也不为空，那么在当前行前插入一个空行
-        if line.strip() != '' and not last_line_was_blank:
-            results.append("\n")
+        # if line.strip() != '' and not last_line_was_blank:
+        #     results.append("\n")
         # 更新标志位
-        last_line_was_blank = line.strip() == ''
+        # last_line_was_blank = line.strip() == ''
         results.append(line)
 
 """二、输出文件
