@@ -1,3 +1,6 @@
+# coding=utf-8
+# @Time    : 2025/2/18 20:21
+# @Software: PyCharm
 import os
 
 from lxml import html, etree
@@ -19,16 +22,14 @@ def remove_name_attributes_lxml(html_content):
         parser = etree.HTMLParser(recover=True)
         tree = html.fromstring(html_content, parser=parser)
         attrs_to_remove = ['name', 'size', 'color', 'align', 'width', 'border', 'cellspacing', 'cellpadding',
-                           'style']
+                           'style', 'valign']
         elements_to_remove = []
         for element in tree.iter():
             # 移除警告属性
             remove_attributes(element, attrs_to_remove)
             # 修改标签名字
             tag_name = element.tag.lower()
-            if tag_name == 'font':
-                element.tag = 'span'
-            elif tag_name == 'p' and element.get('class') == 'title1':
+            if tag_name == 'p' and element.get('class') == 'title1':
                 # 标题切换
                 element.tag = 'h1'
             elif tag_name == 'h3':
@@ -42,7 +43,8 @@ def remove_name_attributes_lxml(html_content):
             if tag_name == 'a':
                 elements_to_remove.append(element)
             elif tag_name == 'p' and element.get('class') == 'intr':
-                # 移除注释
+                elements_to_remove.append(element)  # 移除注释
+            elif tag_name == 'img':
                 elements_to_remove.append(element)
         # 最后统一删除
         for element in elements_to_remove:
@@ -50,6 +52,11 @@ def remove_name_attributes_lxml(html_content):
             if parent is not None:
                 parent.remove(element)
         result = html.tostring(tree, encoding='unicode')
+        # 移除不需要的font标签
+        result = result.replace("<font>", "").replace("</font>", "")\
+            .replace("<center>", "").replace("</center>", "")
+        if result.startswith("<div>") and result.endswith("</div>"):
+            result = result[5:-6]
         return result
     except Exception as e:
         print(f"处理 HTML 内容时发生错误: {e}")
@@ -111,8 +118,6 @@ def process_folder(folder_path, juan):
                 with open(os.path.join(folder_path, filename), 'r', encoding='utf-8') as readfile:
                     # 写入文件内容
                     outfile.write(readfile.read())
-                    # 在文件间添加一个空行
-                    outfile.write("\n")
         outfile.write("</body></html>")
 
 
@@ -121,4 +126,4 @@ if __name__ == "__main__":
     process_folder('../outputFile/j1', 1)
     process_folder('../outputFile/j2', 2)
     process_folder('../outputFile/j3', 3)
-    # pandoc input.html -o output.epub --metadata title="My Book" --metadata author="John"
+    # pandoc input.html -o output.epub
