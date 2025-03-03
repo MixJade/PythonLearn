@@ -1,0 +1,24 @@
+@TableName("payment_dict")
+@Data
+public class PaymentDict {
+    /**
+     * 字典主键
+     */
+    @TableId(value = "payment_type", type = IdType.AUTO)
+    private Integer paymentType;
+
+    /**
+     * 类型名称
+     */
+    private String keyName;
+
+    /**
+     * 1收入0支出
+     */
+    private Boolean isIncome;
+
+    /**
+     * 字典大类,存于代码
+     */
+    private Integer bigTyp;
+}

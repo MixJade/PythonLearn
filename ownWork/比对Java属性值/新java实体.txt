@@ -1,0 +1,81 @@
+public class PaymentDict implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 字典主键
+     */
+    @TableId(value = "payment_type", type = IdType.AUTO)
+    private Integer paymentType;
+
+    /**
+     * 类型名称
+     */
+    private String keyName;
+
+    /**
+     * 1收入0支出
+     */
+    private Boolean isIncome;
+
+    /**
+     * 字典大类,存于代码
+     */
+    private Integer bigType;
+
+    /**
+     * 分类颜色
+     */
+    private String color;
+
+    public Integer getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(Integer paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getKeyName() {
+        return keyName;
+    }
+
+    public void setKeyName(String keyName) {
+        this.keyName = keyName;
+    }
+
+    public Boolean getIsIncome() {
+        return isIncome;
+    }
+
+    public void setIsIncome(Boolean isIncome) {
+        this.isIncome = isIncome;
+    }
+
+    public Integer getBigType() {
+        return bigType;
+    }
+
+    public void setBigType(Integer bigType) {
+        this.bigType = bigType;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentDict{" +
+                "paymentType = " + paymentType +
+                ", keyName = " + keyName +
+                ", isIncome = " + isIncome +
+                ", bigType = " + bigType +
+                ", color = " + color +
+                "}";
+    }
+}
