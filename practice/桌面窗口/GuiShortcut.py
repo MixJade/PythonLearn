@@ -8,7 +8,7 @@ from functools import partial
 
 class MyDirBtn:
     # (当前文件的上二级目录)等价于r"C:\MyCode"
-    code_dir = os.path.abspath(os.path.join(os.getcwd(), "../../../.."))
+    code_dir = os.path.abspath(os.path.join(os.getcwd(), "../../.."))
 
     def __init__(self, name: str, path: str, bg_color: str) -> None:
         self.name = name  # 按钮名称

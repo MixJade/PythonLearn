@@ -12,5 +12,7 @@ for i in range(100, 1000):
     gua[i % 8] += 1
     yao[i % 6] += 1
 
+print("100-999中除8时，0-7余数为：")
 print(gua)
+print("100-999中除6时，0-5的余数为：")
 print(yao)

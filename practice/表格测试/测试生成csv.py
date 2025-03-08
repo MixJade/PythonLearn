@@ -35,4 +35,4 @@ df = pd.DataFrame(data)
 df.columns = ["Idx", "usrNo", "登录地", "usrId", "姓名", "登录日期", "登录机型", "注册日期", "导出日期", "是否正常登录",
               "是否是教育账号"]
 
-df.to_csv("../../outputFile/train_data.csv", index=False)
+df.to_csv("../outputFile/train_data.csv", index=False)
