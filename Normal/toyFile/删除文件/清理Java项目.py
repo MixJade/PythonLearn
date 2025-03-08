@@ -20,7 +20,7 @@ def remove_dirs(start_path: str, dir_name: str) -> None:
 
 
 # 清除Java项目下所有的.idea目录与target目录
-java_dir_path = r"E:\MyCode\atguigu_SPZX"
+java_dir_path = r"C:\MyCode\JavaLearn"
 remove_dirs(java_dir_path, '.idea')
 remove_dirs(java_dir_path, 'target')
 remove_dirs(java_dir_path, '.mvn')

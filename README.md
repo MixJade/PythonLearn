@@ -18,6 +18,7 @@
 │  ├─代码语法
 │  ├─依赖相关
 │  └─闲杂文等
+├─myPyNB【Jupyter目录，学习大数据分析时的笔记】
 ├─Normal
 │  ├─dealFile【文件处理】
 │  ├─dealCreep【网络爬虫】
@@ -27,8 +28,8 @@
 │  ├─testSolve【测试算法】
 │  ├─toys【玩具代码】
 │  └─utils【通过cmd调用的一些工具脚本】
-└─SoloProject
-    ├─myPyNB【Jupyter目录，学习大数据分析时的笔记】
+ownWork
+└─soloPrj
     ├─autoClick【自动点击框架、Selenium初步使用】
     ├─plague_analyze【实训项目，爬取疫情数据并可视化展示】
     └─school
