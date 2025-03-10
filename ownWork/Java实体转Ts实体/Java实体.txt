@@ -1,0 +1,7 @@
+@Data
+public class PaymentDict {
+    private Integer paymentType;
+    private String keyName;
+    private Boolean isIncome;
+    private Integer bigTyp;
+}
