@@ -1,0 +1,5 @@
+public enum SexEnum {
+    MALE(1, "男"),
+    FEMALE(2, "女"),
+    UNKNOWN(3, "未知"),
+    // 其它的不要放进来
