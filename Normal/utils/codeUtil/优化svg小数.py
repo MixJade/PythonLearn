@@ -18,7 +18,7 @@ def round_svg_decimals(svg_content):
 
 
 # 处理并输出结果
-svg_path: str = input("请输入需要去除注释的svg路径: ")
+svg_path: str = input("请输入需要优化小数的svg路径: ")
 
 with open(svg_path, 'r', encoding='utf-8') as f:
     content = f.read()

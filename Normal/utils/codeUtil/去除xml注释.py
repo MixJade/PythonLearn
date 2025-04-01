@@ -3,7 +3,7 @@
 # @Software: PyCharm
 import subprocess
 
-svg_path: str = input("请输入需要去除注释的svg路径:")
+svg_path: str = input("请输入需要去除注释的xml路径:")
 # svg_path: str = r"C:\MyCode\测试流程示意图.svg"
 res_text_list: list[str] = []
 
@@ -20,4 +20,4 @@ res_text: str = "".join(res_text_list)
 # 将去除注释的结果放入剪贴板
 process = subprocess.Popen('clip', stdin=subprocess.PIPE, close_fds=True)
 process.communicate(input=res_text.encode())
-print("去除注释后的svg已复制到剪贴板")
+print("去除注释后的xml已复制到剪贴板")
