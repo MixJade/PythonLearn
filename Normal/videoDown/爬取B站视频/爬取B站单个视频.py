@@ -14,11 +14,11 @@ import requests
 ffmpeg -i video.m4s -i audio.m4s -acodec copy -vcodec copy testout.mp4
 """
 
-# 选择一个视频 ，只需要前半部分就可以啦
-url = r'https://www.bilibili.com/video/BV19G2GYjENP/'
+# 选择一个视频的url(如果是分p视频则放上完整url)
+url = r'https://www.bilibili.com/video/BV17mZTYTEBP'
 
 # 保存路径(斜线结尾)
-dir_path = r"../outputFile/creepB2/"
+dir_path = r"../../outputFile/creepB2/"
 
 if not os.path.exists(dir_path):
     os.makedirs(dir_path)
