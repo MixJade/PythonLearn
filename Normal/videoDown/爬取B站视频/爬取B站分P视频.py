@@ -27,7 +27,7 @@ header = {
                   "Safari/537.36 Edg/118.0.2088.76",
     "Referer": "https://www.bilibili.com/",  # 设置防盗链
 }
-
+en_p = en_p + 1
 for i in range(begin_p, en_p):
     print(f"========================[下载第{i}P]================================")
     resp = requests.get(url=f"{url}{i}", headers=header)
