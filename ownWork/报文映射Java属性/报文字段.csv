@@ -1,0 +1,4 @@
+PAYMENTTYPE,账单类型
+KEYNAME,类型名称
+ISINCOME,是否支出
+BIGTYPE,大类主键
