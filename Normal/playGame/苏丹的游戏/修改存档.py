@@ -6,6 +6,12 @@ import os
 
 
 def check_one_key(data, target_key, new_value):
+    """修改单层键的值
+
+    :param data: json数据
+    :param target_key: 目标键
+    :param new_value: 新的值
+    """
     if target_key in data:
         print(f"键 {target_key} 由 {data[target_key]} 改为 {new_value}")
         data[target_key] = new_value
@@ -14,6 +20,13 @@ def check_one_key(data, target_key, new_value):
 
 
 def check_two_key(data, outer_key, inner_key, new_value):
+    """修改双层键的值
+
+    :param data: json数据
+    :param outer_key: 目标键
+    :param inner_key: 目标键
+    :param new_value: 新的值
+    """
     if outer_key in data:
         if inner_key in data[outer_key]:
             print(f"键 {outer_key}.{inner_key} 由 {data[outer_key][inner_key]} 改为 {new_value}")
@@ -24,14 +37,25 @@ def check_two_key(data, outer_key, inner_key, new_value):
         print(f"错误：外层键 {outer_key} 不存在于 JSON 文件中。")
 
 
-def check_array_key(data, card_id, new_value):
+def check_array_key(data, card_id, new_value, is_add=False):
+    """修改json中卡片的标签
+
+    :param data: json数据
+    :param card_id: 卡片id
+    :param new_value: 新的标签
+    :param is_add: 是否追加形式写入
+    """
     if "cards" in data:
         if isinstance(data["cards"], list):
             for item in data["cards"]:
                 if isinstance(item, dict) and 'id' in item and item['id'] == card_id:
                     # 修改 tag 属性
-                    item['tag'] = new_value
-                    print(f"id为{card_id}的 card tag 已修改:{new_value}")
+                    if is_add:
+                        item['tag'].update(new_value)
+                        print(f"id为{card_id}的 card tag 已追加:{new_value}")
+                    else:
+                        item['tag'] = new_value
+                        print(f"id为{card_id}的 card tag 已修改:{new_value}")
                     break
             else:
                 print(f"错误：未找到 id 为 {card_id} 的元素。")
@@ -39,6 +63,28 @@ def check_array_key(data, card_id, new_value):
             print(f"错误：JSON 数据不是一个数组。")
     else:
         print("错误：键 cards 不存在于 JSON 文件中。")
+
+
+def update_rites_array_key(data, rite_id, card_id, new_value):
+    """修改事件json中卡片的标签
+
+    :param data: json数据
+    :param rite_id: 事件id
+    :param card_id: 卡片id
+    :param new_value: 新的标签
+    """
+    if "rites" in data:
+        if isinstance(data["rites"], list):
+            for item in data["rites"]:
+                if isinstance(item, dict) and 'id' in item and item['id'] == rite_id:
+                    check_array_key(item, card_id, new_value, True)
+                    break
+                else:
+                    print(f"错误：未找到 id 为 {rite_id} 的元素。")
+        else:
+            print(f"错误：JSON 数据不是一个数组。")
+    else:
+        print("错误：键 rites 不存在于 JSON 文件中。")
 
 
 def modify_json_key(file_path):
@@ -75,6 +121,10 @@ def modify_json_key(file_path):
         check_array_key(data, 2000521, own_tag)  # 魅力护符
         check_array_key(data, 2000520, own_tag)  # 再生护符
         check_array_key(data, 2000368, own_tag)  # 家传宝甲
+
+        # 其它人物
+        other_tag = {"adherent": 1, "support": 9}
+        update_rites_array_key(data, 5001001, 2000024, other_tag)  # 上朝事件中的苏丹
 
         # 将修改后的数据写回文件
         with open(file_path, 'w', encoding='utf-8') as file:
