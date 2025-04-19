@@ -76,7 +76,7 @@ def add_card(data, begin_uid: int, card_msgs: list):
         if isinstance(data["cards"], list):
             for card_msg in card_msgs:
                 data["cards"].append(
-                    {"uid": begin_uid, "id": card_msg["id"], "count": 1, "life": 1, "rareup": 0, "tag": card_msg["tag"],
+                    {"uid": begin_uid, "id": card_msg["id"], "count": card_msg["count"], "life": 1, "rareup": 0, "tag": card_msg["tag"],
                      "equip_slots": [],
                      "equips": [], "bag": 3, "bagpos": 2, "custom_name": "", "custom_text": ""})
                 begin_uid += 1
@@ -155,9 +155,12 @@ def modify_json_key(file_path):
 
         # 给自己加一张卡
         add_card(data, begin_uid=900, card_msgs=[
-            {"id": 2001031, "tag": {"own": 1}},  # 被困的星神
-            {"id": 2000744, "tag": adherent_tag},  # 军队
-            {"id": 2000744, "tag": adherent_tag},  # 军队
+            {"id": 2001031, "tag": {"own": 1}, "count": 1},  # 被困的星神
+            {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
+            {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
+            {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
+            {"id": 2000416, "tag": adherent_tag, "count": 300},  # 内幕
+            {"id": 2000029, "tag": adherent_tag, "count": 300},  # 金币
         ])
 
         # 将修改后的数据写回文件
