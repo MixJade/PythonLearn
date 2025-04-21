@@ -104,8 +104,6 @@ def update_rites_array_key(data, rite_id, card_id, new_value):
                 if isinstance(item, dict) and 'id' in item and item['id'] == rite_id:
                     check_array_key(item, card_id, new_value, True)
                     break
-                else:
-                    print(f"错误：未找到 id 为 {rite_id} 的元素。")
         else:
             print(f"错误：JSON 数据不是一个数组。")
     else:
