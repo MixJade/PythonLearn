@@ -65,21 +65,24 @@ def check_array_key(data, card_id, new_value, is_add=False):
         print("错误：键 cards 不存在于 JSON 文件中。")
 
 
-def add_card(data, begin_uid: int, card_msgs: list):
+def add_card(data, card_msgs: list):
     """给自己加一张卡片
 
     :param data: json数据
-    :param begin_uid: 起始uid
     :param card_msgs: 卡片的id和tag(列表)
     """
+    begin_uid = data["card_uid_index"]
+
     if "cards" in data:
         if isinstance(data["cards"], list):
             for card_msg in card_msgs:
                 data["cards"].append(
-                    {"uid": begin_uid, "id": card_msg["id"], "count": card_msg["count"], "life": 1, "rareup": 0, "tag": card_msg["tag"],
+                    {"uid": begin_uid, "id": card_msg["id"], "count": card_msg["count"], "life": 1, "rareup": 0,
+                     "tag": card_msg["tag"],
                      "equip_slots": [],
                      "equips": [], "bag": 3, "bagpos": 2, "custom_name": "", "custom_text": ""})
                 begin_uid += 1
+                data["card_uid_index"] = begin_uid
                 print(f"新的卡片追加成功:{card_msg['id']}")
         else:
             print(f"错误：JSON 数据不是一个数组。")
@@ -154,13 +157,14 @@ def modify_json_key(file_path):
         update_rites_array_key(data, 5001001, 2000024, sudan_tag)  # 上朝事件中的苏丹
 
         # 给自己加一张卡
-        add_card(data, begin_uid=900, card_msgs=[
+        add_card(data, card_msgs=[
             {"id": 2001031, "tag": {"own": 1}, "count": 1},  # 被困的星神
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
-            {"id": 2000416, "tag": adherent_tag, "count": 300},  # 内幕
-            {"id": 2000029, "tag": adherent_tag, "count": 300},  # 金币
+            {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
+            {"id": 2000416, "tag": {}, "count": 300},  # 内幕
+            {"id": 2000029, "tag": {}, "count": 300},  # 金币
         ])
 
         # 将修改后的数据写回文件
