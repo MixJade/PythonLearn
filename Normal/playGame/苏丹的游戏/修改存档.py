@@ -153,16 +153,17 @@ def modify_json_key(file_path):
         check_array_key(data, 2000368, own_tag)  # 家传宝甲
 
         # 其它人物
-        sudan_tag = {"adherent": 1, "slave": 1, "support": 9}
+        sudan_tag = {"support": 9}
         update_rites_array_key(data, 5001001, 2000024, sudan_tag)  # 上朝事件中的苏丹
 
         # 给自己加一张卡
         add_card(data, card_msgs=[
-            {"id": 2001031, "tag": {"own": 1}, "count": 1},  # 被困的星神
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
             {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
+            {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
+            {"id": 2000861, "tag": main_tag, "count": 1},  # 双胞胎
             {"id": 2000416, "tag": {}, "count": 300},  # 内幕
             {"id": 2000029, "tag": {}, "count": 300},  # 金币
         ])
