@@ -129,8 +129,10 @@ def modify_json_key(file_path):
         # 随从属性
         adherent_tag = {**main_tag, "adherent": 1, "support": 5}
         check_array_key(data, 2000006, adherent_tag)  # 普通老婆
-        check_array_key(data, 2000458, adherent_tag)  # 强化老婆
+        check_array_key(data, 2000457, adherent_tag)  # 强化老婆1
+        check_array_key(data, 2000458, adherent_tag)  # 强化老婆2
         check_array_key(data, 2000372, adherent_tag)  # 法拉杰
+        check_array_key(data, 2000522, adherent_tag)  # 法拉杰2
         check_array_key(data, 2000461, adherent_tag)  # 贝姬夫人
         check_array_key(data, 2000460, adherent_tag)  # 哈桑
         check_array_key(data, 2000459, adherent_tag)  # 马尔基娜
@@ -138,7 +140,7 @@ def modify_json_key(file_path):
         check_array_key(data, 2000019, adherent_tag)  # 热娜
 
         # 奴隶属性
-        lock_tag = {**main_tag, "support": 5}
+        lock_tag = {**main_tag, "adherent": 1}
         check_array_key(data, 2000369, lock_tag, True)  # 铁头
         check_array_key(data, 2000371, lock_tag, True)  # 小圆
         check_array_key(data, 2000370, lock_tag, True)  # 快脚
@@ -163,7 +165,7 @@ def modify_json_key(file_path):
             {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
             {"id": 2000861, "tag": main_tag, "count": 1},  # 双胞胎
             {"id": 2000416, "tag": {}, "count": 300},  # 内幕
-            {"id": 2000029, "tag": {}, "count": 300},  # 金币
+            {"id": 2000029, "tag": {}, "count": 600},  # 金币
         ])
 
         # 将修改后的数据写回文件
