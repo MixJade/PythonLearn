@@ -140,10 +140,9 @@ def modify_json_key(file_path):
         check_array_key(data, 2000019, adherent_tag)  # 热娜
 
         # 奴隶属性
-        lock_tag = {**main_tag, "adherent": 1}
-        check_array_key(data, 2000369, lock_tag, True)  # 铁头
-        check_array_key(data, 2000371, lock_tag, True)  # 小圆
-        check_array_key(data, 2000370, lock_tag, True)  # 快脚
+        check_array_key(data, 2000369, {**adherent_tag, "lock_9": -1})  # 铁头
+        check_array_key(data, 2000370, {**adherent_tag, "lock_10": -1})  # 快脚
+        check_array_key(data, 2000371, {**adherent_tag, "lock_11": -1})  # 小圆
 
         # 物品属性
         own_tag = {**main_tag, "own": 1}
@@ -163,6 +162,7 @@ def modify_json_key(file_path):
             {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
             {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
             {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
+            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
             {"id": 2000861, "tag": main_tag, "count": 1},  # 双胞胎
             {"id": 2000416, "tag": {}, "count": 300},  # 内幕
             {"id": 2000029, "tag": {}, "count": 600},  # 金币
