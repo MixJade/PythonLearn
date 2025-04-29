@@ -5,25 +5,25 @@ import json
 import os
 
 
-def add_card(data, card_msgs: list):
+def add_a_card(data, card_ids: list):
     """给自己加一张卡片
 
     :param data: json数据
-    :param card_msgs: 卡片的id和tag(列表)
+    :param card_ids: 卡片的id
     """
     begin_uid = data["card_uid_index"]
 
     if "cards" in data:
         if isinstance(data["cards"], list):
-            for card_msg in card_msgs:
+            for card_id in card_ids:
                 data["cards"].append(
-                    {"uid": begin_uid, "id": card_msg["id"], "count": card_msg["count"], "life": 1, "rareup": 0,
-                     "tag": card_msg["tag"],
+                    {"uid": begin_uid, "id": card_id, "count": 1, "life": 1, "rareup": 0,
+                     "tag": {"own": 1},
                      "equip_slots": [],
                      "equips": [], "bag": 3, "bagpos": 2, "custom_name": "", "custom_text": ""})
                 begin_uid += 1
                 data["card_uid_index"] = begin_uid
-                print(f"新的卡片追加成功:{card_msg['id']}")
+                print(f"新的卡片追加成功:{card_id}")
         else:
             print(f"错误：JSON 数据不是一个数组。")
     else:
@@ -37,14 +37,13 @@ def modify_json_key(file_path):
             data = json.load(file)
 
         # 给自己加一张卡
-        add_card(data, card_msgs=[
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000029, "tag": {}, "count": 60},  # 金币
+        add_a_card(data, card_ids=[
+            2000304,  # 小鳄鱼
+            2001066,  # 奈费勒的日记本
+            2000477,  # 天命所归
+            2000477,  # 天命所归
+            2001034,  # 星光信标
+            2000910,  # 革命的计划
         ])
 
         # 将修改后的数据写回文件
