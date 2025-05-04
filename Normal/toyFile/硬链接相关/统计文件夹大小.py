@@ -54,6 +54,6 @@ def convert_file_size(length: int) -> str:
 
 
 # 示例用法
-ts_folder_path = '../../../../TsLearn'
+ts_folder_path = r'../../../../TsLearn'
 size = get_folder_size(ts_folder_path)
 print(f"文件夹 {ts_folder_path} 的大小是 {size} 字节({convert_file_size(size)})")
