@@ -121,8 +121,8 @@ def modify_json_key(file_path):
         check_two_key(data, "counter", "7100006", 99)  # 金骰子
 
         # 主角属性
-        main_tag = {"physique": 100, "charm": 100, "battle": 100, "wisdom": 100, "magic": 100, "social": 100,
-                    "conceal": 100, "survival": 100}
+        main_tag = {"physique": 30, "charm": 30, "battle": 30, "wisdom": 30, "magic": 30, "social": 30,
+                    "conceal": 30, "survival": 30}
         check_array_key(data, 2000001, main_tag)
         check_array_key(data, 2000861, main_tag)
 
@@ -164,7 +164,7 @@ def modify_json_key(file_path):
             {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
             {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
             {"id": 2000861, "tag": main_tag, "count": 1},  # 双胞胎
-            {"id": 2000416, "tag": {}, "count": 300},  # 内幕
+            {"id": 2000416, "tag": {}, "count": 100},  # 内幕
             {"id": 2000029, "tag": {}, "count": 600},  # 金币
         ])
 
