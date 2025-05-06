@@ -165,7 +165,7 @@ def modify_json_key(file_path):
             {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
             {"id": 2000861, "tag": main_tag, "count": 1},  # 双胞胎
             {"id": 2000416, "tag": {}, "count": 100},  # 内幕
-            {"id": 2000029, "tag": {}, "count": 600},  # 金币
+            {"id": 2000029, "tag": {}, "count": 900},  # 金币
         ])
 
         # 将修改后的数据写回文件
