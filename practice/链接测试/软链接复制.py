@@ -19,8 +19,9 @@ def create_symbolic_link(target_path, link_path):
 
 if __name__ == "__main__":
     # 目标文件或目录的路径(必须是绝对路径)
-    # target = r"C:\MyCode\PythonLearn\Normal\toyFile\硬链接相关\统计文件夹大小.py"
-    target = os.path.join(os.getcwd(), "统计文件夹大小.py")
+    # target = r"E:\MyCode\PythonLearn\practice\main.py"
+    target = os.path.join(os.path.dirname(os.getcwd()), "main.py")
+    print(target)
     # 软链接的路径
-    link = '../../outputFile/destination2.txt'
+    link = '../outputFile/软链接.py'
     create_symbolic_link(target, link)

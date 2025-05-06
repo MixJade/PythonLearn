@@ -3,7 +3,7 @@
 # @Software: PyCharm
 try:
     # 打开文件
-    with open('../../outputFile/destination2.txt', 'r', encoding='utf-8') as file:
+    with open('../outputFile/软链接.py', 'r', encoding='utf-8') as file:
         # 读取文件全部内容
         content = file.read()
         print(content)

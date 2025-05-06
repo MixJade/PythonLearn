@@ -20,6 +20,6 @@ def create_hard_link(source_file: str, destination_file: str) -> None:
 
 
 # 示例用法
-source_file_path = r"../../../../TsLearn/docs/从npm到pnpm.md"
-destination_file_path = '../../outputFile/destination.txt'
+source_file_path = r"../main.py"
+destination_file_path = '../outputFile/硬链接.py'
 create_hard_link(source_file_path, destination_file_path)
