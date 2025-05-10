@@ -150,6 +150,7 @@ def modify_json_key(file_path):
         check_array_key(data, 2000520, own_tag)  # 再生护符
         check_array_key(data, 2000519, own_tag)  # 幸运护符
         check_array_key(data, 2000368, own_tag)  # 家传宝甲
+        check_array_key(data, 2000527, own_tag)  # 家传宝甲(金)
 
         # 其它人物
         sudan_tag = {"support": 9}
