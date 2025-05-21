@@ -25,5 +25,5 @@ def generate_unique_number():
 for i in range(1, 1001):
     # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
     print(f"""INSERT INTO HomeAndDog (relId,relNo, homeID, dogID, dogTP)
-VALUES ('{datetime.now().strftime('%Y%m%d%H%M%S')}{i:04d}',{generate_unique_number()}, '121', '211', '2');
+VALUES ('{datetime.now().strftime('%Y%m%d%H%M%S')}{i:04d}','{generate_unique_number()}', '121', '211', '2');
     """)
