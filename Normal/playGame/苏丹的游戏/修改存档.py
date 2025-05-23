@@ -133,6 +133,7 @@ def modify_json_key(file_path):
         check_array_key(data, 2000458, adherent_tag)  # 强化老婆2
         check_array_key(data, 2000372, adherent_tag)  # 法拉杰
         check_array_key(data, 2000522, adherent_tag)  # 法拉杰2
+        check_array_key(data, 2000523, adherent_tag)  # 法拉杰3
         check_array_key(data, 2000461, adherent_tag)  # 贝姬夫人
         check_array_key(data, 2000460, adherent_tag)  # 哈桑
         check_array_key(data, 2000459, adherent_tag)  # 马尔基娜
