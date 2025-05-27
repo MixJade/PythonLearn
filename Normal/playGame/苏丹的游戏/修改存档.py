@@ -65,31 +65,6 @@ def check_array_key(data, card_id, new_value, is_add=False):
         print("错误：键 cards 不存在于 JSON 文件中。")
 
 
-def add_card(data, card_msgs: list):
-    """给自己加一张卡片
-
-    :param data: json数据
-    :param card_msgs: 卡片的id和tag(列表)
-    """
-    begin_uid = data["card_uid_index"]
-
-    if "cards" in data:
-        if isinstance(data["cards"], list):
-            for card_msg in card_msgs:
-                data["cards"].append(
-                    {"uid": begin_uid, "id": card_msg["id"], "count": card_msg["count"], "life": 1, "rareup": 0,
-                     "tag": card_msg["tag"],
-                     "equip_slots": [],
-                     "equips": [], "bag": 3, "bagpos": 2, "custom_name": "", "custom_text": ""})
-                begin_uid += 1
-                data["card_uid_index"] = begin_uid
-                print(f"新的卡片追加成功:{card_msg['id']}")
-        else:
-            print(f"错误：JSON 数据不是一个数组。")
-    else:
-        print("错误：键 cards 不存在于 JSON 文件中。")
-
-
 def update_rites_array_key(data, rite_id, card_id, new_value):
     """修改事件json中卡片的标签
 
@@ -127,7 +102,7 @@ def modify_json_key(file_path):
         check_array_key(data, 2000861, main_tag)
 
         # 随从属性
-        adherent_tag = {**main_tag, "adherent": 1, "support": 5}
+        adherent_tag = {**main_tag, "adherent": 1, "support": 2}
         check_array_key(data, 2000006, adherent_tag)  # 普通老婆
         check_array_key(data, 2000457, adherent_tag)  # 强化老婆1
         check_array_key(data, 2000458, adherent_tag)  # 强化老婆2
@@ -156,19 +131,6 @@ def modify_json_key(file_path):
         # 其它人物
         sudan_tag = {"support": 9}
         update_rites_array_key(data, 5001001, 2000024, sudan_tag)  # 上朝事件中的苏丹
-
-        # 给自己加一张卡
-        add_card(data, card_msgs=[
-            {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
-            {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
-            {"id": 2000744, "tag": adherent_tag, "count": 1},  # 军队
-            {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
-            {"id": 2000502, "tag": {**main_tag, "support": 5, "own": 1}, "count": 1},  # 黄金宝剑
-            {"id": 2000304, "tag": {"own": 1}, "count": 1},  # 小鳄鱼
-            {"id": 2000861, "tag": main_tag, "count": 1},  # 双胞胎
-            {"id": 2000416, "tag": {}, "count": 100},  # 内幕
-            {"id": 2000029, "tag": {}, "count": 900},  # 金币
-        ])
 
         # 将修改后的数据写回文件
         with open(file_path, 'w', encoding='utf-8') as file:
