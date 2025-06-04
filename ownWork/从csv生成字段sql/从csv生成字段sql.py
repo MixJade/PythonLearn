@@ -51,3 +51,7 @@ table_name_con = table_name[0].upper() + table_name[1:].lower()
 print(f"{snake_to_camel(table_name_con)}.java\n")
 for index, row in df.iterrows():
     print(f'private String {snake_to_camel(row["NAME"])}; // {row["COMMENT"]}')
+
+print("\n\n=========================ibatis的resultMap字段=============================")
+for index, row in df.iterrows():
+    print(f'<result property="{snake_to_camel(row["NAME"])}" column="{row["NAME"].upper()}" />')
