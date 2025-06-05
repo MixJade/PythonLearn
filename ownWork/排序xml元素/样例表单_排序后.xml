@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form title="测试表单">
+  <formelement formactiveid="1" labelname="一行" row="1"/>
+  <formelement formactiveid="2" labelname="二号1" row="2"/>
+  <formelement formactiveid="3" labelname="二号2" row="2"/>
+  <formelement formactiveid="4" labelname="三号1" row="3"/>
+  <formelement formactiveid="5" labelname="三号2" row="3"/>
+  <formelement formactiveid="6" labelname="武行" row="5"/>
+  <formelement formactiveid="7" labelname="八号" row="8"/>
+</form>
