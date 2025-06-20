@@ -89,10 +89,12 @@ if __name__ == "__main__":
     if plan_str == '3':
         file_string = input("输入目标文件夹下某个文件路径：")
         rename_all_file_by_update_time(file_string.strip('"'), i)
+        exit(0)
     # 方案3:重命名文件夹下所有文件(修改时间排序)
     if plan_str == '2':
         file_string = input("输入目标文件夹下某个文件路径：")
         rename_all_file(file_string.strip('"'), i)
+        exit(0)
     # 方案1:依次重命名文件
     else:
         while True:
