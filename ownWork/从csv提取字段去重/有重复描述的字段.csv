@@ -1,0 +1,12 @@
+cate,dict,field,comment
+A,生活费,liveFreq,分配频率
+A,生活费,liveAmt,固定分配金额
+A,生活费,liveStartCondition,分配起始条件
+B,生活费,bLiveTimeFlg,分配起始时间标识
+B,生活费,bLiveStartYear,自定义起始年份
+B,生活费,bLiveEndYear,自定义终止年份
+C,生活费,applyCondition,申请条件
+C,生活费,otherCondition,其他附加申请条件
+C,生活费,liveStart,分配起始时间
+C,升学教育金,applyCondition,申请条件
+C,升学教育金,otherCondition,其他附加申请条件
