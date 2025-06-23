@@ -52,7 +52,7 @@ def camel_to_snake(name):
 print("\n" + ("=" * 100) + "\n")
 for index, row in df_agg3_sorted.iterrows():
     # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
-    print(f"""-- {row["comment"]}({row["cate"]})
+    print(f"""-- {row["comment"]}({row["cate"]})({row["dict"]})
 ALTER TABLE MY_TABLE
 ADD {camel_to_snake(row["field"])} VARCHAR2(200) NULL;
 COMMENT ON COLUMN MY_TABLE.{camel_to_snake(row["field"])} IS '{row["comment"]}';""")
