@@ -3,7 +3,7 @@
 # @Software: PyCharm
 import pandas as pd
 
-df = pd.read_csv('有重复描述的字段.csv')
+df = pd.read_csv('input/有重复描述的字段.csv')
 df = df[['cate', 'dict', 'field', 'comment']]
 
 # 开始去重(指定列)，保留第一次出现的重复行
@@ -29,7 +29,7 @@ for index, row in df_agg3_sorted.iterrows():
     private String {row["field"]};""")
 
 
-def camel_to_snake(name):
+def camel_to_snake(name: str) -> str:
     """
     将小驼峰格式字符串转为大蛇形格式
     示例：prjName → PRJ_NAME
@@ -48,24 +48,16 @@ def camel_to_snake(name):
     return ''.join(snake_case).upper()
 
 
-# 打印添加字段的sql
+# 生成添加字段的csv
 print("\n" + ("=" * 100) + "\n")
-for index, row in df_agg3_sorted.iterrows():
-    # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
-    print(f"""-- {row["comment"]}({row["cate"]})({row["dict"]})
-ALTER TABLE MY_TABLE
-ADD {camel_to_snake(row["field"])} VARCHAR2(200) NULL;
-COMMENT ON COLUMN MY_TABLE.{camel_to_snake(row["field"])} IS '{row["comment"]}';""")
+# 添加一个新列
+df_agg3_sorted['COLUMN_NAME'] = df_agg3_sorted['field'].apply(camel_to_snake)
 
-# 打印字段核对sql
-print("\n" + ("=" * 100) + "\n")
-# 将NAME列的值用双引号包裹并聚合
-name_result = ','.join([f"'{camel_to_snake(name)}'" for name in df_agg3_sorted['field']])
-# noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
-print(f"""
--- 检查表字段 预计{len(df_agg3_sorted)}条
-SELECT COLUMN_NAME
-FROM USER_TAB_COLUMNS
-WHERE TABLE_NAME = 'MY_TABLE'
-  AND COLUMN_NAME IN ({name_result});
-""")
+# 临时重命名并导出
+df_agg3_sorted[['COLUMN_NAME', 'comment', 'cate', 'dict']].to_csv(
+    '生成的字段.csv',
+    index=False,
+    encoding='utf-8-sig'
+)
+
+print("CSV 文件已生成！")

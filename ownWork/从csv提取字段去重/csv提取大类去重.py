@@ -3,7 +3,7 @@
 # @Software: PyCharm
 import pandas as pd
 
-df = pd.read_csv('有重复描述的字段.csv')
+df = pd.read_csv('input/有重复描述的字段.csv')
 df = df[['cate', 'dict_code', 'dict']]
 
 # 开始去重(指定列)，保留第一次出现的重复行
