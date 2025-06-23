@@ -38,7 +38,7 @@ print("\n\n=========================Java实体类字段=========================
 
 
 def snake_to_camel(snake_str):
-    """将大蛇形转为小驼峰
+    """将小蛇形转为小驼峰
     :param snake_str: 形如 prj_name
     :return: prjName
     """
