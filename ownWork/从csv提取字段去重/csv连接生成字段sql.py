@@ -20,7 +20,10 @@ df = df.merge(df2, on='COLUMN_NAME', how='left')
 for index, row in df.iterrows():
     data_type = 'VARCHAR2(200)'
     if pd.isnull(df.loc[index, 'DATA_TYPE']):
-        print("-- 暂无可参考字段")
+        if row["comment"].startswith('是否'):
+            data_type = 'VARCHAR2(3)'
+        else:
+            print("-- 暂无可参考字段")
     else:
         data_type = f'{row["DATA_TYPE"]}({int(row["DATA_LENGTH"])})'
     # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
@@ -28,3 +31,16 @@ for index, row in df.iterrows():
 ALTER TABLE MY_TABLE
 ADD {row["COLUMN_NAME"]} {data_type} NULL;
 COMMENT ON COLUMN MY_TABLE.{row["COLUMN_NAME"]} IS '{row["comment"]}';""")
+
+# 打印聚合字段
+print("\n" + ("=" * 100) + "\n")
+# 将NAME列的值用双引号包裹并聚合
+name_result = ','.join([f"'{name}'" for name in df['COLUMN_NAME']])
+# noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
+print(f"""
+-- 检查表字段 预计{len(df)}条
+SELECT COLUMN_NAME
+FROM USER_TAB_COLUMNS
+WHERE TABLE_NAME = 'MY_TABLE'
+  AND COLUMN_NAME IN ({name_result});
+""")

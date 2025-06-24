@@ -39,8 +39,8 @@ def camel_to_snake(name: str) -> str:
     for i, char in enumerate(name):
         # 若当前字符是大写字母，并且不是字符串的第一个字符
         if char.isupper() and i > 0:
-            # 前一个字符是小写字母时添加下划线
-            if name[i - 1].islower():
+            # 前一个字符是小写字母或数字时添加下划线
+            if name[i - 1].islower() or name[i - 1].isdigit():
                 snake_case.append('_')
         # 把当前字符添加到结果列表
         snake_case.append(char)
