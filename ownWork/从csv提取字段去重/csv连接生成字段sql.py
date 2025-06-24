@@ -17,6 +17,10 @@ df2 = combined_df.drop_duplicates(subset=['COLUMN_NAME'])  # 基于COLUMN_NAME�
 
 # 连接两张表
 df = df.merge(df2, on='COLUMN_NAME', how='left')
+
+# 打印sql
+table_name = 'MY_TABLE'
+print(f"-- 给{table_name} 新增{len(df)}个字段")
 for index, row in df.iterrows():
     data_type = 'VARCHAR2(200)'
     if pd.isnull(df.loc[index, 'DATA_TYPE']):
@@ -28,9 +32,9 @@ for index, row in df.iterrows():
         data_type = f'{row["DATA_TYPE"]}({int(row["DATA_LENGTH"])})'
     # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
     print(f"""-- {row["comment"]}({row["cate"]})({row["dict"]})
-ALTER TABLE MY_TABLE
+ALTER TABLE {table_name}
 ADD {row["COLUMN_NAME"]} {data_type} NULL;
-COMMENT ON COLUMN MY_TABLE.{row["COLUMN_NAME"]} IS '{row["comment"]}';""")
+COMMENT ON COLUMN {table_name}.{row["COLUMN_NAME"]} IS '{row["comment"]}';""")
 
 # 打印聚合字段
 print("\n" + ("=" * 100) + "\n")
@@ -41,6 +45,6 @@ print(f"""
 -- 检查表字段 预计{len(df)}条
 SELECT COLUMN_NAME
 FROM USER_TAB_COLUMNS
-WHERE TABLE_NAME = 'MY_TABLE'
+WHERE TABLE_NAME = '{table_name}'
   AND COLUMN_NAME IN ({name_result});
 """)
