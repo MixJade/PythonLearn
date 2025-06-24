@@ -18,6 +18,32 @@ form_elements.sort(key=lambda el: int(el.get('row')))
 for element in form_elements:
     root.remove(element)
 
+# 按行分组，排除 fieldtype="99" 的元素
+row_groups = {}
+for element in form_elements:
+    if element.get('fieldtype') != '99':
+        row = element.get('row')
+        if row not in row_groups:
+            row_groups[row] = []
+        row_groups[row].append(element)
+
+# 处理每组的第一个元素
+for row, group in row_groups.items():
+    if group:
+        if len(group) == 1:
+            first_element = group[0]
+            first_element.set('labelcol', '1')
+            first_element.set('fieldcol', '2')
+        elif len(group) == 2:
+            first_element = group[0]
+            first_element.set('labelcol', '1')
+            first_element.set('fieldcol', '2')
+            first_element_2 = group[1]
+            first_element_2.set('labelcol', '3')
+            first_element_2.set('fieldcol', '4')
+        else:
+            print(f"存在异常行： {row=} {len(row)=}")
+
 # 重新生成 formactiveid 并重新添加元素到树中
 for index, element in enumerate(form_elements, start=1):
     element.set('formactiveid', str(index))
