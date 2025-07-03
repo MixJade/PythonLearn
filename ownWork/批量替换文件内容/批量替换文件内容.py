@@ -2,7 +2,6 @@
 # @Time    : 2025/7/3 10:02
 # @Software: PyCharm
 import os
-import argparse
 
 
 def replace_in_files(file_paths, search_string, replace_string):
@@ -37,18 +36,6 @@ def replace_in_files(file_paths, search_string, replace_string):
                 print(f"文件 '{file_path}' 中未找到目标字符串")
         except Exception as e:
             print(f"处理文件 '{file_path}' 时出错: {e}")
-
-
-def main():
-    parser = argparse.ArgumentParser(description='批量替换多个文件的字符串')
-    parser.add_argument('--files', nargs='+', required=True, help='要处理的文件路径列表')
-    parser.add_argument('--search', required=True, help='要查找的字符串')
-    parser.add_argument('--replace', required=True, help='替换字符串')
-
-    args = parser.parse_args()
-
-    # 调用替换函数
-    replace_in_files(args.files, args.search, args.replace)
 
 
 if __name__ == "__main__":
