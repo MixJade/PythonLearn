@@ -48,5 +48,8 @@ if __name__ == "__main__":
     for i in range(0, len(files_name)):
         files_path.append(os.path.join(file_dir, files_name[i]))
 
-    # 最后替换
-    replace_in_files(files_path, search_txt, replace_txt)
+    # 最后替换(如果要换回去的话，可调整此处参数位置)
+    replace_in_files(files_path,
+                     search_txt,
+                     replace_txt
+                     )
