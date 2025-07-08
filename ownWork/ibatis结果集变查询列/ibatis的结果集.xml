@@ -1,0 +1,5 @@
+<resultMap id="BaseResultMap" type="com.sss.Asa">
+    <id property="tradeId" column="TRADE_ID" jdbcType="VARCHAR"/>
+    <result property="schemeNo" column="SCHEME_NO" jdbcType="VARCHAR"/>
+    <result property="schemeSeq" column="SCHEME_SEQ" jdbcType="VARCHAR"/>
+</resultMap>
