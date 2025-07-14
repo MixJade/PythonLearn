@@ -15,7 +15,7 @@ from lxml import html
 ffmpeg -i video.m4s -i audio.m4s -acodec copy -vcodec copy testout.mp4
 """
 
-# 选择一个视频的url(如果是分p视频则放上完整url)
+# 选择一个视频的url(如果是分p视频则放上完整url--但只能下载一个，想下载全部分P视频用另一个脚本)
 url = r'https://www.bilibili.com/video/BV1494y147mF'
 
 # 保存路径(斜线结尾)
@@ -24,7 +24,7 @@ dir_path = r"../../outputFile/creepB2/"
 if not os.path.exists(dir_path):
     os.makedirs(dir_path)
 
-# 设置请求头(想下载更高的清晰度需先登录，再加上Cookie)
+# 设置请求头(想下载更高的清晰度需先登录，再加上Cookie，然后上面的url要放完整)
 header = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 "
                   "Safari/537.36 Edg/118.0.2088.76",
@@ -47,7 +47,7 @@ def get_video_title(html_content: str) -> str:
         return "未获得视频名"
 
 
-video_name = get_video_title(resp.text)
+video_name = get_video_title(resp.text).replace(" ", "_")  # 防止空格导致ffmpeg报错
 print("视频名称：" + video_name)
 
 obj = re.compile(r'window.__playinfo__=(.*?)</script>', re.S)
