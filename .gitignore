@@ -4,3 +4,5 @@ __pycache__/
 # Jupyter的文件
 .ipynb_checkpoints/
 output/
+# 不追踪结果数据
+*_结果.*
