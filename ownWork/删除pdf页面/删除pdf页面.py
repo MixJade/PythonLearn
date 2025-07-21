@@ -39,7 +39,7 @@ def delete_pages(input_pdf, output_pdf, pages_to_delete):
 
 # 使用示例
 input_file = r"input.pdf"  # 替换为你的输入 PDF 路径
-output_file = "output.pdf"  # 替换为你的输出 PDF 路径
+output_file = "删除页面_结果.pdf"  # 替换为你的输出 PDF 路径
 pages_to_del = []  # 要删除的页码列表（例如删除第 1、3、5 页）
 
 # 比如删除1-360页

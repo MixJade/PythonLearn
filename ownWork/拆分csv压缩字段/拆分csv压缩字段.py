@@ -24,4 +24,4 @@ df = df.reset_index(drop=True)
 print(df.head(n=9))
 
 # 保存为新的csv文件
-df.to_csv(inputCsv.replace('.csv', '结果.csv'), index=False)
+df.to_csv(inputCsv.replace('.csv', '_结果.csv'), index=False)
