@@ -15,10 +15,11 @@ table_comment = "学生表"
 
 # 保证列相同
 data1 = data1[['NAME', 'COMMENT', 'LENGTH']]
-data2 = data2[['CATE', 'NAME', 'COMMENT', 'LENGTH']]
+data2 = data2[['NAME', 'COMMENT', 'CATE']]
 
 # 在data2中新增IS_BACK和LENGTH两列
 data2['IS_BACK'] = 'N'
+data2['LENGTH'] = None
 
 # 标记data1中哪些行被匹配到
 data1['IS_MATCHED'] = 'N'
@@ -26,8 +27,7 @@ data1['IS_MATCHED'] = 'N'
 # 遍历data2中的每一行
 for index2, row2 in data2.iterrows():
     comment2 = row2['COMMENT']
-    if row2['LENGTH'] is None:
-        data2.at[index2, 'LENGTH'] = 'VARCHAR2(255)'
+    data2.at[index2, 'LENGTH'] = 'VARCHAR2(255)'
     # 检查data1中是否有相同的COMMENT
     for index1, row1 in data1.iterrows():
         comment1 = row1['COMMENT']
