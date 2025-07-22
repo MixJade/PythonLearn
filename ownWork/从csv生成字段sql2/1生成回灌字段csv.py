@@ -26,7 +26,7 @@ data1['IS_MATCHED'] = 'N'
 # 遍历data2中的每一行
 for index2, row2 in data2.iterrows():
     comment2 = row2['COMMENT']
-    if pd.isna(row2['LENGTH']):
+    if row2['LENGTH'] is None:
         data2.at[index2, 'LENGTH'] = 'VARCHAR2(255)'
     # 检查data1中是否有相同的COMMENT
     for index1, row1 in data1.iterrows():
