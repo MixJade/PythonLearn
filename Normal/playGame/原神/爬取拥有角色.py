@@ -60,12 +60,12 @@ class GenshinCharacters(NamedTuple):
     weapon_name: str  # 武器名称
     weapon_rarity: int  # 武器星级
     weapon_level: int  # 武器等级
-    normal_attack_name: str  # 普通攻击名称
-    normal_attack_level: int  # 普通攻击等级
-    elemental_skill_name: str  # 元素技能名称
-    elemental_skill_level: int  # 元素技能等级
-    elemental_burst_name: str  # 元素爆发名称
-    elemental_burst_level: int  # 元素爆发等级
+    skill_1_name: str  # 普通攻击名称
+    skill_1_level: int  # 普通攻击等级
+    skill_2_name: str  # 元素技能名称
+    skill_2_level: int  # 元素技能等级
+    skill_3_name: str  # 元素爆发名称
+    skill_3_level: int  # 元素爆发等级
     flower_name: str  # 生之花名称
     flower_rarity: int  # 生之花品质
     flower_level: int  # 生之花等级
@@ -88,18 +88,27 @@ class GenshinCharacters(NamedTuple):
 
 
 # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
-out_sql = """INSERT INTO genshin_characters (role_id, role_name, level_current, constellation_num, fetter_level, weapon_name, weapon_rarity,
-                                weapon_level, normal_attack_name, normal_attack_level, elemental_skill_name,
-                                elemental_skill_level, elemental_burst_name, elemental_burst_level, flower_name,
+out_sql = """INSERT INTO genshin_characters (role_id, role_name, level_current, constellation_num, fetter_level, weapon_name,
+                                weapon_rarity,
+                                weapon_level, skill_1_name, skill_1_level, skill_2_name, skill_2_level,
+                                skill_3_name, skill_3_level, flower_name,
                                 flower_rarity, flower_level, plume_name, plume_rarity, plume_level, sands_name,
                                 sands_rarity, sands_level, goblet_name, goblet_rarity, goblet_level, circlet_name,
-                                circlet_rarity, circlet_level) VALUES """
+                                circlet_rarity, circlet_level) VALUES"""
 # 处理数据
 for item in data_list:
     # 武器
     weapon = item.get('weapon', {})
     # 技能
     skill_list = item.get('skill_list', [])
+    skill_list_2 = []
+    for skill in skill_list:
+        if skill.get('max_level') == 10:
+            skill_list_2.append({"name": skill.get('name'), "level_current": skill.get('level_current')})
+    sk_len = len(skill_list_2)
+    if sk_len < 3:
+        for i in range(3 - sk_len):
+            skill_list_2.append({"name": "无", "level_current": 0})
     # 圣遗物
     reliquary_list = item.get('reliquary_list', [])
     gc = GenshinCharacters(
@@ -111,12 +120,12 @@ for item in data_list:
         weapon_name=weapon.get('name'),  # 武器名称
         weapon_rarity=weapon.get('weapon_level'),  # 武器星级
         weapon_level=weapon.get('level_current'),  # 武器等级
-        normal_attack_name=skill_list[0].get('name'),  # 普攻名称
-        normal_attack_level=skill_list[0].get('level_current'),
-        elemental_skill_name=skill_list[1].get('name'),  # e技能名称
-        elemental_skill_level=skill_list[1].get('level_current'),
-        elemental_burst_name=skill_list[2].get('name'),  # 大招名称
-        elemental_burst_level=skill_list[2].get('level_current'),
+        skill_1_name=skill_list_2[0].get('name'),  # 普攻名称
+        skill_1_level=skill_list_2[0].get('level_current'),
+        skill_2_name=skill_list_2[1].get('name'),  # e技能名称
+        skill_2_level=skill_list_2[1].get('level_current'),
+        skill_3_name=skill_list_2[2].get('name'),  # 大招名称
+        skill_3_level=skill_list_2[2].get('level_current'),
         # 生之花
         flower_name=reliquary_list[0].get('name'),  # 生之花名称
         flower_rarity=reliquary_list[0].get('reliquary_level'),  # 生之花品质
@@ -147,12 +156,12 @@ for item in data_list:
         f"'{gc.weapon_name}', "
         f"{gc.weapon_rarity}, "
         f"{gc.weapon_level}, "
-        f"'{gc.normal_attack_name}', "
-        f"{gc.normal_attack_level}, "
-        f"'{gc.elemental_skill_name}', "
-        f"{gc.elemental_skill_level}, "
-        f"'{gc.elemental_burst_name}', "
-        f"{gc.elemental_burst_level}, "
+        f"'{gc.skill_1_name}', "
+        f"{gc.skill_1_level}, "
+        f"'{gc.skill_2_name}', "
+        f"{gc.skill_2_level}, "
+        f"'{gc.skill_3_name}', "
+        f"{gc.skill_3_level}, "
         f"'{gc.flower_name}', "
         f"{gc.flower_rarity}, "
         f"{gc.flower_level}, "
