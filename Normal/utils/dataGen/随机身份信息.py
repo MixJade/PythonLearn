@@ -3,10 +3,12 @@
 # @Software: PyCharm
 import random
 import string
+import json
 from datetime import datetime, timedelta
 
 # 百家姓
-surnames = "赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞熊纪舒屈项祝董梁杜阮蓝闵席季麻强贾路娄危江童颜郭梅盛林刁钟徐邱骆高夏蔡田樊胡凌霍虞万支柯昝管卢莫经房裘缪干解应宗丁宣贲邓郁单杭洪包诸左石崔吉钮龚程嵇邢滑裴陆荣翁荀羊於惠甄麴家封芮羿储靳汲邴糜松井段富巫乌焦巴弓牧隗山谷车侯宓蓬全郗班仰秋仲伊宫宁仇栾暴甘钭厉戎祖武符刘景詹束龙叶幸司韶郜黎蓟薄印宿白怀蒲邰从鄂索咸籍赖卓蔺屠蒙池乔阴鬱胥能苍双闻莘党翟谭贡劳逄姬申扶堵冉宰郦雍卻璩桑桂濮牛寿通边扈燕冀郏浦尚农温别庄晏柴瞿阎充慕连茹习宦艾鱼容向古易慎戈廖庾终暨居衡步都耿满弘匡国文寇广禄阙东殴殳沃利蔚越夔隆师巩厍聂晁勾敖融冷訾辛阚那简饶空曾毋沙乜养鞠须丰巢关蒯相查后荆红游竺权逯盖益桓公万俟司马上官欧阳夏侯诸葛闻人东方赫连皇甫尉迟公羊澹台公冶宗政濮阳淳于单于太叔申屠公孙仲孙轩辕令狐钟离宇文长孙慕容鲜于闾丘司徒司空亓官司寇仉督子车颛孙端木巫马公西漆雕乐正壤驷公良拓拔夹谷宰父谷梁晋楚闫法汝鄢涂钦段干百里东郭南门呼延归海羊舌微生岳帅缑亢况后有琴梁丘左丘东门西门商牟佘佴伯赏南宫墨哈谯笪年爱阳佟"
+with open("chinese_surnames.json", 'r', encoding='utf-8') as f:
+    surnames = json.load(f)
 # 中文数字
 chinese_numbers = "一二三四五六七八九十"
 
@@ -86,7 +88,41 @@ def generate_phone_number():
     return prefix + suffix
 
 
-if __name__ == "__main__":
+def generate_random_email():
+    """
+    随机生成QQ邮箱、网易邮箱或Gmail邮箱
+
+    返回:
+        str: 随机生成的邮箱地址
+    """
+    # 定义邮箱域名列表
+    domains = [
+        "qq.com",  # QQ邮箱
+        "163.com",  # 网易163邮箱
+        "126.com",  # 网易126邮箱
+        "yeah.net",  # 网易yeah邮箱
+        "gmail.com"  # Gmail邮箱
+    ]
+
+    # 随机选择一个域名
+    domain = random.choice(domains)
+
+    # 根据不同域名生成合适的用户名
+    if domain == "qq.com":
+        # QQ邮箱用户名为纯数字，长度9-12位
+        username_length = random.randint(9, 12)
+        username = ''.join(random.choices(string.digits, k=username_length))
+    else:
+        # 其他邮箱用户名可以包含字母、数字和下划线，长度6-15位
+        username_chars = string.ascii_letters + string.digits + '_'
+        username_length = random.randint(6, 15)
+        username = ''.join(random.choices(username_chars, k=username_length))
+
+    # 组合成完整邮箱
+    return f"{username}@{domain}"
+
+
+def main():
     name, gender_1 = generate_name()
     id_number = generate_id_number(gender_1)
     bank_name_1, card_number_1 = generate_bank_card()
@@ -94,5 +130,22 @@ if __name__ == "__main__":
     print(f"性别: {gender_1}")
     print(f"身份证号: {id_number}")
     print(f"手机号: {generate_phone_number()}")
+    print(f"邮箱: {generate_random_email()}")
     print(f"开户行: {bank_name_1}")
     print(f"银行卡号: {card_number_1}")
+    print()
+
+
+if __name__ == "__main__":
+    main()
+    try:
+        while True:
+            in_y = input("-->键入Y继续: ")
+            if in_y.upper() == 'Y':
+                main()
+            else:
+                print("退出程序")
+                break
+    except KeyboardInterrupt:
+        # 捕获Ctrl+C导致的KeyboardInterrupt异常
+        print("\n用户中断操作，程序退出")
