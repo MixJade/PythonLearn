@@ -2,6 +2,7 @@
 # @Time    : 2025/7/28 14:33
 # @Software: PyCharm
 import os
+import platform
 import shutil
 
 
@@ -31,6 +32,17 @@ def delete_specific_files(directory: str, file_name_list: list[str]):
                 file_path = os.path.join(folder_name, filename)  # 通过os.path.join连接目录和文件名，得到完整的文件路径
                 os.remove(file_path)  # 使用os.remove删除文件
                 print(f"Deleted file : {file_path}")  # 输出删除文件的信息
+
+
+def remove_dir(path):
+    if platform.system() == "Windows":
+        # Windows系统使用rmdir命令
+        run_param = f'rmdir /s /q "{path}"'
+    else:
+        # Linux/macOS使用rm命令
+        run_param = f'rm -rf "{path}"'
+    print(f"    --> {run_param}")
+    os.system(run_param)
 
 
 def check_folder_exists(folder_path: str, warn_tit: str):
@@ -75,4 +87,4 @@ if __name__ == '__main__':
         del_dir_path = input(r"输入需要删的文件夹路径: ")
         warn_txt = f"将会删除整个 {del_dir_path}"
         if check_folder_exists(del_dir_path, warn_txt):
-            shutil.rmtree(del_dir_path)
+            remove_dir(del_dir_path)
