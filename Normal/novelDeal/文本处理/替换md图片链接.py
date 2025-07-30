@@ -20,4 +20,4 @@ def replace_md_img_text(path: str) -> None:
             file.write(new_line)
 
 
-replace_md_img_text(r"data/特殊md文件/没有标题的md.md")
+replace_md_img_text(r"testData/没有标题的md.md")

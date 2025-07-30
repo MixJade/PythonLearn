@@ -17,6 +17,6 @@ def count_characters(file_path):
 
 
 if __name__ == "__main__":
-    file_path_1 = r"data/测试章节拆分.txt"
+    file_path_1 = r"testData/测试章节拆分.txt"
     count = count_characters(file_path_1)
     print(f"文件中有效字符（不含换行、空格、制表符）数量为：{count}")

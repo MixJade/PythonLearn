@@ -47,4 +47,4 @@ def up_md_title(directory: str) -> None:
 
 
 # 待规范标题的、存有md的文件夹
-walk_dir(r"data/特殊md文件")
+walk_dir(r"testData")

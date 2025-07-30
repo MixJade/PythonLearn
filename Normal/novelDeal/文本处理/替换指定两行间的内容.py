@@ -26,7 +26,7 @@ def replace_content_in_two_lines(file_path: str, start_str: str, end_str: str, c
 
 
 if __name__ == '__main__':
-    replace_content_in_two_lines("data/特殊md文件/有标题但不匹配的md.md",
+    replace_content_in_two_lines("testData/有标题但不匹配的md.md",
                                  start_str="// 天地自然，秽炁分散。",
                                  end_str="// 乾罗答那，洞罡太玄；",
                                  content="新的内容")

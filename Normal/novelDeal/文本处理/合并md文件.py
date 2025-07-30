@@ -33,4 +33,4 @@ def merge_md_files(dir_path: str) -> None:
 
 
 # 使用示例(输入文件夹)
-merge_md_files(r"data/特殊md文件")
+merge_md_files(r"testData")
