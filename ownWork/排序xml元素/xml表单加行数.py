@@ -22,6 +22,7 @@ add_num = 0
 # 遍历所有元素
 for element in form_elements:
     element.set('row', str(int(element.get('row')) + add_num))
+    # 匹配到行以后,其后续元素的row+1
     if element.get('labelname') in new_line_label:
         add_num += 1
 
