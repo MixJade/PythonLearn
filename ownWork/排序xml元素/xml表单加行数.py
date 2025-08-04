@@ -11,19 +11,19 @@ root = tree.getroot()
 form_elements = root.findall('formelement')
 
 """
-通过labelname来匹配行，匹配之后其自身元素、后续元素的行数都+1
+通过labelname来匹配行，其后续元素的行数都+1
 目前只支持添加1整行
 """
-# 需要在自身和其之后增加行数，所在行的labelname
+# 需要在其之后增加行数，所在行的labelname
 new_line_label = ['二号2', '三号3']
 
 # 添加的行数(初始值，勿动)
 add_num = 0
 # 遍历所有元素
 for element in form_elements:
+    element.set('row', str(int(element.get('row')) + add_num))
     if element.get('labelname') in new_line_label:
         add_num += 1
-    element.set('row', str(int(element.get('row')) + add_num))
 
 # 保存修改后的 XML 文件（使用lxml的序列化功能）
 tree.write('样例表单添加行_结果.xml',
