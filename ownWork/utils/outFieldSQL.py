@@ -52,4 +52,4 @@ WHERE TABLE_NAME = '{table_name}'
 
     print("\n\n=========================ibatis的resultMap字段=============================")
     for row in param_list:
-        print(f'<result property="{row.java_name}" column="{row.sql_field}" />')
+        print(f'<result property="{row.java_name}" column="{row.sql_field}"/>')
