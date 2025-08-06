@@ -1,0 +1,9 @@
+DIC_CODE,DIC_NAME,PARM_CODE,PARM_NAME
+HUMAN_TYPE,人种类型,1,黄人
+HUMAN_TYPE,人种类型,2,白人
+HUMAN_TYPE,人种类型,3,黑人
+HUMAN_TYPE,人种类型,4,矮人
+HUMAN_TYPE,人种类型,5,哥布林
+SEX,性别,0,女
+SEX,,1,男
+SEX,,2,其它
