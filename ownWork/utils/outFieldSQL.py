@@ -42,7 +42,48 @@ FROM USER_TAB_COLUMNS
 WHERE TABLE_NAME = '{table_name}'
   AND COLUMN_NAME IN ({field_result});
 """)
+    # 最后输出java+ibatis字段
+    out_java_ibatis(param_list, table_name)
 
+
+def out_create_table_sql(param_list: list[SqlParam], table_name, table_comment):
+    # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
+    print(f"""
+-- 检查{table_comment}是否存在 预计0条
+SELECT TABLE_NAME
+FROM USER_TABLES
+WHERE TABLE_NAME = '{table_name}';
+""")
+
+    # 输出建表SQL
+    print(f"-- 建立{table_comment}")
+    print(f"create table {table_name}\n(")
+    for index, row in enumerate(param_list):
+        out_field = f"\t{row.sql_field}\t\t\t{row.type_len}"
+        if index == 0:
+            out_field += " not null\n\t\tprimary key"  # 第一个元素往往是主键
+        if index != len(param_list) - 1:
+            out_field += ","  # 最后一个元素没有逗号
+        print(out_field)
+    # 结束，输出表结尾
+    print(");")
+    print(f"COMMENT ON TABLE {table_name} IS '{table_comment}';")
+    # 输出表字段注释
+    for row in param_list:
+        print(f"COMMENT ON COLUMN {table_name}.{row.sql_field} IS '{row.comment}';")
+
+    # noinspection SqlResolve,SqlNoDataSourceInspection,SqlDialectInspection
+    print(f"""
+-- 检查{table_comment}是否存在 预计1条
+SELECT TABLE_NAME
+FROM USER_TABLES
+WHERE TABLE_NAME = '{table_name}';""")
+
+    # 最后输出java+ibatis字段
+    out_java_ibatis(param_list, table_name)
+
+
+def out_java_ibatis(param_list: list[SqlParam], table_name):
     print("\n\n=========================Java实体类字段=============================")
 
     table_name_con = table_name[0].upper() + table_name[1:].lower()

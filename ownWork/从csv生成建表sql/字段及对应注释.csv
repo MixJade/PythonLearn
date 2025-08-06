@@ -1,0 +1,4 @@
+NAME,COMMENT,LENGTH
+stuId,学生主键,VARCHAR2(32)
+stuSex,学生性别,VARCHAR2(2)
+stuName,学生姓名,VARCHAR2(16)
