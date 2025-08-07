@@ -27,7 +27,7 @@ def remove_lines_with_pattern(lines, pattern, skip_num):
 
 # 使用示例
 if __name__ == "__main__":
-    input_file = '测试日志02.txt'  # 输入文件路径
+    input_file = r'测试日志02.txt'  # 输入文件路径
 
     # 读取文件
     with open(input_file, 'r', encoding='utf-8') as f:
