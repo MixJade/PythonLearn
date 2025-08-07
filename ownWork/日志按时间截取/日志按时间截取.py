@@ -59,6 +59,7 @@ if __name__ == "__main__":
 
     # 3. 输出结果
     # 最后写入新文件
-    with open(input_file.replace(".log", "_结果.log"), 'w', encoding='utf-8') as f2:
+    output_file = input_file.replace(".log", "_结果.log")
+    with open(output_file, 'w', encoding='utf-8') as f2:
         f2.writelines(result)
-    print(f"处理完成，结果已保存至 {input_file}")
+    print(f"处理完成，结果已保存至 {output_file}")
