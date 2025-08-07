@@ -26,10 +26,15 @@ def filter_logs_by_time(log_lines: list[str], start_time_str: str, end_time_str:
             try:
                 log_time_str = line[:19]  # 截取时间部分（如"2025-04-03 16:28:41"）
                 log_time = datetime.strptime(log_time_str, "%Y-%m-%d %H:%M:%S")
-
-                # 筛选：>=开始时间 且 <结束时间
-                if start_time <= log_time < end_time:
+                if log_time < start_time:
+                    # 小于开始时间 直接下一个
+                    continue
+                elif start_time <= log_time < end_time:
+                    # 大于等于开始时间 小于结束时间 则保留
                     filtered_logs.append(line)
+                elif log_time >= end_time:
+                    # 大于等于结束时间 则直接终止
+                    break
             except ValueError:
                 # 忽略时间格式错误的行（非日志主体行）
                 continue
