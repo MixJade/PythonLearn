@@ -7,3 +7,7 @@ HUMAN_TYPE,人种类型,5,哥布林
 SEX,性别,0,女
 SEX,,1,男
 SEX,,2,其它
+ACCOUNT_TYPE,账户类型,0,个人账户
+ACCOUNT_TYPE,,1,企业账户
+ACCOUNT_TYPE,,2,政府账户
+ACCOUNT_TYPE,,3,非营利组织账户

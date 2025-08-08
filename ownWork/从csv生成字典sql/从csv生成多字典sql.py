@@ -25,7 +25,7 @@ df = pd.read_csv(csv_file_path)
 df = df[['DIC_CODE', 'DIC_NAME', 'PARM_CODE', 'PARM_NAME']]
 
 # 按照 DIC_CODE 列进行分组
-grouped = df.groupby('DIC_CODE')
+grouped = df.groupby('DIC_CODE', sort=False)  # 禁止自动排序
 
 # 遍历每个分组并填入
 dic_list: list[DicMain] = []
