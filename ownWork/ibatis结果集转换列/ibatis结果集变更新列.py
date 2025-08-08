@@ -11,7 +11,10 @@ root = tree.getroot()
 # 查找所有 result 和 id 标签
 result_elements = root.xpath('.//result | .//id')
 
+print('<dynamic prepend="SET ">')
 # 提取 column 属性
 for element in result_elements:
     column_name = element.get('column')
-    print(f'<isNotEmpty property="{snake_to_camel(column_name)}" prepend=",">{column_name}=#{snake_to_camel(column_name)}#</isNotEmpty>')
+    print(f'\t<isNotEmpty property="{snake_to_camel(column_name)}" prepend=",">'
+          f'{column_name}=#{snake_to_camel(column_name)}#</isNotEmpty>')
+print('</dynamic>')
