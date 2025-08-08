@@ -25,10 +25,10 @@ for idx, element in enumerate(result_elements):
     javaField.append(java_str)
 
 # noinspection SqlNoDataSourceInspection
-print("INSERT INTO XXX(")
+print("<![CDATA[\nINSERT INTO XXX(")
 for val in tableField:
     print(f"\t{val}")
 print(f") VALUES (")
 for jf in javaField:
     print(f"\t{jf}")
-print(")")
+print(")\n]]>")
