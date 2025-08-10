@@ -2,16 +2,16 @@
 # @Time    : 2025-01-16 09:13:26
 # @Software: PyCharm
 
+target1 = '【此行以上皆删】'  # 向上删除注解
+target2 = '【此行以下皆删】'  # 向下删除注解
+
 
 def delete_lines(filename: str) -> None:
     """
-    删除 @MixJade Up 行之前的所有行,删除 @MixJade Down 之后的所有行
+    删除target1之前的所有行,删除target2之后的所有行
 
     :param filename: 文件路径
     """
-    target1 = '@MixJade Up'  # 向上删除注解
-    target2 = '@MixJade Down'  # 向下删除注解
-
     with open(filename, 'r', encoding='utf-8') as file:
         lines = file.readlines()
         up_index, down_index = 0, len(lines)
@@ -38,5 +38,7 @@ def delete_lines(filename: str) -> None:
 
 # 使用函数,
 if __name__ == '__main__':
-    input_file1 = input("输入打了注解的日志文件:").strip('"')
+    print(f"1. 在文件中标注 {target1} 会删除其上所有行")
+    print(f"2. 在文件中标注 {target2} 会删除其下所有行")
+    input_file1 = input("输入打了标记的文本文件:").strip('"')
     delete_lines(input_file1)
