@@ -4,7 +4,7 @@
 from lxml import etree
 
 parser = etree.XMLParser(remove_blank_text=True)  # 保留空白格式
-tree = etree.parse('样例表单_排序后.xml', parser)
+tree = etree.parse('tesXml/5样例form排序_结果.xml', parser)
 root = tree.getroot()
 # 获取所有 formelement 元素
 form_elements = root.findall('formelement')
@@ -30,8 +30,8 @@ if __name__ == '__main__':
     add_one_line('二号2')
     add_one_line('三号2')
     # 保存修改后的 XML 文件（使用lxml的序列化功能）
-    tree.write('样例表单添加行_结果.xml',
+    tree.write('tesXml/7样例form加行_结果.xml',
                encoding='UTF-8',
                xml_declaration=True,
                pretty_print=True)  # 添加漂亮打印格式
-    print("行数增加完成，结果已保存到 样例表单添加行_结果.xml")
+    print("行数增加完成，结果已保存到 tesXml/7样例form加行_结果.xml")

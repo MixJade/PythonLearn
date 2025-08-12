@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<table title="样例">
+    <tableitem filedname="stuId" id="1" indexed="0" label="选择" row="1" type="2" typepara="stuId-stuId"/>
+    <tableitem filedname="stuName" id="3" indexed="2" label="学生名称" row="1" type="0" />
+    <tableitem filedname="teacherNm" id="69" indexed="3" label="老师名称" row="1" type="0"/>
+    <tableitem filedname="classNm" id="69" indexed="3" label="班级" row="1" type="0"/>
+    <tableitem filedname="moeny" id="69" indexed="3" label="携带现金" row="1" type="0"/>
+    <tableitem filedname="studMemo" id="97" indexed="5" label="特殊说明" row="1" type="0"/>
+    <tableitem authority="sts-0;sts-1;" buttonMark="分配" filedname="分配" id="75" indexed="28" label="-" row="1" type="5"/>
+ </table>

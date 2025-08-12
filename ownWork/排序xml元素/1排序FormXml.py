@@ -5,7 +5,7 @@ from lxml import etree
 
 # 解析 XML 文件（使用lxml的解析器）
 parser = etree.XMLParser(remove_blank_text=True)  # 保留空白格式
-tree = etree.parse('样例表单.xml', parser)
+tree = etree.parse(r'tesXml/1样例form.xml', parser)
 root = tree.getroot()
 
 # 获取所有 formelement 元素
@@ -50,9 +50,9 @@ for index, element in enumerate(form_elements, start=1):
     root.append(element)  # 将排序后的元素添加回根节点
 
 # 保存修改后的 XML 文件（使用lxml的序列化功能）
-tree.write('样例表单_排序后.xml',
+tree.write('tesXml/5样例form排序_结果.xml',
            encoding='UTF-8',
            xml_declaration=True,
            pretty_print=True)  # 添加漂亮打印格式
 
-print("排序和重新编号完成，结果已保存到 样例表单_排序后.xml")
+print("排序和重新编号完成，结果已保存到 tesXml/5样例form排序_结果.xml")
