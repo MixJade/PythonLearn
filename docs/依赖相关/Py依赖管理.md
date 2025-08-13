@@ -21,3 +21,12 @@ numpy==1.14.5
 ```bash
 pip freeze > requirements.txt
 ```
+
+## 卸载依赖
+
+要使用 pip 卸载某个依赖包，可以使用 `pip uninstall` 命令，具体格式如下：
+
+```bash
+pip uninstall 包名
+```
+
