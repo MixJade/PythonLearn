@@ -30,3 +30,13 @@ pip freeze > requirements.txt
 pip uninstall 包名
 ```
 
+## 查看依赖版本
+
+执行后会显示该包的详细信息，其中 `Version` 字段就是版本号
+
+```bash
+pip show 包名
+```
+
+* 以上命令样例：`pip show requests`
+* 可以顺便看包的具体位置
