@@ -13,8 +13,8 @@ input_file_path = r"C:\MyCode\selfTool\chat\chatFile\39007.txt"
 results = []
 
 # 正式处理
-pattern1 = re.compile(r'第[一二三四五六七八九十百]+节：')
-pattern2 = re.compile(r'第[一二三四五六七八九十百]+卷：')
+pattern1 = re.compile(r'第[零一二两三四五六七八九十百]+节：')
+pattern2 = re.compile(r'第[零一二两三四五六七八九十百]+卷：')
 # 读取文件
 with open(input_file_path, "r", encoding='utf-8') as f:
     for line in f:
