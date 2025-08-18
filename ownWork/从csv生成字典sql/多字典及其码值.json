@@ -1,0 +1,31 @@
+[
+  {
+    "dicCode": "HUMAN_TYPE",
+    "dicName": "人种类型",
+    "beginSeq": 1,
+    "parmList": [
+      {
+        "code": "east",
+        "name": "黄人"
+      },
+      {
+        "code": "west",
+        "name": "白人"
+      }
+    ]
+  },
+  {
+    "dicCode": "SEX",
+    "dicName": "性别",
+    "parmList": [
+      {
+        "code": "1",
+        "name": "男"
+      },
+      {
+        "code": "0",
+        "name": "女"
+      }
+    ]
+  }
+]

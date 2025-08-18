@@ -1,66 +1,39 @@
 # coding=utf-8
 # @Time    : 2025/8/6 17:44
 # @Software: PyCharm
-from typing import NamedTuple
+import json
 
-import pandas as pd
+from utils.outDictSQL import DicMain, DicParam, out_hy_dic_sql, out_insert_dic_sql
 
-
-class DicParam(NamedTuple):
-    seq: int
-    code: str
-    name: str
-
-
-class DicMain(NamedTuple):
-    code: str
-    name: str
-    parm_list: list[DicParam]
-
-
-# 请替换成你的 CSV 文件路径
-csv_file_path = r'多字典及其码值.csv'
-# 读取 CSV 文件
-df = pd.read_csv(csv_file_path)
-df = df[['DIC_CODE', 'DIC_NAME', 'PARM_CODE', 'PARM_NAME']]
-
-# 按照 DIC_CODE 列进行分组
-grouped = df.groupby('DIC_CODE', sort=False)  # 禁止自动排序
+# 读取JSON文件
+with open("多字典及其码值.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
 
 # 遍历每个分组并填入
 dic_list: list[DicMain] = []
-for group_name, group_data in grouped:
-    a_dic_group = group_data.reset_index()
-    dic_name = a_dic_group.iloc[0]['DIC_NAME']  # 获取第一个元素的字典名称
+for dic_data in data:
+    dic_code = dic_data["dicCode"]
+    dic_name = dic_data["dicName"]
+    # 字典起始排序,默认为0
+    begin_seq = dic_data.get("beginSeq", 0)
+    # 当起始序列为0时,是整个字典新增,否则默认是追加
+    is_new = (begin_seq == 0)
+    # 读取字典下的参数列表
+    param_list = dic_data["parmList"]
     dic_param_list: list[DicParam] = []
-    for index, row in a_dic_group.iterrows():
-        dic_param_list.append(DicParam(seq=index, code=row['PARM_CODE'], name=row['PARM_NAME']))
-    dic_list.append(DicMain(code=group_name, name=a_dic_group.iloc[0]['DIC_NAME'], parm_list=dic_param_list))
+    for index, param in enumerate(param_list):
+        dic_param_list.append(DicParam(seq=index + begin_seq, code=param['code'], name=param['name']))
+    dic_list.append(DicMain(code=dic_code, name=dic_name, is_new=is_new, parm_list=dic_param_list))
 
-# 遍历每个分组
+# 探查
 print("\n-- " + "=" * 50)
 for dic in dic_list:
-    # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
-    print(f"""
--- 检查字典·{dic.name} 预计0条
-SELECT *
-FROM PARM_DIC
-WHERE KEY_NAME = '{dic.code}';""")
-
+    out_hy_dic_sql(dic, is_hy=False)
 # 插入数据
 print("\n-- " + "=" * 50)
 for dic in dic_list:
-    print(f"\n-- 插入字典·{dic.name} 共计{len(dic.parm_list)}条")
-    for parm in dic.parm_list:
-        # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
-        print(f"""INSERT INTO PARM_DIC (KEY_NAME, OPT_CODE, OPT_NAME, SEQN, STS)
-VALUES ('{dic.code}', '{parm.code}', '{parm.name}', {parm.seq}, '1');""")
-
+    out_insert_dic_sql(dic)
+# 核验
 print("\n-- " + "=" * 50)
 for dic in dic_list:
-    # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
-    print(f"""
--- 检查字典·{dic.name} 预计{len(dic.parm_list)}条
-SELECT *
-FROM PARM_DIC
-WHERE KEY_NAME = '{dic.code}';""")
+    out_hy_dic_sql(dic)
