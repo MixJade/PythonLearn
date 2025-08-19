@@ -43,5 +43,5 @@ def out_insert_dic_sql(dic: DicMain):
     print(f"\n-- 插入字典·{dic.name} 共计{len(dic.parm_list)}条")
     for parm in dic.parm_list:
         # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
-        print("INSERT INTO PARM_DIC (KEY_NAME, OPT_CODE, OPT_NAME, SEQN, STS")
+        print("INSERT INTO PARM_DIC (KEY_NAME, OPT_CODE, OPT_NAME, SEQN, STS)")
         print(f"VALUES ('{dic.code}', '{parm.code}', '{parm.name}', {parm.seq}, '1');")
