@@ -3,7 +3,7 @@
 # @Software: PyCharm
 from lxml import etree
 from utils.convertCase import snake_to_camel
-from utils.ibatisOut import IBatisParam, out_insert_cdata_col, out_update_cdata_col, out_select_col
+from utils.ibatisOut import *
 
 parser = etree.XMLParser(remove_blank_text=True)  # 保留空白格式
 tree = etree.parse('tesIBatis/ibatis结果集.xml', parser)
@@ -29,3 +29,7 @@ out_insert_cdata_col(param_list)
 out_update_cdata_col(param_list)
 # 正常的查询列
 out_select_col(param_list)
+# 正常的插入列
+out_insert_col(param_list)
+# 正常的更新列
+out_update_col(param_list)
