@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictList>
+    <dict code="HUMAN_TYPE" name="人种类型" beginSeq="1">
+        <parm code="east" name="黄人"/>
+        <parm code="west" name="白人"/>
+    </dict>
+    <dict code="SEX" name="性别">
+        <parm code="1" name="男"/>
+        <parm code="0" name="女"/>
+    </dict>
+</dictList>
