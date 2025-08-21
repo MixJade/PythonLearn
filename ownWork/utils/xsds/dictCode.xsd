@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+    <!-- 根元素：dictionaries -->
+    <xsd:element name="dictList">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- 包含一个或多个dictionary元素 -->
+                <xsd:element name="dict" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <!-- 包含一个或多个parm元素 -->
+                            <xsd:element name="parm" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <!-- parm元素的属性 -->
+                                    <xsd:attribute name="code" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="name" type="xsd:string" use="required"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <!-- dictionary元素的属性 -->
+                        <xsd:attribute name="code" type="xsd:string" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        <xsd:attribute name="beginSeq" type="xsd:integer"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
