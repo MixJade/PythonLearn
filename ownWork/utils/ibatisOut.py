@@ -36,7 +36,7 @@ def out_update_cdata_col(param_list: list[IBatisParam]):
     print('</dynamic>')
 
 
-def out_insert_col(param_list: list[IBatisParam], out_spilt=False):
+def out_insert_col(param_list: list[IBatisParam], out_spilt=True):
     """输出插入列
     """
     if out_spilt:

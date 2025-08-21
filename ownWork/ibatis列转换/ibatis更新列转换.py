@@ -16,4 +16,4 @@ with open('tesIBatis/ibatis更新列.txt', 'r') as file:
         )
 
 # 更新列变插入列
-out_insert_col(param_list)
+out_insert_col(param_list, False)
