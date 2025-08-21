@@ -5,7 +5,7 @@ from lxml import etree
 from utils.outFieldSQL import SqlParam, out_db_sql
 from utils.convertCase import small_snake_to_camel
 
-with open(r"字段及对应注释.xml", 'rb') as xml_file:
+with open(r"字段及注释_小蛇形.xml", 'rb') as xml_file:
     xml_tree = etree.parse(xml_file)
 root = xml_tree.getroot()
 
