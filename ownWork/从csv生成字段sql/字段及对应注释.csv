@@ -1,3 +1,0 @@
-NAME,COMMENT,LENGTH
-stu_name,学生名称,VARCHAR2(16)
-stu_sex,学生性别,VARCHAR2(2)

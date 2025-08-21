@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tableList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="../utils/xsds/fieldSQL.xsd">
+    <!-- 可以同时放多张表-->
+    <table code="STUDENT_INF" name="学生表">
+        <field code="stu_name" name="学生名称" length="VARCHAR2(16)"/>
+        <field code="stu_sex" name="学生性别" length="VARCHAR2(2)"/>
+    </table>
+</tableList>

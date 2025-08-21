@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+    <xsd:element name="tableList">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- 包含一个或多个table元素 -->
+                <xsd:element name="table" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <!-- 包含一个或多个field元素 -->
+                            <xsd:element name="field" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:attribute name="code" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="name" type="xsd:string" use="required"/>
+                                    <xsd:attribute name="length" type="xsd:string" use="required"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <!-- table元素的属性 -->
+                        <xsd:attribute name="code" type="xsd:string" use="required"/>
+                        <xsd:attribute name="name" type="xsd:string" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
