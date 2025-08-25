@@ -23,7 +23,7 @@ for dict1 in root.xpath('//dict'):
     # 读取字典下的参数列表
     dic_param_list: list[DicParam] = []
     for index, parm in enumerate(dict1.xpath('./parm')):
-        dic_param_list.append(DicParam(seq=index + begin_seq, code=parm.get('code'), name=parm.get('code')))
+        dic_param_list.append(DicParam(seq=index + begin_seq, code=parm.get('code'), name=parm.get('name')))
     dic_list.append(DicMain(code=dic_code, name=dic_name, is_new=is_new, parm_list=dic_param_list))
 
 # 探查
