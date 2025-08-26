@@ -19,7 +19,7 @@ for table in root.xpath('//table'):
         if '_' in field_code:
             # 有下划线说明是小蛇形
             sql_param_list.append(SqlParam(
-                java_name=small_snake_to_camel(field_code),
+                java_name=small_snake_to_camel(field_code.lower()),
                 comment=field.get('name'),
                 sql_field=field_code.upper(),
                 type_len=field.get('length')

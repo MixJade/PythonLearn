@@ -2,10 +2,10 @@
 <tableList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:noNamespaceSchemaLocation="../utils/xsds/fieldSQL.xsd">
     <!-- 可以同时放多张表-->
-    <!-- field.code属性可以是小蛇形，也可以是小驼峰-->
+    <!-- field.code属性可以是小蛇形\大蛇形，也可以是小驼峰-->
     <table code="STUDENT_INF" name="学生表">
         <field code="stuId" name="学生主键" length="VARCHAR2(32)"/>
         <field code="stu_name" name="学生名称" length="VARCHAR2(16)"/>
-        <field code="stu_sex" name="学生性别" length="VARCHAR2(2)"/>
+        <field code="STU_SEX" name="学生性别" length="VARCHAR2(2)"/>
     </table>
 </tableList>
