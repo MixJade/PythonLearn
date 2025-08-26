@@ -5,17 +5,16 @@ from lxml import etree
 
 
 def generate_xml_with_xsd():
-    # 定义命名空间
-    ns = {
-        'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-        'noNamespaceSchemaLocation': '../../../ownWork/utils/xsds/fieldSQL.xsd'  # 自定义命名空间
+    # 定义xsi命名空间URI
+    xsi_ns = "http://www.w3.org/2001/XMLSchema-instance"
+    ns_map = {
+        'xsi': xsi_ns  # 注册xsi前缀
     }
-
-    # 创建根元素，并指定XSD引用
-    root = etree.Element(
-        'tableList',  # 带命名空间的根元素
-        nsmap=ns,  # 注册命名空间
-    )
+    # 创建根元素时不直接设置命名空间属性
+    root = etree.Element('tableList', nsmap=ns_map)
+    # QName会自动处理命名空间与前缀的映射
+    xsi_attr = etree.QName(xsi_ns, 'noNamespaceSchemaLocation')
+    root.set(xsi_attr, '../../../ownWork/utils/xsds/fieldSQL.xsd')
 
     # 创建子元素时设置属性
     table1 = etree.SubElement(
