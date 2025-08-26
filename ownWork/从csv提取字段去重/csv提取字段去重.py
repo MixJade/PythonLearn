@@ -3,6 +3,7 @@
 # @Software: PyCharm
 import pandas as pd
 from utils.convertCase import camel_to_snake
+from utils.genFieldXml import *
 
 df = pd.read_csv('input/有重复描述的字段.csv')
 df = df[['cate', 'dict', 'field', 'comment']]
@@ -19,26 +20,19 @@ df_agg3 = df_unique2.groupby('field').agg({
 
 # 按分类排序
 df_agg3_sorted = df_agg3.sort_values('field').sort_values('dict')
-# 确定以上的没问题之后，输出
-for index, row in df_agg3_sorted.iterrows():
-    print(f"""
-    /**
-     * {row["comment"]}
-     * - {row["cate"]}
-     * - {row["dict"]}
-     */
-    private String {row["field"]};""")
-
-# 生成添加字段的csv
-print("\n" + ("=" * 100) + "\n")
 # 添加一个新列
 df_agg3_sorted['COLUMN_NAME'] = df_agg3_sorted['field'].apply(camel_to_snake)
 
-# 临时重命名并导出
-df_agg3_sorted[['COLUMN_NAME', 'comment', 'cate', 'dict']].to_csv(
-    '生成的字段.csv',
-    index=False,
-    encoding='utf-8-sig'
-)
 
-print("CSV 文件已生成！")
+"""生成字段的xml文件
+"""
+field_param_list: list[FieldParam] = []
+for index, row in df_agg3_sorted.iterrows():
+    # 添加字段内容
+    field_param_list.append(FieldParam(
+        code=row['COLUMN_NAME'],
+        name=row['comment'],
+        length=""  # 目前没有长度
+    ))
+
+gen_field_xml("../xml参照旧表字段/待新增的字段.xml", "STUDENT_INF", "学生表", field_param_list)

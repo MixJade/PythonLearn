@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tableList>
+    <table code="TABLE_ONE" name="参照表1">
+        <field code="APPLY_CONDITION" length="VARCHAR2(20)" name=""/>
+        <field code="OTHER_CONDITION" length="VARCHAR2(1500)" name=""/>
+        <field code="LIVE_START_CONDITION" length="VARCHAR2(200)" name=""/>
+        <field code="LIVE_START" length="VARCHAR2(255)" name=""/>
+        <field code="LIVE_FREQ" length="VARCHAR2(50)" name=""/>
+        <field code="LIVE_ITEM" length="VARCHAR2(50)" name=""/>
+        <field code="LIVE_AMT" length="VARCHAR2(50)" name=""/>
+    </table>
+    <table code="TABLE_ONE" name="参照表2">
+        <field code="B_LIVE_END_YEAR" length="VARCHAR2(20)" name=""/>
+        <field code="B_LIVE_START_YEAR" length="VARCHAR2(10)" name=""/>
+        <field code="OTHER_CONDITION" length="VARCHAR2(1000)" name=""/>
+    </table>
+</tableList>

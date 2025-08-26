@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tableList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ownWork/utils/xsds/fieldSQL.xsd">
+  <table code="STUDENT_INF" name="学生表">
+    <field code="APPLY_CONDITION" name="申请条件" length=""/>
+    <field code="OTHER_CONDITION" name="其他附加申请条件" length=""/>
+    <field code="B_LIVE_END_YEAR" name="自定义终止年份" length=""/>
+    <field code="B_LIVE_START_YEAR" name="自定义起始年份" length=""/>
+    <field code="B_LIVE_TIME_FLG" name="分配起始时间标识" length=""/>
+    <field code="LIVE_AMT" name="固定分配金额" length=""/>
+    <field code="LIVE_FREQ" name="分配频率" length=""/>
+    <field code="LIVE_START" name="分配起始时间" length=""/>
+    <field code="LIVE_START_CONDITION" name="分配起始条件" length=""/>
+  </table>
+</tableList>
