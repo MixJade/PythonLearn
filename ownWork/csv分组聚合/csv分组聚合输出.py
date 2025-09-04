@@ -19,7 +19,7 @@ for group in grouped_list:
         group_name = row["项目简称命名规则"]
         content_1.append(f"'{row['系列编号']}'")
         content_2.append(row["系列名称"])
-    print(f"-- {'、 '.join(content_2)}")
+    print(f"-- 预计{len(content_1)}条 {'、 '.join(content_2)}")
     # 按长度判定是用等于还是用IN
     end_where: str
     if len(content_1) > 1:
