@@ -4,7 +4,7 @@
 import pandas as pd
 
 # 读取CSV文件(如果读取失败，请将对应csv文件转为utf8格式)
-df2 = pd.read_csv('系列对应名称.csv')
+df2 = pd.read_csv(r"系列对应名称.csv")
 df2 = df2[['系列编号', '系列名称', '项目简称命名规则']]
 
 # 分组输出
