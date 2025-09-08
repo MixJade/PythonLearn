@@ -66,7 +66,9 @@ def out_insert_cdata_col(param_list: list[IBatisParam]):
     """输出插入列(CDATA格式)
     """
     out_spilt_line("插入列(CDATA格式)")
+    print('<![CDATA[')
     out_insert_col(param_list, False)
+    print(']]>')
 
 
 def out_result_map(param_list: list[IBatisParam]):
