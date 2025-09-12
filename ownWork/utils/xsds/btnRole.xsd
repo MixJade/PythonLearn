@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified">
+    <!-- 根元素menuList -->
+    <xsd:element name="menuList">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- 包含一个或多个menu元素 -->
+                <xsd:element name="menu" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <!-- 包含一个或多个btn元素 -->
+                            <xsd:element name="btn" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <!-- 包含一个或多个role元素 -->
+                                    <xsd:sequence>
+                                        <xsd:element name="role" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <!-- role元素的属性 -->
+                                                <xsd:attribute name="roleNo" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="roleName" type="xsd:string" use="required"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                    <!-- btn元素的属性 -->
+                                    <xsd:attribute name="btnName" type="xsd:string" use="required"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <!-- menu元素的属性 -->
+                        <xsd:attribute name="menuNo" type="xsd:string" use="required"/>
+                        <xsd:attribute name="desc" type="xsd:string" use="required"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,22 @@
+<menuList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../utils/xsds/btnRole.xsd">
+    <!-- 设定按钮所属菜单-->
+    <menu menuNo="A0123" desc="试做雷神">
+        <!-- 设定按钮名称-->
+        <btn btnName="便宜按钮">
+            <!-- 设定拥有按钮的角色-->
+            <role roleNo="SH007" roleName="高级特工"/>
+            <role roleNo="SH008" roleName="便宜特工"/>
+        </btn>
+        <!-- 可以有多个按钮-->
+        <btn btnName="高级按钮">
+            <role roleNo="SH007" roleName="高级特工"/>
+        </btn>
+    </menu>
+    <!-- 设定按钮所属菜单-->
+    <menu menuNo="A0121" desc="试用古华">
+        <btn btnName="古华按钮">
+            <role roleNo="SH008" roleName="便宜特工"/>
+        </btn>
+    </menu>
+</menuList>
