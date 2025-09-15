@@ -21,7 +21,7 @@ def find_matching_lines(file_path: str, target1: str, target2: str):
             if target1 in prev_line and target2 in current_line:
                 matching_line_num += 1
                 print(f"--- 第 {prev_line_number} 行符合条件 ---")
-                print(f"    -> {prev_line}")
+                print(f"    -> {prev_line}" + f"    -> {current_line}")
 
             # 更新上一行和行号，准备下一次循环
             prev_line = current_line
