@@ -9,10 +9,9 @@ with open(r"字段及注释.xml", 'rb') as xml_file:
     xml_tree = etree.parse(xml_file)
 root = xml_tree.getroot()
 
-# 遍历每个分组并填入
-sql_param_list: list[SqlParam] = []
 # 遍历所有表配置
 for table in root.xpath('//table'):
+    sql_param_list: list[SqlParam] = []
     # 遍历当前表字段
     for field in table.xpath('./field'):
         field_code = field.get('code')
