@@ -16,8 +16,8 @@ for table in root.xpath('//table'):
     # 遍历当前表字段
     for field in table.xpath('./field'):
         field_code = field.get('code')
-        if '_' in field_code:
-            # 有下划线说明是小蛇形
+        if ('_' in field_code) or (field_code[0].isupper()):
+            # 有下划线或第一个字符是大写，说明是小蛇形
             sql_param_list.append(SqlParam(
                 java_name=small_snake_to_camel(field_code.lower()),
                 comment=field.get('name'),

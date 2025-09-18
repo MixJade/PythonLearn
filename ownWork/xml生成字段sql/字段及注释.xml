@@ -7,5 +7,7 @@
         <field code="stuId" name="学生主键" length="VARCHAR2(32)"/>
         <field code="stu_name" name="学生名称" length="VARCHAR2(16)"/>
         <field code="STU_SEX" name="学生性别" length="VARCHAR2(2)"/>
+        <field code="MONEY" name="身上余额" length="VARCHAR2(12)"/>
+        <field code="telephone" name="联系电话" length="VARCHAR2(15)"/>
     </table>
 </tableList>
