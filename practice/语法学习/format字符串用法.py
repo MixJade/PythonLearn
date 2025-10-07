@@ -43,3 +43,7 @@ print('\n6.以及自动填充算式')
 d, e = 3, 5
 print(f"{d + e = }")
 print(f"{bool(e) = }")
+
+# 7.输出大括号
+print('\n7.输出大括号')
+print(f"这是大括号{{{bool(e) = }，以及另一个括号}}")
