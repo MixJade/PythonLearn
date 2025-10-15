@@ -3,7 +3,7 @@
 # @Software: PyCharm
 import csv
 
-from school.数学建模.间奏.前置1站点对象 import Station
+from 数学建模.间奏.前置1站点对象 import Station
 
 
 class LineInfo:

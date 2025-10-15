@@ -1,9 +1,9 @@
 # coding=utf-8
 # @Time    : 2021/6/13 12:27
 # @Software: PyCharm
-from school.数学建模.间奏.前置1站点对象 import Station
-from school.数学建模.间奏.间奏2路线对象读取 import load_from_csv
-from school.数学建模.间奏.间奏3传送点对象 import TransmitDot
+from 数学建模.间奏.前置1站点对象 import Station
+from 数学建模.间奏.间奏2路线对象读取 import load_from_csv
+from 数学建模.间奏.间奏3传送点对象 import TransmitDot
 
 '''第二题：铲车调度方案
 由于运输车的路线已经确定，故应让铲车等运输车。

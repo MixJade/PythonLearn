@@ -3,8 +3,8 @@
 # @Software: PyCharm
 import math
 
-from school.数学建模.间奏.前置1站点对象 import get_station_list
-from school.数学建模.间奏.间奏1路线对象保存 import LineInfo, save_to_csv
+from 数学建模.间奏.前置1站点对象 import get_station_list
+from 数学建模.间奏.间奏1路线对象保存 import LineInfo, save_to_csv
 
 '''第一题：运输车调度方案
 由于每个垃圾站的垃圾量和坐标不变，所以重载费用(按"吨+公里"算钱)是不变的；

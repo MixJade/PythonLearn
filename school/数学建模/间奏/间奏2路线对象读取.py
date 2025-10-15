@@ -4,8 +4,8 @@
 import csv
 import re
 
-from school.数学建模.间奏.前置1站点对象 import Station
-from school.数学建模.间奏.间奏1路线对象保存 import LineInfo
+from 数学建模.间奏.前置1站点对象 import Station
+from 数学建模.间奏.间奏1路线对象保存 import LineInfo
 
 
 def load_from_csv(filename: str) -> list[LineInfo]:

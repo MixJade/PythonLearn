@@ -1,7 +1,7 @@
 # coding=utf-8
 # @Time    : 2021/6/13 12:27
 # @Software: PyCharm
-from school.数学建模.间奏.间奏1路线对象保存 import LineInfo
+from 数学建模.间奏.间奏1路线对象保存 import LineInfo
 
 # 铲车速度的倒数(分钟),本来是v=40公里/60分钟,倒数：1/v=60分钟/40公里
 CAT_SPEED_RECIPROCAL: float = 60 / 40

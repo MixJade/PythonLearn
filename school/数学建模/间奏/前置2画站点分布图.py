@@ -3,7 +3,7 @@
 # @Software: PyCharm
 import matplotlib.pyplot as plt
 
-from school.数学建模.间奏.前置1站点对象 import get_station_list
+from 数学建模.间奏.前置1站点对象 import get_station_list
 
 station_data_list = get_station_list()
 # 获取每个点的横坐标和纵坐标
