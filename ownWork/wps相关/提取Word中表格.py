@@ -24,9 +24,6 @@ def read_target_tables(word_path):
             # 遍历表格的每一行并输出
             for row_idx, row in enumerate(table.rows, 1):
                 row_data = [cell.text.strip() for cell in row.cells]
-                # 输出第一行
-                if row_idx == 1:
-                    print(f"行 {row_idx}: {row_data}")
                 # 检查"是否必填"列的值是否为"条件必填"（可根据实际文本调整判断条件）
                 if row_data[required_col_idx] == "条件必填":
                     print(f"行 {row_idx}: {row_data}")
