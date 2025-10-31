@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeConfig>
+    <fileList>
+        <file path="../比对两个csv差异/新数据.csv"/>
+        <file path="../比对两个csv差异/旧数据.csv"/>
+    </fileList>
+    <changeList>
+        <change old="骸底" new="苔穴"/>
+        <change new="骸骨" old="骨髓"/>
+    </changeList>
+</changeConfig>
