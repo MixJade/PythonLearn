@@ -59,3 +59,9 @@ def snake_to_big_camel(name: str) -> str:
     res1 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
     words = [word.capitalize() for word in res1.split('_')]
     return ''.join(words)
+
+
+def out_spilt_line(act: str):
+    """输出分割线
+    """
+    print(f"\n\n{'=' * 36}开始生成【{act}】{'=' * 36}\n")

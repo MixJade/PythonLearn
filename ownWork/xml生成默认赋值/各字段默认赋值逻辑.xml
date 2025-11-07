@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fieldList>
+    <field desc="是否毫猫" code="goodCat">
+        <!-- desc属性用于描述：条件+结果-->
+        <!-- value属性为赋予的数值-->
+        <!-- 当type为0，即为默认赋值-->
+        <check desc="默认：是" type="0" value="1"/>
+    </field>
+    <field desc="体重(KG)" code="weight">
+        <check desc="默认：3kg" type="0" value="3"/>
+        <!-- 当type为1，筛选条件1，且当条件满足时，覆盖默认赋值-->
+        <check desc="橘猫：6kg" type="1" c1="orange" value="6"/>
+    </field>
+    <field desc="是否哈气" code="isHa">
+        <!-- 当type为2，筛选条件2-->
+        <check desc="平头猫不哈" type="2" c2="平头" value="0"/>
+        <check desc="圆头也不哈" type="2" c2="圆头" value="0"/>
+        <!-- 当type为1+2，筛选条件1+条件2-->
+        <check desc="圆头+橘猫会哈气" type="1+2" c1="orange" c2="圆头" value="1"/>
+    </field>
+    <field desc="身价" code="money">
+        <!-- 当type为3，筛选条件3-->
+        <check desc="高级别的基米：3000" type="3" c3="lv3" value="3000.00"/>
+        <check desc="中级别的基米：2000" type="3" c3="lv2" value="2000.00"/>
+        <check desc="低级别的基米：1000" type="3" c3="lv1" value="1000.00"/>
+        <check desc="低级别+圆头+橘猫：0" type="1+2+3" c1="orange" c2="圆头" c3="lv1" value="0.00"/>
+    </field>
+</fieldList>
