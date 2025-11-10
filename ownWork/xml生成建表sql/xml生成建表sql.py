@@ -3,7 +3,7 @@
 # @Software: PyCharm
 from lxml import etree
 
-from utils.convertCase import camel_to_snake, snake_to_camel
+from utils.convertCase import camel_to_snake, snake_to_camel, out_spilt_line
 from utils.outFieldSQL import *
 
 with open(r"字段及注释_建表.xml", 'rb') as xml_file:
@@ -32,7 +32,7 @@ for table in root.xpath('//table'):
                 sql_field=camel_to_snake(field.get('code')),
                 type_len=field.get('length')
             ))
-    print(f"\n\n{'=' * 36}开始生成【{table.get('name')}】{'=' * 36}\n")
+    out_spilt_line(table.get('name'))
     # 生成建表SQL
     out_create_table_sql(sql_param_list, table.get('code'), table.get('name'))
     # 解开以下语句就是追加字段SQL

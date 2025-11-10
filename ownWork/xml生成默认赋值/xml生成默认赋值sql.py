@@ -53,7 +53,10 @@ for field in root.xpath('//field'):
         if con3_ is None:
             con3_ = ""
         # 检测规则设置的是否正确
-
+        if (("1" in type_) and (con1_ == "")) or (("2" in type_) and (con2_ == "")) or (
+                ("3" in type_) and (con3_ == "")):
+            # 不正确就阻断执行
+            raise SystemExit(f"规则【{field.get('desc')} {desc_}】不正确：type未与条件对应")
         # 存入各个规则
         value_ = check.get('value')
         check_list.append(CheckDo(type_, desc_, con1_, con2_, con3_, value_))
