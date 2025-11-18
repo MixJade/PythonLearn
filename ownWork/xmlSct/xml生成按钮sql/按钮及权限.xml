@@ -1,5 +1,5 @@
 <menuList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="../utils/xsds/btnRole.xsd">
+          xsi:noNamespaceSchemaLocation="../../utils/xsds/btnRole.xsd">
     <!-- 设定按钮所属菜单-->
     <menu menuNo="A0123" desc="试做雷神">
         <!-- 设定按钮名称-->

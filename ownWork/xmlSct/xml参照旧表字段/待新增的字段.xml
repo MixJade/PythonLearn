@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tableList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ownWork/utils/xsds/fieldSQL.xsd">
+<tableList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../utils/xsds/fieldSQL.xsd">
   <table code="STUDENT_INF" name="学生表">
     <field code="APPLY_CONDITION" name="申请条件" length=""/>
     <field code="OTHER_CONDITION" name="其他附加申请条件" length=""/>

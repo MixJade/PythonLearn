@@ -6,7 +6,7 @@ from utils.convertCase import snake_to_camel
 from utils.ibatisOut import *
 
 parser = etree.XMLParser(remove_blank_text=True)  # 保留空白格式
-tree = etree.parse('tesIBatis/ibatis结果集.xml', parser)
+tree = etree.parse('ibatis结果集.xml', parser)
 root = tree.getroot()
 
 # 查找所有 result 和 id 标签

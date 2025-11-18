@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<changeConfig>
+    <fileList>
+        <file path="../../csvSct/比对两个csv差异/新数据.csv"/>
+        <file path="../../csvSct/比对两个csv差异/旧数据.csv"/>
+    </fileList>
+    <changeList>
+        <change old="骸底买" new="骸底镇买"/>
+        <change old="骸底提交" new="骸底镇提交"/>
+        <change old="骸骨" new="髓骨"/>
+    </changeList>
+</changeConfig>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dictList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="../utils/xsds/dictCode.xsd">
+          xsi:noNamespaceSchemaLocation="../../utils/xsds/dictCode.xsd">
     <!-- beginSeq不为0，则是追加字典，新的字典项从beginSeq开始-->
     <dict code="HUMAN_TYPE" name="人种类型" beginSeq="1">
         <parm code="EAST" name="黄人"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tableList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="../utils/xsds/fieldSQL.xsd">
+           xsi:noNamespaceSchemaLocation="../../utils/xsds/fieldSQL.xsd">
     <!-- 可以同时放多张表-->
     <!-- field.code属性可以是小蛇形\大蛇形，也可以是小驼峰-->
     <table code="STUDENT_INF" name="学生表">

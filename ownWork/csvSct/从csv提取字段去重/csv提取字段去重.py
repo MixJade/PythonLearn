@@ -35,4 +35,4 @@ for index, row in df_agg3_sorted.iterrows():
         length=""  # 目前没有长度
     ))
 
-gen_field_xml("../xml参照旧表字段/待新增的字段.xml", "STUDENT_INF", "学生表", field_param_list)
+gen_field_xml("../../xmlDeal/xml参照旧表字段/待新增的字段.xml", "STUDENT_INF", "学生表", field_param_list)

@@ -5,7 +5,7 @@ from utils.ibatisOut import IBatisParam, out_insert_col
 
 param_list: list[IBatisParam] = []
 
-with open('tesIBatis/ibatis更新列.txt', 'r') as file:
+with open('ibatis更新列.txt', 'r') as file:
     for line in file:
         myField: list[str] = line.split("=")
         if len(myField) != 2:

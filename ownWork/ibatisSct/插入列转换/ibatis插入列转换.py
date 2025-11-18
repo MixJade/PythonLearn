@@ -5,7 +5,7 @@ from utils.convertCase import snake_to_camel
 from utils.ibatisOut import IBatisParam, out_update_col, out_result_map
 
 param_list: list[IBatisParam] = []
-with open('tesIBatis/ibatis插入列.txt', 'r') as file:
+with open('ibatis插入列.txt', 'r') as file:
     for line in file:
         if line.endswith(",\n"):
             line = line[:-2]
