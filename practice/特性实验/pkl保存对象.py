@@ -5,6 +5,11 @@ import json
 import pickle
 from pathlib import Path
 
+"""
+相比JSON只能序列化基础数据类型（字符串、数字、列表、字典），
+pickle可以序列化几乎所有Python对象，包括自定义类的实例、函数、集合、甚至是带有循环引用的对象
+"""
+
 
 def save_list_json(data_list, file_path):
     """使用JSON格式保存列表"""
