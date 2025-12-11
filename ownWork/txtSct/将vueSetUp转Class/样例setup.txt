@@ -1,0 +1,36 @@
+formSetUp = setup(() => {
+const modalVar: ModalVar = reactive({ visible: false, destroy: true }); // 模态框变量
+const scroll = ref<any>({ x: 0, y: 0 }); //列表滚动参数
+const proxy = getCurrentInstance()?.proxy as this; // 应用上下文
+const bodyStyle = { height: "auto !important", minHeight: "250px" }; // 模态框body样式
+const aaa = ref<any>();
+const form = ref({
+  bbb: "",
+  ccc: "",
+});
+const columns: any[] = reactive([
+  { aaa: "序号", bbb: "index" },
+  { aaa: "编号", bbb: "code" },
+]);
+
+const columns1: any = reactive({aaa,bbb});
+const columns2 = reactive({aaa,bbb});
+
+const handleClose = (cesData?: any) => {
+  if (cesData) {
+    formApi.value.setValue("ddd", cesData.ddd);
+    formApi.value.setValue("eee", cesData.eee);
+  }
+  implModalVar.visible = false;
+  implModalVar.destroy = true;
+};
+const cancel = () => {
+  aaa.value.visible = false;
+  proxy.$emit("closeModal");
+};
+return {
+  cancel,
+  modalVar,
+  handleClose,
+};
+});
