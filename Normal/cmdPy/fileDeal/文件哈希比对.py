@@ -17,12 +17,7 @@ def calculate_file_hash(file_path):
         return None
 
     # 初始化哈希对象
-    try:
-        hash_obj = hashlib.new("md5")
-    except ValueError:
-        print(f"错误：不支持的哈希算法")
-        return None
-
+    hash_obj = hashlib.new("md5")
     # 分块读取文件并更新哈希值（支持大文件）
     try:
         with open(file_path, "rb") as f:
