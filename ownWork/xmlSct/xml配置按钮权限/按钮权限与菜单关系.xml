@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<menusList>
+    <menu name="菜单名称" code="7788648">
+        <btn code="xxx_A02_001"/>
+        <btn code="xxx_A02_002"/>
+        <btn code="xxx_A02_003"/>
+        <btn code="xxx_A02_004"/>
+    </menu>
+    <menu name="菜单名称2" code="7788649">
+        <btn code="xxx_A03_001"/>
+        <btn code="xxx_A03_002"/>
+        <btn code="xxx_A03_003"/>
+    </menu>
+</menusList>
