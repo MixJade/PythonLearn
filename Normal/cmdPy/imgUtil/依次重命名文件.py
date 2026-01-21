@@ -34,7 +34,7 @@ def alphanum_key(s: str) -> list[int]:
 
 
 def rename_all_file(file_path: str, begin_num: int) -> None:
-    """批量重命名文件夹下所有文件
+    """批量重命名文件夹下所有文件(名称排序)
 
     :param file_path: 目标文件夹下的某个文件
     :param begin_num: 起始序列
@@ -82,7 +82,7 @@ if __name__ == "__main__":
         i = 1
     # 选择方案
     print("方案1:依次重命名文件,\n"
-          "方案2:重命名文件夹下所有文件,\n"
+          "方案2:重命名文件夹下所有文件(名称排序),\n"
           "方案3:重命名文件夹下所有文件(修改时间排序)\n\n")
     plan_str = input("请选择你的方案:")
     # 方案2:重命名文件夹下所有文件
