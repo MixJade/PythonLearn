@@ -18,6 +18,9 @@ def calculate_file_hash(file_path):
 
     # 初始化哈希对象
     hash_obj = hashlib.new("md5")
+    # 快速获取文件总字节长度
+    total_bytes = os.path.getsize(file_path)
+    print(f"文件总字节长度：{total_bytes} 字节")
     # 分块读取文件并更新哈希值（支持大文件）
     try:
         with open(file_path, "rb") as f:
