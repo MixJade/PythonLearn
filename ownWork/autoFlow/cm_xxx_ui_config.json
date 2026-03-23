@@ -1,0 +1,10 @@
+{
+  "local_dir_path": "D:\\proj\\frontend\\xxx-ui\\xxx-ui.zip",
+  "local_dir_name": "xxx-ui",
+  "remote_host": "198.101.1.222",
+  "remote_port": 22,
+  "remote_user": "appuser",
+  "remote_password": "my_password",
+  "remote_ssh_key": null,
+  "remote_target_dir": "/data/vue_dir"
+}
