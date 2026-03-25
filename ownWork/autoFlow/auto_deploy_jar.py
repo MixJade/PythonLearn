@@ -124,18 +124,19 @@ class JavaProjectDeployer:
             return True
 
         try:
-            for idx, cmd in enumerate(self.execute_commands, 1):
-                print(f"\n执行第 {idx} 条命令: ")
-                success, stdout, stderr = self.execute_remote_command(cmd)
-                if success:
-                    if stdout:
-                        print(f"命令执行结果：\n{stdout.strip()}")
-                    else:
-                        print("命令执行成功（无输出）")
+            # 把所有命令用 \n 拼接成 1 条完整命令
+            full_command = "\n".join(self.execute_commands)
+            # 一次执行所有命令
+            success, stdout, stderr = self.execute_remote_command(full_command)
+            if success:
+                if stdout:
+                    print(f"✅ 所有命令执行完成，输出：\n{stdout.strip()}")
                 else:
-                    print(f"❌ 第 {idx} 条命令执行失败: {stderr}")
-                    return False
-            return True
+                    print("✅ 所有命令执行成功（无输出）")
+                return True
+            else:
+                print(f"❌ 命令执行失败: {stderr}")
+                return False
         except Exception as e:
             print(f"❌ 执行待执行命令异常: {str(e)}")
             return False

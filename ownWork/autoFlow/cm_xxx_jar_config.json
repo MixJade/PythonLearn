@@ -8,6 +8,7 @@
   "remote_target_dir": "/data/jar_dir",
   "jar_file_name": "ms-xxx-2.5.0-SNAPSHOT.jar",
   "execute_commands": [
-    "nohup java -jar -server -XX:+HeapDumpOnOutOfMemoryError -Xms256M -Xmx256M /data/jar_dir/ms-xxx-2.5.0-SNAPSHOT.jar --spring.profiles.active=xxx-dev  >>/dev/null 2>&1 &"
+    "cd /data/jar_dir",
+    "nohup java -jar -server -XX:+HeapDumpOnOutOfMemoryError -Xms256M -Xmx256M ms-xxx-2.5.0-SNAPSHOT.jar --spring.profiles.active=xxx-dev  >>/dev/null 2>&1 &"
   ]
 }
