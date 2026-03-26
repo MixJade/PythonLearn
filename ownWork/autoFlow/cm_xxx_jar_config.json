@@ -1,14 +1,16 @@
 {
-  "local_jar_path": "D:\\proj\\backend\\ms-xxx-center\\target\\ms-xxx-2.5.0-SNAPSHOT.jar",
   "remote_host": "198.101.1.222",
   "remote_port": 22,
   "remote_user": "appuser",
   "remote_password": "my_password",
   "remote_ssh_key": null,
-  "remote_target_dir": "/data/jar_dir",
-  "jar_file_name": "ms-xxx-2.5.0-SNAPSHOT.jar",
-  "execute_commands": [
+  "pre_upload_commands": [
+    "PID=$(ps -ef | grep java | grep ms-xxx-2.5.0-SNAPSHOT.jar | grep -v grep | awk '{print $2}') && [ -n \"$PID\" ] && kill -9 $PID || true"
+  ],
+  "local_jar_path": "D:\\proj\\backend\\ms-xxx-center\\target\\ms-xxx-2.5.0-SNAPSHOT.jar",
+  "remote_jar_path": "/data/jar_dir/ms-xxx-2.5.0-SNAPSHOT.jar",
+  "post_upload_commands": [
     "cd /data/jar_dir",
-    "nohup java -jar -server -XX:+HeapDumpOnOutOfMemoryError -Xms256M -Xmx256M ms-xxx-2.5.0-SNAPSHOT.jar --spring.profiles.active=xxx-dev  >>/dev/null 2>&1 &"
+    "nohup java -jar -server -XX:+HeapDumpOnOutOfMemoryError -Xms256M -Xmx256M ms-xxx-2.5.0-SNAPSHOT.jar --spring.profiles.active=xxx-dev >>/dev/null 2>&1 &"
   ]
 }
