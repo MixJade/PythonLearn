@@ -165,16 +165,14 @@ def load_config(json_path):
         sys.exit(1)
     try:
         with open(json_path, 'r', encoding='utf-8') as f:
-            config = json.load(f)
+            config_load = json.load(f)
         # 校验必填参数
-        required = ["local_jar_path", "remote_jar_path", "pre_upload_commands", "post_upload_commands", "remote_host",
-                    "remote_port",
-                    "remote_user"]
+        required = ["local_jar_path", "remote_jar_path", "pre_upload_commands", "post_upload_commands", "remote"]
         for key in required:
-            if key not in config:
+            if key not in config_load:
                 print(f"❌ 配置文件缺少必填项: {key}")
                 sys.exit(1)
-        return config
+        return config_load
     except json.JSONDecodeError as e:
         print(f"❌ 配置文件格式错误: {str(e)}")
         sys.exit(1)
@@ -182,21 +180,21 @@ def load_config(json_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("❌ 使用方式：python auto_deploy_jar.py <配置文件路径>")
-        print("示例：python auto_deploy_jar.py deploy_config.json")
+        print("❌ 使用示例：python auto_deploy_jar.py cm_xxx_jar_config.json")
         sys.exit(1)
 
     # 加载配置
     config = load_config(sys.argv[1])
+    remote_config = config["remote"]
 
     # 创建部署器并执行部署
     deployer = JarDeployer(
         # 远程服务器配置
-        remote_host=config["remote_host"],
-        remote_port=config["remote_port"],
-        remote_user=config["remote_user"],
-        remote_password=config.get("remote_password"),
-        remote_ssh_key=config.get("remote_ssh_key"),
+        remote_host=remote_config["remote_host"],
+        remote_port=remote_config["remote_port"],
+        remote_user=remote_config["remote_user"],
+        remote_password=remote_config.get("remote_password"),
+        remote_ssh_key=remote_config.get("remote_ssh_key"),
         # 上传前命令
         pre_upload_commands=config.get("pre_upload_commands", []),
         # 上传文件路径

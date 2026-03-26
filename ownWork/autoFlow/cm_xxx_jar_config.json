@@ -1,9 +1,11 @@
 {
-  "remote_host": "198.101.1.222",
-  "remote_port": 22,
-  "remote_user": "appuser",
-  "remote_password": "my_password",
-  "remote_ssh_key": null,
+  "remote": {
+    "host": "198.101.1.222",
+    "port": 22,
+    "user": "appuser",
+    "password": "my_password",
+    "ssh_key": null
+  },
   "pre_upload_commands": [
     "PID=$(ps -ef | grep java | grep ms-xxx-2.5.0-SNAPSHOT.jar | grep -v grep | awk '{print $2}') && [ -n \"$PID\" ] && kill -9 $PID || true"
   ],

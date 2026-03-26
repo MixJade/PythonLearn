@@ -1,9 +1,11 @@
 {
-  "remote_host": "198.101.1.222",
-  "remote_port": 22,
-  "remote_user": "appuser",
-  "remote_password": "my_password",
-  "remote_ssh_key": null,
+  "remote": {
+    "host": "198.101.1.222",
+    "port": 22,
+    "user": "appuser",
+    "password": "my_password",
+    "ssh_key": null
+  },
   "pre_upload_commands": [
     "cd /data/vue_dir",
     "rm -rf xxx-ui.zip",
