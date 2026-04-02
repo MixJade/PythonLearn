@@ -49,12 +49,26 @@ def resize_image(img_path: str) -> None:
     print("转换完成")
 
 
+def scale_image_size(img_path: str, scale: float) -> tuple[int, int]:
+    """计算按比例压缩后的图片尺寸
+
+    :param img_path: 待转换尺寸的图片路径
+    :param scale: 压缩比例
+    """
+    # 读取文件宽高
+    img = Image.open(img_path)
+    width, height = img.size
+    print(f"图片宽高为:{width, height}")
+    # 按比例换算
+    return round(width * scale), round(height * scale)
+
+
 if __name__ == '__main__':
     # 目标宽高
     t_width, t_height = 1920, 1080
     print(f"目标宽高为:{t_width, t_height}")
     while True:
-        filename = input("输入图片路径(0退出/1重设宽高):")
+        filename = input("输入图片路径(0退出/1重设宽高/2等比压缩):")
         if filename == '0' or filename == '':
             break
         elif filename == '1':
@@ -76,6 +90,23 @@ if __name__ == '__main__':
                 except ValueError:
                     t_width, t_height = 1920, 1080
             print(f"目标宽高为:{t_width, t_height}")
+        elif filename == '2':
+            print("""=========================
+    输入压缩比例，如：0.25
+=========================""")
+            scale_str = input("请输入压缩比例:").strip()
+            try:
+                scale_i = float(scale_str)
+                if 0 < scale_i <= 1:
+                    print(f"    已设置等比压缩比例: {scale_i}")
+                    scale_img_path = input("    输入要压缩的图片路径:").strip().strip('"')
+                    t_width, t_height = scale_image_size(scale_img_path, scale_i)
+                    print(f"目标宽高为:{t_width, t_height}")
+                    resize_image(scale_img_path)
+                else:
+                    print("    比例必须在 0~1 之间")
+            except ValueError:
+                print("    输入格式错误，请输入数字（如0.5）")
         else:
             filename = filename.strip('"')  # 去除首尾可能存在的双引号
             resize_image(filename)
