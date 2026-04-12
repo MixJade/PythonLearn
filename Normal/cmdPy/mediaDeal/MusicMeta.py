@@ -70,9 +70,9 @@ def write_audio_metadata_with_ffmpeg(input_path, title, artist, album):
             text=True,
             encoding="utf-8"
         )
-        # 检查 FFmpeg 是否真的成功
+        # 检查 ffmpeg 是否真的成功
         if result.returncode != 0:
-            print(f"\n FFmpeg 写入失败！错误信息：")
+            print(f"\n ffmpeg 写入失败！错误信息：")
             print(result.stderr)
             if os.path.exists(temp_path):
                 os.remove(temp_path)
