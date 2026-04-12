@@ -8,6 +8,10 @@ from Crypto.Cipher import AES, ARC4
 # noinspection PyPackageRequirements
 from Crypto.Util.Padding import pad, unpad
 
+"""
+加密、解密工具
+"""
+
 
 def pad_key_iv_string(key_bytes: bytes, iv_bytes: bytes) -> tuple[bytes, bytes]:
     """处理输入的密钥、偏移量,

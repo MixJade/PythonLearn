@@ -1,5 +1,5 @@
 @echo off
 chcp 65001 >nul
 cd ../../fileDeal
-python BatchDeleteFiles.py
+python SeqRename.py
 pause

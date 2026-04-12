@@ -5,6 +5,10 @@ import os
 
 from PIL import Image
 
+"""
+批量转化webp
+"""
+
 
 def change_extensions(folder_path, end_suffix):
     """批量改后缀
@@ -46,6 +50,7 @@ def turn_webp(folder_path):
 
 if __name__ == '__main__':
     # 获取图片文件夹下所有图片
+    print("批量转化webp")
     file_path = input("输入目标文件夹下某个图片路径：").strip('"')
     # 获取文件路径
     dir_path = os.path.dirname(file_path)

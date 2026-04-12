@@ -3,6 +3,10 @@
 # @Software: PyCharm
 import chardet
 
+"""
+将ansi格式的文件转为utf8
+"""
+
 
 def see_file_chardet():
     """检查文件的编码

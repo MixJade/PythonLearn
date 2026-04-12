@@ -3,6 +3,10 @@
 # @Software: PyCharm
 from PIL import Image
 
+"""
+按指定坐标裁剪图片
+"""
+
 
 def cut_img(file_path: str, x1: int, y1: int, x2: int, y2: int) -> None:
     # 打开一张图片

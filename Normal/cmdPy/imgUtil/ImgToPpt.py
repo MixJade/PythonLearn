@@ -8,6 +8,10 @@ from PIL import Image
 from pptx import Presentation
 from pptx.util import Cm, Length
 
+"""
+将图片文件夹转为PPT
+"""
+
 
 def try_int(s: str) -> int | str:
     try:

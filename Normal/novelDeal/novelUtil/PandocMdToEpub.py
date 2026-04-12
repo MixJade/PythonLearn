@@ -4,6 +4,10 @@
 import os
 import subprocess
 
+"""
+pandoc转化md为epub
+"""
+
 
 def turn_md_epub(input_md: str) -> None:
     if input_md.endswith(".md"):

@@ -3,6 +3,10 @@
 # @Software: PyCharm
 from PIL import Image
 
+"""
+转换图片尺寸
+"""
+
 
 def resize_image(img_path: str) -> None:
     """转换图片尺寸,不合比例的会进行一定裁剪

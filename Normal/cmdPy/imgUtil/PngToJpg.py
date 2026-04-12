@@ -5,6 +5,10 @@ import os
 
 from PIL import Image
 
+"""
+将Png转为jpg
+"""
+
 filename = input("输入png文件路径:")
 filename = filename.strip('"')  # 去除首尾可能存在的双引号
 ext = os.path.splitext(filename)[1]

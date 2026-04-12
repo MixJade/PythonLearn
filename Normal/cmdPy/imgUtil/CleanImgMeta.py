@@ -2,7 +2,12 @@
 # @Time    : 2025/3/20 16:41
 # @Software: PyCharm
 import os
+
 from PIL import Image
+
+"""
+去除图片元数据
+"""
 
 
 def remove_metadata(input_path, output_path):

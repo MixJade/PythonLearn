@@ -7,7 +7,6 @@ import re
 """处理小说《蛊真人》
 """
 
-# 构建文件路径(桌面上的文件)
 input_file_path = r"C:\MyCode\selfTool\chat\chatFile\39007.txt"
 
 results = []
@@ -33,6 +32,7 @@ with open(input_file_path, "r", encoding='utf-8') as f:
             line = "　　" + line.strip(" ")
         results.append(line)
 
+# 构建文件路径(桌面上的文件)
 output_dir = os.path.join(os.path.expanduser("~"), "Desktop")
 md_name = f"蛊真人"
 output_file_path = os.path.join(output_dir, md_name + ".md")
