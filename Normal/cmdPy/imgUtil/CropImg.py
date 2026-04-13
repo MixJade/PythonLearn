@@ -19,6 +19,7 @@ def cut_img(file_path: str, x1: int, y1: int, x2: int, y2: int) -> None:
 
     # 保存裁切后的图片
     cropped_img.save(file_path)
+    print("- 裁剪成功")
 
 
 if __name__ == '__main__':

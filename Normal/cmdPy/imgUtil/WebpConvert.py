@@ -37,7 +37,7 @@ def change_extensions(folder_path, end_suffix):
             print(f"无法重命名 '{old_path}': {e}")
 
 
-def turn_webp(folder_path):
+def turn_webp_to_jpg(folder_path):
     """转换webp为jpg
     """
     for filename in os.listdir(folder_path):
@@ -46,6 +46,24 @@ def turn_webp(folder_path):
             img = Image.open(os.path.join(folder_path, filename)).convert("RGB")
             img.save(os.path.join(folder_path, filename[:-5] + '.jpg'), "jpeg")
             os.remove(os.path.join(folder_path, filename))  # 删除.webp文件
+
+
+def turn_img_to_webp(folder_path):
+    """把图片转为 webp
+    """
+    support_formats = (".jpg", ".jpeg", ".png", ".bmp", ".gif", ".tiff")
+    for filename in os.listdir(folder_path):
+        # 只处理支持的图片格式
+        if filename.lower().endswith(support_formats):
+            print(f"{filename} 已转化为 WebP")
+            img = Image.open(os.path.join(folder_path, filename))
+            new_filename = os.path.splitext(filename)[0] + ".webp"
+            img.save(
+                os.path.join(folder_path, new_filename),
+                "webp",
+                quality=85,  # 画质 0-100，85 是性价比最高
+                lossless=False  # False=有损（更小），True=无损
+            )
 
 
 if __name__ == '__main__':
@@ -58,12 +76,15 @@ if __name__ == '__main__':
     print("=" * 50)
     print("输入1转换文件夹下所有webp为jpg")
     print("输入2转换文件夹下所有文件名后缀改为webp")
+    print("输入3转换文件夹下所有图片为webp")
     print("其它输入则终止程序")
     print("=" * 50)
     choose = input("请选择: ")
     if choose == "1":
-        turn_webp(dir_path)
+        turn_webp_to_jpg(dir_path)
     elif choose == "2":
         change_extensions(dir_path, "webp")
+    elif choose == "3":
+        turn_img_to_webp(dir_path)
     else:
         print("程序已结束")
