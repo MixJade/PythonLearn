@@ -24,12 +24,28 @@ def escape_sql_value(value: str) -> str:
     return f"'{escaped}'"
 
 
+def resolve_table_name(filename_no_ext: str) -> str:
+    """
+    处理表名：若文件名格式为 "表名_纯数字"，则去掉末尾的 "_纯数字" 部分，只保留表名。
+    判定条件：以下划线分割后，最后一段全为数字。
+    示例：
+        user_info_20240101  → user_info
+        orders_20231215     → orders
+        product             → product（不变）
+    """
+    parts = filename_no_ext.rsplit("_", 1)
+    if len(parts) == 2 and parts[1].isdigit():
+        return parts[0]
+    return filename_no_ext
+
+
 def csv_file_to_inserts(csv_path: str) -> list[str]:
     """
     读取一个 CSV 文件，返回对应的 INSERT 语句列表。
-    表名取自文件名（不含扩展名）。
+    表名取自文件名（不含扩展名），并去除末尾的日期后缀（_纯数字）。
     """
-    table_name = os.path.splitext(os.path.basename(csv_path))[0]
+    raw_name = os.path.splitext(os.path.basename(csv_path))[0]
+    table_name = resolve_table_name(raw_name)
     statements = []
     with open(csv_path, newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
