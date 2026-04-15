@@ -2,6 +2,7 @@
 # @Time    : 2026/4/14 11:27
 # @Software: PyCharm
 import os
+import re
 import csv
 import sys
 
@@ -11,14 +12,24 @@ import sys
 """
 
 
+# 时间戳格式：YYYY-MM-DD HH:MM:SS[.fff]，末尾可能有空格
+_DATETIME_PAT = re.compile(
+    r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d+)?\s*$"
+)
+
+
 def escape_sql_value(value: str) -> str:
     """
     将单个字段值转为 SQL 字面量字符串：
-    - NULL → NULL（不加引号）
+    - NULL / 空字符串 → NULL（不加引号）
+    - 时间戳格式（TIMESTAMP） → TIMESTAMP '值'（不加单引号）
     - 其他  → 用单引号包裹，内部单引号转义为 ''
     """
     if value is None or value.strip() == "":
         return "NULL"
+    if _DATETIME_PAT.match(value):
+        # 去除末尾多余空格后再套 TIMESTAMP
+        return f"TIMESTAMP '{value.strip()}'"
     # 转义单引号
     escaped = value.replace("'", "''")
     return f"'{escaped}'"
