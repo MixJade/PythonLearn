@@ -2,6 +2,7 @@
 # @Time    : 2026/4/15
 # @Software: PyCharm
 import os
+
 import fitz  # pymupdf
 
 """
@@ -42,20 +43,15 @@ def merge_2in1_a4(pdf_paths: list[str], output_path: str):
         # 目标区域：idx=0 → 上半，idx=1 → 下半
         if idx == 0:
             target_rect = fitz.Rect(0, 0, A4_W, half_h)
+            # 在该发票底部画绿色横线
+            bottom_y = half_h if idx == 0 else A4_H
+            draw_divider(out_page, bottom_y)
         else:
             target_rect = fitz.Rect(0, half_h, A4_W, A4_H)
 
         # show_pdf_page 会自动缩放并保持宽高比居中
         out_page.show_pdf_page(target_rect, src_doc, 0, keep_proportion=True, overlay=True)
         src_doc.close()
-
-        # 在该发票底部画绿色横线
-        bottom_y = half_h if idx == 0 else A4_H
-        draw_divider(out_page, bottom_y)
-
-    # 若只有一张发票，也在中间分隔线处补一条横线（视觉上区分上下区域）
-    if len(pdf_paths) == 1:
-        draw_divider(out_page, half_h)
 
     out_doc.save(output_path, garbage=4, deflate=True)
     out_doc.close()
