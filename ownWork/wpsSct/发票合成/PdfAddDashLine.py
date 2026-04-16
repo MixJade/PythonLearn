@@ -122,22 +122,30 @@ def process_region(page, img, region_name: str, start_y_px: int, search_end_px: 
     """
     # 查找内容区域顶部边界
     content_y_px = find_content_boundary_top(img, start_y_px)
-    # 如果指定了搜索结束位置，检查是否超出范围
-    if search_end_px is not None and content_y_px is not None:
-        if content_y_px >= search_end_px:
-            print(f"    {region_name}: 无内容")
-            return None
-    if content_y_px is None:
+    # 检查是否超出搜索范围或无内容
+    if content_y_px is None or content_y_px >= search_end_px:
         print(f"    {region_name}: 无内容")
         return None
     content_y_mm = pixels_to_mm(content_y_px)
-    # 计算虚线位置
+    region_bottom_mm = pixels_to_mm(search_end_px)  # 区域底部边界（mm）
+    # 计算初始虚线位置
     line1_mm = content_y_mm - CONTENT_OFFSET_MM  # 内容上1mm
-    line2_mm = line1_mm + LINE_INTERVAL_MM  # 第一条往下12cm
+    line2_mm = line1_mm + LINE_INTERVAL_MM        # 第一条往下12.6cm
+
     print(f"    {region_name}:")
     print(f"      内容起始: {content_y_mm:.1f}mm")
+    print(f"      区域底部: {region_bottom_mm:.1f}mm")
     print(f"      第一条虚线: {line1_mm:.1f}mm (内容上{CONTENT_OFFSET_MM}mm)")
     print(f"      第二条虚线: {line2_mm:.1f}mm")
+
+    # 触底检测：若第二条虚线超出区域底部，则整体向上移1mm，循环直到不触底
+    shift_count = 0
+    while line2_mm > region_bottom_mm:
+        shift_count += 1
+        line1_mm -= 1.0
+        line2_mm -= 1.0
+        print(f"      [触底调整 {shift_count}] 整体上移1mm → 第一条: {line1_mm:.1f}mm, 第二条: {line2_mm:.1f}mm")
+
     # 绘制虚线
     add_dashed_lines(page, line1_mm, line2_mm)
     return line1_mm, line2_mm
