@@ -21,9 +21,18 @@ def generate_unique_number():
             return f"Ran{number}"
 
 
+def gen_rel_id(idx: int) -> str:
+    now_time: str = datetime.now().strftime('%Y%m%d%H%M%S')
+    return f"{now_time}0{idx + 1}"
+
+
+dog_names: list[str] = [
+    "旺财", "富贵", "骨头",
+]
+
 # 逐行打印SQL语句
-for i in range(1, 1001):
+for i, item in enumerate(dog_names, start=1):
     # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
-    print(f"""INSERT INTO HomeAndDog (relId,relNo, homeID, dogID, dogTP)
-VALUES ('{datetime.now().strftime('%Y%m%d%H%M%S')}{i:04d}','{generate_unique_number()}', '121', '211', '2');
-    """)
+    print(f"""INSERT INTO HomeAndDog (relId,relNo, homeID, dogID, dogTP, dogNm)
+VALUES ('{gen_rel_id(i)}','{generate_unique_number()}', '121', '211', '2', '{item}');
+""")
