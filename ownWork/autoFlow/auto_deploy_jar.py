@@ -178,7 +178,7 @@ def load_config(json_path):
         sys.exit(1)
 
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) != 2:
         print("❌ 使用示例：python auto_deploy_jar.py cm_xxx_jar_config.json")
         sys.exit(1)
@@ -207,3 +207,7 @@ if __name__ == "__main__":
     if not deployer.deploy():
         print("\n❌ 部署流程执行失败！")
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
