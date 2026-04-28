@@ -34,6 +34,20 @@ def delete_specific_files(directory: str, file_name_list: list[str]):
                 print(f"Deleted file : {file_path}")  # 输出删除文件的信息
 
 
+def delete_specific_end_file(directory: str, file_end: str):
+    """从一个文件夹中，删除特定后缀的文件
+
+    :param directory: 文件夹的绝对路径
+    :param file_end: 待删除的文件后缀
+    """
+    for folder_name, _, filenames in os.walk(directory):  # 使用os.walk进行遍历
+        for filename in filenames:
+            if filename.endswith(file_end):  # 如果在遍历过程中找到了指定的文件名
+                file_path = os.path.join(folder_name, filename)  # 通过os.path.join连接目录和文件名，得到完整的文件路径
+                os.remove(file_path)  # 使用os.remove删除文件
+                print(f"Deleted file : {file_path}")  # 输出删除文件的信息
+
+
 def remove_dir(path):
     if platform.system() == "Windows":
         # Windows系统使用rmdir命令
@@ -63,9 +77,10 @@ def check_folder_exists(folder_path: str, warn_tit: str):
 
 if __name__ == '__main__':
     print("""========删除文件夹脚本===========
-    1. 删指定目录下java编译文件夹
-    2. 删指定目录下特定文件
-    0. 删指定目录(默认)""")
+    1. 删目录下java编译文件夹
+    2. 删目录下特定名称文件
+    3. 删目录下特定后缀文件
+    0. 退出""")
     checkFun = input("输入你的选择: ")
     if checkFun == '1':
         # 样例: `E:\MyCode\MixPet`
@@ -83,8 +98,12 @@ if __name__ == '__main__':
         warn_txt = f"将会删除 {parent_dir_path} 下所有的 {need_del_file}"
         if check_folder_exists(parent_dir_path, warn_txt):
             delete_specific_files(parent_dir_path, need_del_file)
+    elif checkFun == '3':
+        parent_dir_path = input(r"输入特定目录: ")
+        # 待删除文件，样例：`.min.css`
+        need_del_file_end_str = input("输入后缀(如.min.css): ")
+        warn_txt = f"将会删除 {parent_dir_path} 下所有的 {need_del_file_end_str} 文件"
+        if check_folder_exists(parent_dir_path, warn_txt):
+            delete_specific_end_file(parent_dir_path, need_del_file_end_str)
     else:
-        del_dir_path = input(r"输入需要删的文件夹路径: ")
-        warn_txt = f"将会删除整个 {del_dir_path}"
-        if check_folder_exists(del_dir_path, warn_txt):
-            remove_dir(del_dir_path)
+        exit(0)
