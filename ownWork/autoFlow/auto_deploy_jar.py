@@ -4,6 +4,7 @@ import os
 import sys
 from typing import Optional, List
 import paramiko
+import time
 
 
 class JarDeployer:
@@ -116,10 +117,24 @@ class JarDeployer:
 
         print(f"\n=== 上传JAR文件 ===")
         try:
-            sftp = self.ssh_client.open_sftp()
             # 上传文件
-            sftp.put(self.local_jar_path, self.remote_jar_path)
-            sftp.close()
+            # 1. 记录开始时间
+            start_time = time.perf_counter()
+
+            # 3. 定义进度回调函数
+            def progress_callback(transferred: int, total: int):
+                # total是文件字节大小
+                percent = 100 * (transferred / total)
+                elapsed = time.perf_counter() - start_time
+                bar_length = 50
+                filled_length = int(bar_length * transferred // total)
+                bar = "█" * filled_length + "-" * (bar_length - filled_length)
+                print(
+                    f"\r上传进度: {percent:>5.1f}% |{bar}| {transferred / 1024 / 1024:.2f}/{total / 1024 / 1024:.2f}MB   用时:{elapsed:.2f}s",
+                    end="")
+
+            with self.ssh_client.open_sftp() as sftp:
+                sftp.put(self.local_jar_path, self.remote_jar_path, callback=progress_callback)
             print(f"✅ 文件上传成功")
             print(f"本地路径：{self.local_jar_path}")
             print(f"远程路径：{self.remote_jar_path}")
