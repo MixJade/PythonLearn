@@ -135,7 +135,7 @@ class JarDeployer:
 
             with self.ssh_client.open_sftp() as sftp:
                 sftp.put(self.local_jar_path, self.remote_jar_path, callback=progress_callback)
-            print(f"✅ 文件上传成功")
+            print(f"\n✅ 文件上传成功")
             print(f"本地路径：{self.local_jar_path}")
             print(f"远程路径：{self.remote_jar_path}")
             return True
