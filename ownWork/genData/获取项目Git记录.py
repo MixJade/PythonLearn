@@ -206,6 +206,6 @@ if __name__ == "__main__":
         with open(file_name, "w", encoding="utf-8") as f:
             f.write("\n".join(wrt_txt))
         print(f"\n✅ 提交记录已保存到文件：{os.path.abspath(file_name)}")
-        print("根据这些Git提交记录，按照1234的序号为每天写日报(不要带具体仓库名称，只整理每天的事项)")
+        print("根据这些Git提交记录，按照1234的序号为每天写日报(不要带具体仓库名称，只整理每天的事项)，每一项至少20字")
     except Exception as e:
         print(f"\n❌ 保存文件失败：{str(e)}")
