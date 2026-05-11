@@ -7,6 +7,10 @@ from PIL import Image
 
 """
 批量转化webp
+
+    1. 转换文件夹下所有webp为jpg
+    2. 将文件夹下所有文件后缀改为webp
+    3. 转换文件夹下所有图片为webp
 """
 
 
@@ -75,7 +79,7 @@ if __name__ == '__main__':
     # 选择功能
     print("=" * 50)
     print("输入1转换文件夹下所有webp为jpg")
-    print("输入2转换文件夹下所有文件名后缀改为webp")
+    print("输入2将文件夹下所有文件后缀改为webp")
     print("输入3转换文件夹下所有图片为webp")
     print("其它输入则终止程序")
     print("=" * 50)
