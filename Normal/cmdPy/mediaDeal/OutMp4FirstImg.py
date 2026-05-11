@@ -3,6 +3,12 @@
 # @Software: PyCharm
 import os
 
+"""
+ffmpeg提取视频首帧
+"""
+
+print("ffmpeg提取视频首帧")
+
 while True:
     # 接收用户输入的文件名
     file_name = input("请输入文件名（输入0退出程序）：").strip()

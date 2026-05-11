@@ -3,6 +3,12 @@
 # @Software: PyCharm
 import os
 
+"""
+音频文件通过ffmpeg转Mp3
+"""
+
+print("音频文件转Mp3工具")
+
 while True:
     # 接收用户输入的文件名
     file_name = input("请输入文件名（输入0退出程序）：").strip()
