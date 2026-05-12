@@ -592,6 +592,127 @@ def _add_this_prefix(script: str, member_names: set[str]) -> str:
 # 主转换逻辑
 # ─────────────────────────────────────────────────────────────────────────────
 
+def extract_const_assignments(body: str, skip_names: set = None) -> list[dict]:
+    """
+    提取 setup body 中未被其他提取器覆盖的普通 const 赋值。
+    跳过 ref/reactive 声明、生命周期钩子调用、箭头函数。
+    返回列表 [{name, full_text, full_start, full_end, comment}, ...]
+    """
+    skip_names = skip_names or set()
+    results = []
+
+    # 先收集所有已被其他提取器占用的位置范围
+    occupied = set()
+    for d in parse_ref_declarations(body):
+        occupied.add((d["full_start"], d["full_end"]))
+    for d in parse_reactive_declarations(body):
+        occupied.add((d["full_start"], d["full_end"]))
+    for h in extract_lifecycle_hooks(body):
+        occupied.add((h["full_start"], h["full_end"]))
+
+    # 提取箭头函数的名称（它们自己也有 const）
+    arrow_fns = extract_arrow_functions(body, skip_names=skip_names)
+    for fn in arrow_fns:
+        occupied.add((fn["full_start"], fn["full_end"]))
+
+    # 匹配普通 const 赋值（非 ref/reactive，非箭头函数，非生命周期）
+    # const name = expr;  （expr 不是 => 开头的箭头函数）
+    pattern = re.compile(
+        r'(?P<comment>//[^\n]*)?\n?\s*'
+        r'const\s+(?P<name>\w+)\s*=\s*'
+    )
+    for m in pattern.finditer(body):
+        name = m.group("name")
+        if name in skip_names:
+            continue
+        after = m.end()
+
+        # 跳过 ref/reactive（已被上面处理）
+        rest_line = body[after:after + 50].lstrip()
+        if rest_line.startswith("ref") or rest_line.startswith("reactive"):
+            continue
+
+        # 找到语句结束位置（分号或行尾）
+        # 需要处理括号/花括号/方括号匹配
+        stmt_start = m.start()
+        stmt_end = _find_statement_end(body, after)
+        if stmt_end == -1:
+            continue
+        full_text = body[stmt_start:stmt_end].strip()
+
+        # 检查是否与已占用的范围重叠
+        is_occupied = any(
+            not (stmt_end <= occ_start or stmt_start >= occ_end)
+            for occ_start, occ_end in occupied
+        )
+        if is_occupied:
+            continue
+
+        # 跳过箭头函数形式 (xxx) => { 或 xxx => {
+        if "=>" in full_text:
+            continue
+
+        comment = (m.group("comment") or "").strip()
+        results.append({
+            "name": name,
+            "full_text": full_text,
+            "full_start": stmt_start,
+            "full_end": stmt_end,
+            "comment": comment,
+        })
+    return results
+
+
+def _find_statement_end(text: str, start: int) -> int:
+    """
+    从 start 位置找到 const 声明语句的结束位置（分号后）。
+    处理括号/花括号/方括号匹配和字符串。
+    """
+    depth_paren = 0
+    depth_brace = 0
+    depth_bracket = 0
+    i = start
+    in_str_single = False
+    in_str_double = False
+    in_template = False
+
+    while i < len(text):
+        ch = text[i]
+        if ch == "'" and not in_str_double and not in_template:
+            in_str_single = not in_str_single
+        elif ch == '"' and not in_str_single and not in_template:
+            in_str_double = not in_str_double
+        elif ch == "`" and not in_str_single and not in_str_double:
+            in_template = not in_template
+        elif not in_str_single and not in_str_double and not in_template:
+            if ch == "(":
+                depth_paren += 1
+            elif ch == ")":
+                depth_paren -= 1
+            elif ch == "{":
+                depth_brace += 1
+            elif ch == "}":
+                depth_brace -= 1
+            elif ch == "[":
+                depth_bracket += 1
+            elif ch == "]":
+                depth_bracket -= 1
+            elif ch == ";" and depth_paren == 0 and depth_brace == 0 and depth_bracket == 0:
+                return i + 1
+            elif ch == "\n" and depth_paren == 0 and depth_brace == 0 and depth_bracket == 0:
+                # 行尾也是语句结束（对于无分号的 const 声明）
+                return i
+        i += 1
+    return len(text)
+
+
+def build_const_assignment(info: dict, indent: int = 2) -> str:
+    """为普通 const 赋值生成类成员代码。"""
+    pad = " " * indent
+    comment_line = f"{pad}{info['comment']}\n" if info["comment"] else ""
+    return f"{comment_line}{pad}{info['full_text']}"
+
+
 def transform_script(script: str) -> str:
     """
     对 <script> 标签内容做全部迁移。
@@ -599,6 +720,9 @@ def transform_script(script: str) -> str:
 
     # ── Step 0: 先替换 proxy.xxx → this.xxx ──────────────────────────────────
     script = replace_proxy_references(script)
+
+    # ── Step 0b: 清除 JSDoc 注释 /** ... */（避免干扰提取）───────────────────
+    script = re.sub(r'/\*\*[\s\S]*?\*/', '', script)
 
     # ── Step 1: 定位 setup() 块 ───────────────────────────────────────────────
     setup_start, setup_end, setup_body = extract_setup_body(script)
@@ -621,6 +745,10 @@ def transform_script(script: str) -> str:
     skip = all_data_names | lifecycle_names
     arrow_fns = extract_arrow_functions(setup_body, skip_names=skip)
 
+    # 2d. 普通 const 赋值（枚举引用、数组字面量等）
+    const_skip = all_data_names | {fn["name"] for fn in arrow_fns}
+    const_assigns = extract_const_assignments(setup_body, skip_names=const_skip)
+
     # ── Step 3: 构造要插入到类体中的代码块 ───────────────────────────────────
     class_members = []
 
@@ -630,6 +758,10 @@ def transform_script(script: str) -> str:
     for d in reactive_decls:
         class_members.append(build_class_member_from_ref(d))
 
+    # 普通 const 赋值
+    for ca in const_assigns:
+        class_members.append(build_const_assignment(ca))
+
     # 生命周期方法
     for h in lifecycle_hooks:
         class_members.append(build_lifecycle_method(h))
@@ -637,8 +769,6 @@ def transform_script(script: str) -> str:
     # 业务方法
     for fn in arrow_fns:
         class_members.append(build_class_method(fn))
-
-    new_members_block = "\n\n".join(class_members)
 
     # ── Step 4: 从脚本中删除 setup() 整段，插入类成员到类体末尾 ──────────────
 
@@ -655,6 +785,24 @@ def transform_script(script: str) -> str:
     class_brace_start = script.index("{", class_m.start())
     class_brace_end = find_matching_brace(script, class_brace_start)
 
+    # 4b-1: 检查类体中已有的方法名，避免重复插入
+    class_body_existing = script[class_brace_start + 1: class_brace_end]
+    existing_methods = set()
+    for em in re.finditer(r'\s*(\w+)\s*\(', class_body_existing, re.MULTILINE):
+        existing_methods.add(em.group(1))
+
+    # 过滤掉类体中已存在的方法（避免生命周期重复）
+    filtered_members = []
+    for member in class_members:
+        # 提取方法名（类方法或属性）
+        fn_m = re.match(r'\s*(\w+)\s*[(:]', member)
+        if fn_m and fn_m.group(1) in existing_methods:
+            print(f"[SKIP] 类体中已存在 '{fn_m.group(1)}'，跳过插入")
+            continue
+        filtered_members.append(member)
+
+    new_members_block = "\n\n".join(filtered_members)
+
     # 在类的闭合括号前插入新成员
     insert_pos = class_brace_end
     before_insert = script[:insert_pos].rstrip()
@@ -670,6 +818,25 @@ def transform_script(script: str) -> str:
     # 收集所有需要加 this. 的标识符：响应式数据 + 业务方法名
     member_names = all_data_names | {fn["name"] for fn in arrow_fns}
     script = _add_this_prefix(script, member_names)
+
+    # ── Step 5c: 清理类体中残留的旧生命周期钩子调用 ─────────────────────────
+    # 如果类体内有 onActivated(() => {...}); 等残留代码，整段移除
+    for hook_name in LIFECYCLE_MAP:
+        hook_pattern = re.compile(
+            r'\s*' + re.escape(hook_name) + r'\s*\(\s*\(\s*\)\s*=>\s*\{',
+            re.DOTALL
+        )
+        while True:
+            hm = hook_pattern.search(script)
+            if not hm:
+                break
+            # 找到整个调用结束（含闭合括号和分号）
+            paren_start = script.index("(", hm.start())
+            paren_end = find_matching_paren(script, paren_start)
+            rm_end = paren_end + 1
+            if rm_end < len(script) and script[rm_end] == ";":
+                rm_end += 1
+            script = script[:hm.start()] + script[rm_end:]
 
     # ── Step 6: 清理 import ──────────────────────────────────────────────────
     script = clean_imports(script)
@@ -711,6 +878,9 @@ def process_vue_file(input_path: str):
         sys.exit(1)
 
     new_script_body = transform_script(script_body)
+
+    # ── 清理模板中的 .value 引用（类成员不需要 .value）───────────────────────
+    before = re.sub(r'\b(\w+)\.value\b', r'\1', before)
 
     new_content = before + script_open + new_script_body + script_close + after
 
