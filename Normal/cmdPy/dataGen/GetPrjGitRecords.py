@@ -111,7 +111,8 @@ def group_commits_by_date(commits: list[dict[str, str]]) -> list[tuple[str, list
     return [(cm_date, date_groups[cm_date]) for cm_date in sorted_dates]
 
 
-def format_repo_commits(repo_path: str, commits_list: list[dict[str, str]], date_grouped_commits: list[tuple[str, list[dict[str, str]]]]) -> list[str]:
+def format_repo_commits(repo_path: str, commits_list: list[dict[str, str]],
+                        date_grouped_commits: list[tuple[str, list[dict[str, str]]]]) -> list[str]:
     """将单个仓库的提交记录格式化为字符串列表"""
     log_line = [f"\n{'=' * 50}", f"仓库：{repo_path}", f"共 {len(commits_list)} 条提交"]
 
@@ -238,9 +239,10 @@ if __name__ == "__main__":
         wrt_txt.extend(fmt_lines)
 
     try:
-        with open(file_name, "w", encoding="utf-8") as f:
+        outfile_path = os.path.join(os.path.expanduser("~"), "Desktop", file_name)
+        with open(outfile_path, "w", encoding="utf-8") as f:
             f.write("\n".join(wrt_txt))
-        print(f"\n✅ 提交记录已保存到文件：{os.path.abspath(file_name)}")
+        print(f"\n✅ 提交记录已保存到文件：{os.path.abspath(outfile_path)}")
     except Exception as e:
         print(f"\n❌ 保存文件失败：{str(e)}")
 
