@@ -141,7 +141,7 @@ def main():
 
     while True:
         print("\n" + "-" * 40)
-        print("请输入JSON文件路径（直接回车结束输入）:")
+        print("请输入JSON（或txt）文件路径（直接回车结束输入）:")
         print("> ", end="")
 
         # ── 去掉拖入文件时系统自动添加的引号
@@ -155,10 +155,6 @@ def main():
         # 检查文件是否存在
         if not os.path.exists(path):
             print(f"[WARN] 文件不存在: {path}")
-            continue
-        # 检查是否为JSON文件
-        if not path.lower().endswith('.json'):
-            print(f"[WARN] 请输入JSON文件: {path}")
             continue
         file_list.append(path)
         print(f"[OK] 已添加: {path}")
