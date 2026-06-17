@@ -1,10 +1,18 @@
-# coding=utf-8
+﻿# coding=utf-8
 # @Time    : 2026/6/8 15:43
 # @Software: PyCharm
 
 import json
+import os
 
-json_file_path = r'desFormControl.json'
+# 从控制台输入JSON文件路径
+json_file_path = input("请输入JSON文件路径: ").strip()
+json_file_path = json_file_path.strip('"')  # 去除可能的引号
+
+# 验证文件是否存在
+if not os.path.exists(json_file_path):
+    print(f"错误: 文件不存在 - {json_file_path}")
+    exit(1)
 
 print(f"读取文件: {json_file_path}\n")
 
