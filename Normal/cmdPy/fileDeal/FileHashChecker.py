@@ -40,7 +40,7 @@ if __name__ == "__main__":
     file_hash_map = {}
     print("===== 文件哈希对比工具 =====")
     while True:
-        file_path_str = input("\n输入文件路径(0退出)：").strip()
+        file_path_str = input("\n输入文件路径(0退出)：").strip('"')
         if file_path_str == '0' or file_path_str == '':
             break
         else:
