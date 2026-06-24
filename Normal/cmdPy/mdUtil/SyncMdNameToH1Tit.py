@@ -56,8 +56,9 @@ def walk_dir(dir_path: str) -> None:
 
 def main() -> None:
     print("用法：输入文件路径或文件夹路径")
-    print("  输入文件路径  → 只处理该文件（单文件模式，程序会提前说明）")
+    print("  输入文件路径  → 只处理该文件")
     print("  输入文件夹路径 → 递归处理该文件夹下所有 md 文件")
+    print("=" * 30)
     target = input("请输入文件或文件夹路径：").strip()
 
     if os.path.isfile(target):
