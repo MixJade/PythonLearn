@@ -247,29 +247,18 @@ if __name__ == "__main__":
         print(f"\n❌ 保存文件失败：{str(e)}")
 
     # ========== 6. 最后打印日报生成提示词 ==========
-    all_commits_flat = []
-    for rr in repo_results:
-        all_commits_flat.extend(rr["commits"])
+    print("\n" + "=" * 50)
+    print("📋 日报生成提示词（可直接复制给 AI）：")
+    print("=" * 50)
+    print("""
+请根据以下Git提交记录帮我撰写每日工作日报和本周工作周报。
 
-    if all_commits_flat:
-        # 按日期分组，构建提交摘要供 AI 提示词使用
-        grouped_for_prompt = group_commits_by_date(all_commits_flat)
-        prompt_lines = []
-        for co_date, date_commits in grouped_for_prompt:
-            prompt_lines.append(f"【{co_date}】")
-            for idx, co_it in enumerate(date_commits, 1):
-                prompt_lines.append(f"  {idx}. {co_it['message']}")
-        commits_text = "\n".join(prompt_lines)
-
-        print("\n" + "=" * 50)
-        print("📋 日报生成提示词（可直接复制给 AI）：")
-        print("=" * 50)
-        print(
-            f"以下是我在 {TARGET_DATE} 至 {today_str} 期间的 Git 提交记录，请根据这些记录帮我撰写每日工作日报。\n"
-            f"要求：\n"
-            f"1. 按日期分段，每天单独一段；\n"
-            f"2. 每条事项用序号列出，语言简洁专业，每条不少于20字；\n"
-            f"3. 不要出现仓库名称，只描述实际完成的工作内容；\n"
-            f"4. 合并同类项，避免重复罗列。\n\n"
-        )
-        print("=" * 50)
+要求：
+1. 按日期分段，每天单独一段，无提交记录的日期注明"无提交记录"
+2. 每条事项用序号列出，语言简洁专业，每条不少于20字
+3. 不要出现仓库名称，只描述实际完成的工作内容
+4. 合并同类项，避免重复罗列
+5. 周报"本周工作总结"用有序列表，每条格式为"**主题**：具体内容"
+6. 周报需要包含"下周工作计划"章节
+    """)
+    print("=" * 50)
