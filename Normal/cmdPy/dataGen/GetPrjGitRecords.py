@@ -40,23 +40,25 @@ def get_commit_branch(repo_path: str, commit_hash: str) -> str:
     return ",".join(branches) if branches else "未知分支"
 
 
-def get_git_commits_filtered(repo_path: str, target_date_str: str, author: Optional[str] = None) -> list[dict[str, str]]:
-    """
-    获取指定Git仓库中满足条件的非合并提交信息（从所有分支查询，含分支信息）
+def get_git_commits_filter(repo_path: str, target_date_str: str, author: Optional[str] = None) -> list[dict[str, str]]:
+    """获取指定Git仓库中满足条件的非合并提交信息（从所有分支查询，含分支信息）
+
     :param repo_path: Git仓库路径（已校验有效性）
     :param target_date_str: 筛选起始日期（YYYY-MM-DD）
     :param author: 提交人名称（None表示所有提交人）
     :return: 提交信息列表（含分支字段）
     """
-    query_end_date = datetime.now().strftime("%Y-%m-%d")
+    # 使用明天的00:00:00作为截止时间，确保包含结束日期当天的所有记录
+    # 起始日期也必须带时间00:00:00，否则git log无法正确包含当天
+    query_end_date = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
 
     git_cmd = [
         "git",
         "-C", repo_path,
         "log",
         "--no-merges",
-        f"--since={target_date_str}",
-        f"--until={query_end_date} 23:59:59",
+        f"--since={target_date_str} 00:00:00",
+        f"--until={query_end_date} 00:00:00",
         "--pretty=format:%h|%an|%ad|%s",
         "--date=short",
         "--all"  # 直接从全部分支查询
@@ -190,7 +192,7 @@ if __name__ == "__main__":
     all_commit_count = 0
     for target_repo in repo_paths:
         print(f"\n🔍 正在查询仓库：{target_repo} ...")
-        commit_records = get_git_commits_filtered(target_repo, TARGET_DATE, AUTHOR_NAME)
+        commit_records = get_git_commits_filter(target_repo, TARGET_DATE, AUTHOR_NAME)
         date_grouped = group_commits_by_date(commit_records)
         repo_results.append({
             "path": target_repo,
@@ -238,27 +240,31 @@ if __name__ == "__main__":
         fmt_lines = format_repo_commits(rr["path"], rr["commits"], rr["grouped"])
         wrt_txt.extend(fmt_lines)
 
+    # 构建目录路径（格式：日报20260708）
+    dir_name = "日报" + datetime.now().strftime("%Y%m%d")
+    out_dir = os.path.join(os.path.expanduser("~"), "Desktop", dir_name)
+
+    # 如果目录不存在，自动创建
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir, exist_ok=True)
+
+    # 定义模板文件路径（与脚本同目录）
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_file = os.path.join(script_dir, "日报生成提示词模板.md")
+
     try:
-        outfile_path = os.path.join(os.path.expanduser("~"), "Desktop", file_name)
+        outfile_path = os.path.join(out_dir, file_name)
         with open(outfile_path, "w", encoding="utf-8") as f:
             f.write("\n".join(wrt_txt))
         print(f"\n✅ 提交记录已保存到文件：{os.path.abspath(outfile_path)}")
+
+        # 如果模板文件存在，复制到输出目录
+        if os.path.exists(template_file):
+            dest_template = os.path.join(out_dir, "日报生成提示词.md")
+            with open(template_file, "r", encoding="utf-8") as src, \
+                    open(dest_template, "w", encoding="utf-8") as dst:
+                dst.write(src.read())
+            print(f"✅ 提示词模板已保存到：{os.path.abspath(dest_template)}")
+
     except Exception as e:
         print(f"\n❌ 保存文件失败：{str(e)}")
-
-    # ========== 6. 最后打印日报生成提示词 ==========
-    print("\n" + "=" * 50)
-    print("📋 日报生成提示词（可直接复制给 AI）：")
-    print("=" * 50)
-    print("""
-请根据以下Git提交记录帮我撰写每日工作日报和本周工作周报。
-
-要求：
-1. 按日期分段，每天单独一段，无提交记录的日期注明"无提交记录"
-2. 每条事项用序号列出，语言简洁专业，每条不少于20字
-3. 不要出现仓库名称，只描述实际完成的工作内容
-4. 合并同类项，避免重复罗列
-5. 周报"本周工作总结"用有序列表，每条格式为"**主题**：具体内容"
-6. 周报需要包含"下周工作计划"章节
-    """)
-    print("=" * 50)
