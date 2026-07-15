@@ -1,4 +1,4 @@
 @echo off
 chcp 65001 >nul
-python JsonToMdTable.py
+python dyFormMain.py
 pause

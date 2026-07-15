@@ -1,27 +1,31 @@
 # coding=utf-8
-# @Time    : 2026/05/13
+# @Time    : 2026/07/15
 # @Software: PyCharm
 """
-① 输入老zip路径 → 输入新zip路径
+表单数据移植脚本
+
+流程：
+① 输入老zip路径 -> 输入新zip路径
 ② 解压老zip、新zip 各到同名文件夹
 ③ 分别读取两个目录下的 desForm.json
    - 校验各自只含 1 个元素
    - 提取 老formId、新formId
-④ 初始替换规则：老formId → 新formId
+④ 初始替换规则：老formId -> 新formId
    再扫描老zip目录中的 desFormLayout.json、desFormControl.json
    提取所有 layoutId / formFieldId，生成新的替换ID（用 get_time_id 生成）
 ⑤ 在老zip解压目录执行全文本替换（所有文件）
 ⑥ 将改动后的 desFormLayout.json、desFormControl.json
    覆盖到新zip解压目录（不存在则直接复制进去）
-⑦ 将新zip解压目录重新打包 → 输出为 原新zip文件名_merged.zip
+⑦ 将新zip解压目录重新打包 -> 输出为 原新zip文件名_merged.zip
 ⑧ 删除两个临时解压目录
 """
 
 import os
 import json
 import shutil
-import zipfile
 from datetime import datetime
+
+from zip_util import unzip_file, zip_folder, validate_single_form_zip
 
 
 def get_time_id(i: int) -> str:
@@ -30,24 +34,11 @@ def get_time_id(i: int) -> str:
     return f"{now_time}0{i}"
 
 
-# ===================== 解压 =====================
-
-def unzip_file(zip_path: str) -> str:
-    """解压 zip 到同名文件夹，返回解压目录路径"""
-    if not zip_path.endswith(".zip"):
-        raise ValueError(f"不是有效的 zip 文件：{zip_path}")
-    extract_path = zip_path[:-4]
-    with zipfile.ZipFile(zip_path, 'r') as zipf:
-        zipf.extractall(extract_path)
-    print(f"解压完成：{zip_path}  →  {extract_path}")
-    return extract_path
-
-
 # ===================== 提取 formId =====================
 
 def extract_form_id(extract_dir: str) -> str:
     """
-    从解压目录中读取 desForm.json，校验只有一个元素，返回 formId
+    从解压目录中读取 desForm.json，校验只有一个元素，返回 formId。
     """
     form_json_path = os.path.join(extract_dir, "desForm.json")
     if not os.path.exists(form_json_path):
@@ -59,7 +50,7 @@ def extract_form_id(extract_dir: str) -> str:
     if not isinstance(data, list):
         raise ValueError("desForm.json 顶层结构应为 JSON 列表")
     if len(data) != 1:
-        raise ValueError(f"desForm.json 应只有 1 个元素，实际有 {len(data)} 个")
+        raise ValueError(f"desForm.json 应只有 1 个元素，实际有 {len(data)} 个（请确认 zip 为单个表单）")
 
     item = data[0]
     if 'formId' not in item:
@@ -70,15 +61,15 @@ def extract_form_id(extract_dir: str) -> str:
     return form_id
 
 
-# ===================== 替换布局ID（来自脚本2）=====================
+# ===================== 替换布局ID =====================
 
-def modify_form_id_in_json(
+def build_replace_map(
     root_folder: str,
     replace_map: dict,
     filename_list: list
 ) -> dict:
     """
-    读取指定 JSON 文件中的 layoutId / formFieldId，生成新的替换规则
+    读取指定 JSON 文件中的 layoutId / formFieldId，生成新的替换规则。
     """
     i = 0
     for read_filename in filename_list:
@@ -97,40 +88,41 @@ def modify_form_id_in_json(
                     if 'formFieldId' in item:
                         i += 1
                         replace_map[item['formFieldId']] = "123" + get_time_id(i)
-        return replace_map
     return replace_map
 
 
-def batch_replace_file_content(root_folder: str, replace_map: dict) -> None:
+def batch_replace_file_content(root_folder: str, filename_list: list, replace_map: dict) -> None:
     """
-    批量替换文件夹下所有文件的内容
+    对 root_folder 下 filename_list 中指定的文件执行全文本替换。
     """
-    for root, dirs, files in os.walk(root_folder):
-        for filename in files:
-            file_path = os.path.join(root, filename)
-            try:
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                    content = f.read()
-            except Exception as e:
-                print(f"[警告] 读取文件失败，跳过：{file_path}  ({e})")
-                continue
+    for filename in filename_list:
+        file_path = os.path.join(root_folder, filename)
+        if not os.path.exists(file_path):
+            print(f"[警告] 文件不存在，跳过：{file_path}")
+            continue
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+        except Exception as e:
+            print(f"[警告] 读取文件失败，跳过：{file_path}  ({e})")
+            continue
 
-            replaced = False
-            operator_map = {}
-            for old_str, new_str in replace_map.items():
-                if old_str in content:
-                    content = content.replace(old_str, new_str)
-                    replaced = True
-                    operator_map[old_str] = new_str
+        replaced = False
+        operator_map = {}
+        for old_str, new_str in replace_map.items():
+            if old_str in content:
+                content = content.replace(old_str, new_str)
+                replaced = True
+                operator_map[old_str] = new_str
 
-            if replaced:
-                with open(file_path, "w", encoding="utf-8") as f:
-                    f.write(content)
-                print(f"已替换：{file_path}")
-                for old_str, new_str in operator_map.items():
-                    print(f"\t{old_str}  -->  {new_str}")
-            else:
-                print(f"无匹配内容：{file_path}")
+        if replaced:
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(content)
+            print(f"已替换：{file_path}")
+            for old_str, new_str in operator_map.items():
+                print(f"    {old_str}  -->  {new_str}")
+        else:
+            print(f"无匹配内容：{file_path}")
 
 
 # ===================== 覆盖文件到新zip解压目录 =====================
@@ -141,7 +133,7 @@ def copy_files_to_new_dir(
     filename_list: list
 ) -> None:
     """
-    将 src_dir 下的指定文件覆盖到 dst_dir（dst_dir 中可以没有这些文件）
+    将 src_dir 下的指定文件覆盖到 dst_dir（dst_dir 中可以没有这些文件）。
     """
     for filename in filename_list:
         src_path = os.path.join(src_dir, filename)
@@ -153,23 +145,11 @@ def copy_files_to_new_dir(
         print(f"已覆盖到新zip目录：{dst_path}")
 
 
-# ===================== 压缩文件夹 =====================
-
-def zip_folder(source_folder: str, output_zip_path: str) -> None:
-    """
-    将 source_folder 的内容压缩为 output_zip_path（不含顶层文件夹名）
-    """
-    # shutil.make_archive 的 root_dir 参数控制压缩内容的根路径
-    base_name = output_zip_path[:-4] if output_zip_path.endswith(".zip") else output_zip_path
-    shutil.make_archive(base_name, "zip", root_dir=source_folder)
-    print(f"压缩完成：{output_zip_path}")
-
-
 # ===================== 主流程 =====================
 
-def main():
+def run():
     print("=" * 50)
-    print("  zip 合并工具：老zip布局ID替换 → 更新新zip")
+    print("  表单数据移植：老zip布局ID替换 -> 更新新zip")
     print("=" * 50)
 
     # 1. 输入文件路径
@@ -180,37 +160,40 @@ def main():
         if not os.path.exists(path):
             print(f"[错误] 文件不存在：{path}")
             return
+        # 提前校验：拒绝多表单 zip
+        validate_single_form_zip(path)
 
     # 2. 解压两个zip
     print("\n--- 解压文件 ---")
     old_dir = unzip_file(old_zip)
     new_dir = unzip_file(new_zip)
 
+    output_zip = None
     try:
-        # 3. 从老zip解压目录提取 formId（desForm.json 中唯一元素）
+        # 3. 从解压目录提取 formId
         print("\n--- 提取 formId ---")
         old_form_id = extract_form_id(old_dir)
         new_form_id = extract_form_id(new_dir)
 
-        # 4. 构建初始替换规则：老formId → 新formId
+        # 4. 构建初始替换规则：老formId -> 新formId
         replace_map = {old_form_id: new_form_id}
         print(f"\n初始替换规则：{old_form_id}  -->  {new_form_id}")
 
-        # 5. 从老zip的 desFormLayout.json / desFormControl.json 中提取布局ID，补充替换规则
+        # 5. 从老zip的 desFormLayout.json / desFormControl.json 中提取布局ID
         target_files = ["desFormLayout.json", "desFormControl.json"]
         print("\n--- 从老zip提取布局ID替换规则 ---")
-        replace_map = modify_form_id_in_json(old_dir, replace_map, target_files)
+        replace_map = build_replace_map(old_dir, replace_map, target_files)
         print(f"替换规则共 {len(replace_map)} 条")
 
-        # 6. 在老zip解压目录执行批量替换（只改 desFormLayout.json、desFormControl.json）
+        # 6. 在老zip解压目录执行批量替换
         print("\n--- 替换老zip中的布局ID ---")
-        batch_replace_file_content(root_folder=old_dir, replace_map=replace_map)
+        batch_replace_file_content(root_folder=old_dir, filename_list=target_files, replace_map=replace_map)
 
         # 7. 将修改后的文件覆盖到新zip解压目录
         print("\n--- 将改动文件覆盖进新zip目录 ---")
         copy_files_to_new_dir(old_dir, new_dir, target_files)
 
-        # 8. 将新zip解压目录重新压缩，输出文件名加 _merged 后缀
+        # 8. 将新zip解压目录重新压缩
         print("\n--- 重新压缩新zip目录 ---")
         new_zip_dir = os.path.dirname(new_zip)
         new_zip_basename = os.path.splitext(os.path.basename(new_zip))[0]
@@ -225,10 +208,10 @@ def main():
                 shutil.rmtree(tmp_dir)
                 print(f"已删除：{tmp_dir}")
 
-    print("\n✅ 全部完成！")
-    print(f"   输出文件：{output_zip}")
+    print("\n[完成] 全部完成！")
+    if output_zip:
+        print(f"   输出文件：{output_zip}")
 
 
 if __name__ == "__main__":
-    print(__doc__)
-    main()
+    run()

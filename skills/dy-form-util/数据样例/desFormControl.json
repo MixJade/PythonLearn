@@ -1,0 +1,32 @@
+[
+  {
+    "formId": "1234567890123456789",
+    "formFieldId": "ctrl_001",
+    "layoutId": "layout_001",
+    "formFieldDescribe": "机构名称",
+    "boundProperty": "SampleForm.orgName",
+    "generalDictionary": "",
+    "treeShape": "",
+    "controlType": "text"
+  },
+  {
+    "formId": "1234567890123456789",
+    "formFieldId": "ctrl_002",
+    "layoutId": "layout_002",
+    "formFieldDescribe": "资产分类",
+    "boundProperty": "SampleForm.assetCategory",
+    "generalDictionary": "9876543210987654321",
+    "treeShape": "",
+    "controlType": "select"
+  },
+  {
+    "formId": "1234567890123456789",
+    "formFieldId": "ctrl_003",
+    "layoutId": "layout_003",
+    "formFieldDescribe": "业务分类",
+    "boundProperty": "SampleForm.bizCategory",
+    "generalDictionary": "",
+    "treeShape": "1122334455667788990",
+    "controlType": "tree"
+  }
+]
