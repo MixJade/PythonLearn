@@ -147,53 +147,55 @@ def copy_files_to_new_dir(
 
 # ===================== 主流程 =====================
 
-def run():
+def run_with_paths(old_zip: str, new_zip: str):
+    """
+    根据传入的路径执行表单布局样式移植。
+
+    :param old_zip: 老表单zip文件路径（样式来源）
+    :param new_zip: 新表单zip文件路径（样式目标）
+    """
     print("=" * 50)
     print("  表单数据移植：老zip布局ID替换 -> 更新新zip")
     print("=" * 50)
 
-    # 1. 输入文件路径
-    old_zip = input("\n请输入【老zip】文件路径：").strip().strip('"').strip("'")
-    new_zip = input("请输入【新zip】文件路径：").strip().strip('"').strip("'")
-
+    # 校验路径
     for path in [old_zip, new_zip]:
         if not os.path.exists(path):
             print(f"[错误] 文件不存在：{path}")
             return
-        # 提前校验：拒绝多表单 zip
         validate_single_form_zip(path)
 
-    # 2. 解压两个zip
+    # 1. 解压两个zip
     print("\n--- 解压文件 ---")
     old_dir = unzip_file(old_zip)
     new_dir = unzip_file(new_zip)
 
     output_zip = None
     try:
-        # 3. 从解压目录提取 formId
+        # 2. 从解压目录提取 formId
         print("\n--- 提取 formId ---")
         old_form_id = extract_form_id(old_dir)
         new_form_id = extract_form_id(new_dir)
 
-        # 4. 构建初始替换规则：老formId -> 新formId
+        # 3. 构建初始替换规则：老formId -> 新formId
         replace_map = {old_form_id: new_form_id}
         print(f"\n初始替换规则：{old_form_id}  -->  {new_form_id}")
 
-        # 5. 从老zip的 desFormLayout.json / desFormControl.json 中提取布局ID
+        # 4. 从老zip的 desFormLayout.json / desFormControl.json 中提取布局ID
         target_files = ["desFormLayout.json", "desFormControl.json"]
         print("\n--- 从老zip提取布局ID替换规则 ---")
         replace_map = build_replace_map(old_dir, replace_map, target_files)
         print(f"替换规则共 {len(replace_map)} 条")
 
-        # 6. 在老zip解压目录执行批量替换
+        # 5. 在老zip解压目录执行批量替换
         print("\n--- 替换老zip中的布局ID ---")
         batch_replace_file_content(root_folder=old_dir, filename_list=target_files, replace_map=replace_map)
 
-        # 7. 将修改后的文件覆盖到新zip解压目录
+        # 6. 将修改后的文件覆盖到新zip解压目录
         print("\n--- 将改动文件覆盖进新zip目录 ---")
         copy_files_to_new_dir(old_dir, new_dir, target_files)
 
-        # 8. 将新zip解压目录重新压缩
+        # 7. 将新zip解压目录重新压缩
         print("\n--- 重新压缩新zip目录 ---")
         new_zip_dir = os.path.dirname(new_zip)
         new_zip_basename = os.path.splitext(os.path.basename(new_zip))[0]
@@ -201,7 +203,7 @@ def run():
         zip_folder(new_dir, output_zip)
 
     finally:
-        # 9. 删除临时解压目录
+        # 8. 删除临时解压目录
         print("\n--- 清理临时解压目录 ---")
         for tmp_dir in [old_dir, new_dir]:
             if os.path.exists(tmp_dir):
@@ -211,6 +213,18 @@ def run():
     print("\n[完成] 全部完成！")
     if output_zip:
         print(f"   输出文件：{output_zip}")
+
+
+def run():
+    print("=" * 50)
+    print("  表单数据移植：老zip布局ID替换 -> 更新新zip")
+    print("=" * 50)
+
+    # 1. 输入文件路径
+    old_zip = input("\n请输入【老zip】文件路径：").strip().strip('"').strip("'")
+    new_zip = input("请输入【新zip】文件路径：").strip().strip('"').strip("'")
+
+    run_with_paths(old_zip, new_zip)
 
 
 if __name__ == "__main__":

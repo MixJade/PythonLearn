@@ -68,9 +68,8 @@ def to_markdown_table(data: list) -> str:
 
     列：表单项 | 绑定属性 | 字典项 | 树形字典
     """
-    lines = []
-    lines.append("| 序号 | 表单项 | 绑定属性 | 字典项 | 树形字典 |")
-    lines.append("|---|---|---|---|---|")
+    lines = ["| 序号 | 表单项 | 绑定属性 | 字典项 | 树形字典 |",
+             "|---|---|---|---|---|"]
 
     for idx, item in enumerate(data, 1):
         form_field_describe = item.get('formFieldDescribe', '') or '-'
@@ -87,7 +86,12 @@ def to_markdown_table(data: list) -> str:
 
 # ===================== 主流程 =====================
 
-def run():
+def run() -> str:
+    """
+    探查 desFormControl.json -> Markdown 表格。
+
+    返回: 成功时返回输入的文件路径，失败时返回空字符串
+    """
     print("=" * 50)
     print("  探查 desFormControl.json -> Markdown 表格")
     print("  (支持输入 zip 或 desFormControl.json)")
@@ -96,21 +100,23 @@ def run():
     input_path = input("\n请输入文件路径（zip 或 desFormControl.json）：").strip()
     if not input_path:
         print("未输入路径，退出。")
-        return
+        return ""
 
     try:
         data = load_form_control(input_path)
     except Exception as e:
         print(f"[错误] {e}")
-        return
+        return ""
 
     if not isinstance(data, list):
         print(f"[错误] desFormControl.json 顶层应为列表，实际为 {type(data).__name__}")
-        return
+        return ""
 
     print()
     md_table = to_markdown_table(data)
     print(md_table)
+
+    return input_path
 
 
 if __name__ == "__main__":

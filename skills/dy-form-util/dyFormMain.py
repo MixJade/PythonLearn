@@ -4,37 +4,49 @@
 """
 dy-form-util 入口脚本
 
-功能菜单：
-  1. 表单数据移植（老zip布局ID替换 -> 更新新zip）
-  2. 探查 desFormControl.json -> Markdown 表格
-  3. zip 解压 / 压缩
+流程：
+  1. 探查表单zip字段（输出md表格）
+  2. 根据提示选择：0退出 或 2执行表单zip布局样式移植
 """
 
-import form_migrate
+import os
+
 import form_inspect
-
-
-def show_menu():
-    print()
-    print("=" * 50)
-    print("  dy-form-util 工具集")
-    print("=" * 50)
-    print("  1. 探查表单zip字段 (输出md表格)")
-    print("  2. 表单zip布局样式移植")
-    print("  0. 退出")
-    print()
+import form_migrate
 
 
 def main():
-    show_menu()
-    choice = input("请选择功能: ").strip()
+    # ========== 步骤1: 探查表单zip字段 ==========
+    input_path = form_inspect.run()
+    if not input_path:
+        return
 
-    if choice == "1":
-        form_inspect.run()
-    elif choice == "2":
-        form_migrate.run()
-    else:
+    # ========== 步骤2: 探查完成后，让用户选择 ==========
+    print()
+    print("=" * 50)
+    print("  请选择后续操作：")
+    print("  0. 退出")
+    print("  2. 表单zip布局样式移植（需追加输入新表单路径）")
+    print("=" * 50)
+
+    choice = input("请选择: ").strip()
+
+    if choice == "0":
         print("再见！")
+    elif choice == "2":
+        # 追加输入新表单路径
+        new_zip = input("\n请输入【新zip】文件路径：").strip().strip('"').strip("'")
+        if not new_zip:
+            print("未输入新表单路径，退出。")
+            return
+        if not os.path.exists(new_zip):
+            print(f"[错误] 文件不存在：{new_zip}")
+            return
+
+        # 执行移植，将探查的表单作为老zip，新路径作为新zip
+        form_migrate.run_with_paths(old_zip=input_path, new_zip=new_zip)
+    else:
+        print("无效选择，退出。")
 
 
 if __name__ == "__main__":
