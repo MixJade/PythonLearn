@@ -1,5 +1,5 @@
 @echo off
 chcp 65001 >nul
-cd ../../fileDeal
+cd ../../imgUtil
 python SeqRename.py
 pause
