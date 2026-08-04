@@ -13,6 +13,15 @@ PDF发票2合1 —— 将两张发票拼为一张A4（上下排列）
 A4_W = 595.0
 A4_H = 842.0
 
+# A4 尺寸容差（pt），在此范围内视为 A4
+A4_TOLERANCE = 5.0
+
+
+def is_a4_size(page: fitz.Page, tolerance: float = A4_TOLERANCE) -> bool:
+    """判断页面尺寸是否为 A4（允许容差）。"""
+    w, h = page.rect.width, page.rect.height
+    return abs(w - A4_W) <= tolerance and abs(h - A4_H) <= tolerance
+
 
 def draw_divider(page: fitz.Page, y: float, width: float = A4_W,
                  color=(0, 1, 0), line_width: float = 1.0):
@@ -39,6 +48,7 @@ def merge_2in1_a4(pdf_paths: list[str], output_path: str):
 
     for idx, pdf_path in enumerate(pdf_paths[:2]):
         src_doc = fitz.open(pdf_path)
+        src_page = src_doc[0]
 
         # 目标区域：idx=0 → 上半，idx=1 → 下半
         if idx == 0:
@@ -49,8 +59,20 @@ def merge_2in1_a4(pdf_paths: list[str], output_path: str):
         else:
             target_rect = fitz.Rect(0, half_h, A4_W, A4_H)
 
-        # show_pdf_page 会自动缩放并保持宽高比居中
-        out_page.show_pdf_page(target_rect, src_doc, 0, keep_proportion=True, overlay=True)
+        if is_a4_size(src_page):
+            # 源 PDF 已是 A4：直接截取上半部分放入目标区域（1:1 不缩放）
+            src_w = src_page.rect.width
+            src_h = src_page.rect.height
+            clip = fitz.Rect(0, 0, src_w, src_h / 2)
+            out_page.show_pdf_page(target_rect, src_doc, 0,
+                                   keep_proportion=True, overlay=True, clip=clip)
+            print(f"  📐 {os.path.basename(pdf_path)} 检测为 A4，已截取上半部分")
+        else:
+            # 非 A4：整页缩放放入目标区域
+            out_page.show_pdf_page(target_rect, src_doc, 0,
+                                   keep_proportion=True, overlay=True)
+            print(f"  📄 {os.path.basename(pdf_path)} 非 A4 尺寸，已整页缩放")
+
         src_doc.close()
 
     out_doc.save(output_path, garbage=4, deflate=True)
