@@ -1,0 +1,20 @@
+[
+  {
+    "isNotNull": "0",
+    "fieldName": "nodeNo",
+    "fieldNotes": "节点编号",
+    "entityId": "2026082415272801",
+    "entityFieldType": "2",
+    "objectId": "2026082415272802",
+    "fieldId": "2026082415282501"
+  },
+  {
+    "isNotNull": "0",
+    "fieldName": "nodeNm",
+    "fieldNotes": "节点名称",
+    "entityId": "2026082415272801",
+    "entityFieldType": "1",
+    "objectId": "2026082415272802",
+    "fieldId": "2026082415282502"
+  }
+]
