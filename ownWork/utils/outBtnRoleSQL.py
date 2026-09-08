@@ -50,17 +50,26 @@ WHERE MENU_NO = '{menu.menuNo}'
             role_btn_map[role.roleNo].append(btn)
             role_name_map[role.roleNo] = role.roleName
 
-    for role_no, role_btn_list in role_btn_map.items():
-        role_check_num = len(role_btn_list) if is_hy else 0
-        role_btn_res = ", ".join(f"'{btn.btnName}'" for btn in role_btn_list)
-        # 按钮下角色的核对、检查sql
-        print(f"\n-- {hy_txt} {menu.desc}的{role_name_map.get(role_no)}权限 预计{role_check_num}条")
+    # 统计按钮与角色的关系（按钮 -> 角色列表）
+    btn_role_map: dict[str, list[tuple[str, str]]] = defaultdict(list)
+    for btn in menu.btnList:
+        for role in btn.roleList:
+            btn_role_map[btn.btnName].append((role.roleNo, role.roleName))
+
+    for btn_name, role_list in btn_role_map.items():
+        # 合并同一按钮下所有角色
+        role_nos = [r[0] for r in role_list]
+        role_names = [r[1] for r in role_list]
+        role_no_res = ", ".join(f"'{rno}'" for rno in role_nos)
+        role_check_num = len(role_list) if is_hy else 0
+        # 按钮下角色的核对、检查sql（合并输出）
+        print(f"\n-- {hy_txt} {menu.desc}的{', '.join(role_names)}权限 预计{role_check_num}条")
         # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
         print(f"""SELECT *
 FROM SYS_ROLE_BUTTON
 WHERE MENU_NO = '{menu.menuNo}'
-  AND ROLE_NO = '{role_no}'
-  AND BUTTON_NO IN ({role_btn_res});""")
+  AND ROLE_NO IN ({role_no_res})
+  AND BUTTON_NO IN ('{btn_name}');""")
 
 
 def out_insert_menu_btn_sql(menu: Menu):
@@ -81,9 +90,10 @@ def out_insert_menu_btn_sql(menu: Menu):
             role_btn_map[role.roleNo].append(btn)
             role_name_map[role.roleNo] = role.roleName
 
+    print("")
     for role_no, role_btn_list in role_btn_map.items():
         # 按钮下角色的核对、检查sql
-        print(f"\n-- ({menu.desc})为{role_no}{role_name_map.get(role_no)}插入权限")
+        print(f"-- ({menu.desc})为{role_no}{role_name_map.get(role_no)}插入权限")
         for role_btn in role_btn_list:
             print("-- 预计1条")
             # noinspection SqlNoDataSourceInspection,SqlDialectInspection,SqlResolve
