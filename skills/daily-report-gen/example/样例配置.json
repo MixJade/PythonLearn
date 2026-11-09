@@ -1,0 +1,16 @@
+{
+  "author_name": "MixJade",
+  "projects": {
+    "项目管理": {
+      "paths": [
+        "E:\\MyCode\\JavaLearn",
+        "E:\\MyCode\\TsLearn"
+      ]
+    },
+    "py脚本": {
+      "paths": [
+        "E:\\MyCode\\PythonLearn"
+      ]
+    }
+  }
+}

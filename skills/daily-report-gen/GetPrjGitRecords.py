@@ -1,13 +1,30 @@
 # coding=utf-8
 # @Time    : 2026/3/21 21:33
 # @Software: PyCharm
-# @Description: Git提交记录查询工具 - 命令行版本
 import os
-import subprocess
+import sys
+import json
 import argparse
+import subprocess
 from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Optional
+
+# 无参数运行时打印的提示（固定文案）
+USAGE_HINT = r"""用法：
+  python GetPrjGitRecords.py -a <配置文件> -b <模块名> [-s <起始日期>]
+
+参数：
+  -a, --config      配置文件路径（JSON），必填
+  -b, --module      模块名，对应配置里 projects 的键，必填
+  -s, --start-date  起始日期 YYYY-MM-DD（不填则默认近 7 天；传 _ 则交互输入）
+
+示例：
+  python GetPrjGitRecords.py -a example\样例配置.json -b 项目管理
+  python GetPrjGitRecords.py -a example\样例配置.json -b 项目管理 -s 2026-07-01
+  python GetPrjGitRecords.py -a example\样例配置.json -b 项目管理 -s _
+
+请先参照脚本所在目录下 example 目录中的 样例配置.json 和 样例.cmd 完成配置。"""
 
 
 def is_valid_git_repo(path: str) -> bool:
@@ -23,6 +40,58 @@ def get_default_date() -> str:
     seven_days_ago = datetime.now() - timedelta(days=7)
     return seven_days_ago.strftime("%Y-%m-%d")
 
+
+def prompt_start_date() -> str:
+    """交互输入起始日期（直接回车使用默认的7天前）"""
+    default_date = get_default_date()
+    tip = f"请输入起始日期（YYYY-MM-DD），直接回车使用默认值：{default_date}\n> "
+
+    while True:
+        try:
+            user_input = input(tip).strip()
+        except EOFError:
+            return default_date
+
+        if not user_input:
+            return default_date
+
+        try:
+            datetime.strptime(user_input, "%Y-%m-%d")
+            return user_input
+        except ValueError:
+            print("日期格式不对，请按 YYYY-MM-DD 输入，例如 2026-10-30")
+
+
+# ---------------------------------------------------------------- 配置相关
+
+def load_config(config_path: str) -> dict:
+    """读取JSON配置文件，并校验基本结构"""
+    abs_path = os.path.abspath(config_path)
+    if not os.path.exists(abs_path):
+        raise FileNotFoundError(f"配置文件不存在：{abs_path}")
+
+    with open(abs_path, "r", encoding="utf-8-sig") as f:
+        config = json.load(f)
+
+    return config
+
+
+def resolve_module(config: dict, module_name: str) -> tuple[str, list[str]]:
+    """根据模块名取出 (模块名, 仓库路径列表)，匹配不到时列出可用模块"""
+    projects = config["projects"]
+
+    if module_name in projects:
+        return module_name, list(projects[module_name]["paths"])
+
+    for name, conf in projects.items():
+        if name.strip().lower() == module_name.strip().lower():
+            return name, list(conf["paths"])
+
+    available = "、".join(projects.keys())
+    raise KeyError(f"配置文件中找不到模块 [{module_name}]，可用模块：{available}")
+
+
+# ---------------------------------------------------------------- Git 查询
 
 def get_commit_branch(repo_path: str, commit_hash: str) -> str:
     """获取单个提交所属的分支（包含本地+远程分支，多个分支用逗号分隔）"""
@@ -132,8 +201,8 @@ def format_repo_commits(repo_path: str, commits_list: list[dict[str, str]],
     return log_line
 
 
-def run_git_query(author: Optional[str], start_date: str, repo_paths: list[str]) -> dict:
-    """执行Git查询的主函数"""
+def run_git_query(author: Optional[str], start_date: str, repo_paths: list[str]) -> tuple[str, int]:
+    """执行Git查询，返回 (提交记录文本, 提交条数)"""
     today_str = datetime.now().strftime("%Y-%m-%d")
     repo_results = []
     all_commit_count = 0
@@ -165,34 +234,14 @@ def run_git_query(author: Optional[str], start_date: str, repo_paths: list[str])
         fmt_lines = format_repo_commits(rr["path"], rr["commits"], rr["grouped"])
         wrt_txt.extend(fmt_lines)
 
-    return {
-        "author": author,
-        "start_date": start_date,
-        "end_date": today_str,
-        "repo_count": len(repo_paths),
-        "total_commits": all_commit_count,
-        "repo_results": repo_results,
-        "output_text": "\n".join(wrt_txt)
-    }
+    return "\n".join(wrt_txt), all_commit_count
 
 
-def save_to_file(output_text: str, start_date: str, repo_paths: list[str]) -> str:
-    """保存结果到桌面文件"""
-    start_date_format = start_date.replace("-", "")
-    end_date_format = datetime.now().strftime("%m%d")
-
-    if len(repo_paths) == 1:
-        file_prefix_str = os.path.basename(repo_paths[0])
-    else:
-        file_prefix_str = f"多仓库({len(repo_paths)}个)"
-
-    file_name = f"{file_prefix_str}({start_date_format}-{end_date_format})提交记录_结果.txt"
-
+def save_to_file(output_text: str, file_name: str) -> str:
+    """保存结果到桌面 日报YYYYMMDD 文件夹"""
     dir_name = "日报" + datetime.now().strftime("%Y%m%d")
     out_dir = os.path.join(os.path.expanduser("~"), "Desktop", dir_name)
-
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir, exist_ok=True)
+    os.makedirs(out_dir, exist_ok=True)
 
     outfile_path = os.path.join(out_dir, file_name)
     with open(outfile_path, "w", encoding="utf-8") as f:
@@ -203,73 +252,96 @@ def save_to_file(output_text: str, start_date: str, repo_paths: list[str]) -> st
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Git提交记录查询工具",
+        description="Git提交记录查询工具（配置文件 + 模块名）",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+        epilog=r"""
 示例:
-  python GetPrjGitRecords.py --author 张三 --start-date 2026-07-01 --repos "D:\\proj\\ui" "D:\\proj\\api"
-  python GetPrjGitRecords.py --start-date 2026-07-01 --repos "D:\\proj\\ui"
-  python GetPrjGitRecords.py --repos "D:\\proj\\ui" "D:\\proj\\api"
+  python GetPrjGitRecords.py -a example\样例配置.json -b 项目管理
+  python GetPrjGitRecords.py -a example\样例配置.json -b 项目管理 -s 2026-07-01
+  python GetPrjGitRecords.py -a example\样例配置.json -b 项目管理 -s _    # 交互输入日期
         """
     )
 
     parser.add_argument(
-        "-a", "--author",
+        "-a", "--config",
         type=str,
         default=None,
-        help="提交人名称（不指定则查询所有提交人）"
+        help=r"配置文件路径（JSON），格式参考 example 目录下的样例配置.json"
+    )
+
+    parser.add_argument(
+        "-b", "--module",
+        type=str,
+        default=None,
+        help="模块名，即 JSON 中 projects 下的键，必填"
     )
 
     parser.add_argument(
         "-s", "--start-date",
         type=str,
         default=None,
-        help=f"起始日期（格式：YYYY-MM-DD，不指定则默认7天前，即 {get_default_date()}）"
+        help=f"起始日期（YYYY-MM-DD），不指定则默认7天前（{get_default_date()}）；传 _ 则交互输入"
     )
 
-    parser.add_argument(
-        "-r", "--repos",
-        type=str,
-        nargs="+",
-        required=True,
-        help="Git仓库路径列表（至少一个路径）"
-    )
-
-    parser.add_argument(
-        "-o", "--output",
-        type=str,
-        default=None,
-        help="输出文件路径（不指定则保存到桌面）"
-    )
+    # 无参数运行：只打印用法提示
+    if len(sys.argv) <= 1:
+        print(USAGE_HINT)
+        return
 
     args = parser.parse_args()
 
-    start_date = args.start_date if args.start_date else get_default_date()
+    if not args.config:
+        parser.error(r"缺少配置文件参数，请使用 -a 指定JSON配置文件，例如：-a example\样例配置.json")
 
-    print(f"===== Git提交记录查询 =====")
-    print(f"提交人：{args.author if args.author else '所有'}")
+    if not args.module:
+        parser.error(r"必须指定模块名，请用 -b 指定，例如：-b 项目管理")
+
+    # 读取并校验配置
+    try:
+        config = load_config(args.config)
+    except FileNotFoundError as e:
+        print(f"[错误] {e}")
+        sys.exit(1)
+    except (ValueError, json.JSONDecodeError) as e:
+        print(f"[错误] 配置文件解析失败：{e}")
+        sys.exit(1)
+
+    try:
+        module_name, repo_paths = resolve_module(config, args.module)
+    except KeyError as e:
+        print(f"[错误] {e.args[0]}")
+        sys.exit(1)
+
+    author = config.get("author_name")
+
+    if args.start_date == "_":
+        start_date = prompt_start_date()
+    elif args.start_date:
+        start_date = args.start_date
+    else:
+        start_date = get_default_date()
+
+    print("===== Git提交记录查询 =====")
+    print(f"配置文件：{os.path.abspath(args.config)}")
+    print(f"提交人：{author if author else '所有'}")
     print(f"起始日期：{start_date}")
-    print(f"仓库数量：{len(args.repos)}")
-    for repo in args.repos:
-        print(f"  - {repo}")
+    print(f"模块：{module_name}（{len(repo_paths)} 个仓库）")
+    for one_repo in repo_paths:
+        print(f"      {one_repo}")
     print("=" * 40)
 
-    result = run_git_query(args.author, start_date, args.repos)
+    output_text, commit_count = run_git_query(author, start_date, repo_paths)
+    print(output_text)
 
-    print(result["output_text"])
+    start_format = start_date.replace("-", "")
+    end_format = datetime.now().strftime("%m%d")
+    file_name = f"{module_name}({start_format}-{end_format})提交记录_结果.txt"
 
-    if args.output:
-        outfile_path = args.output
-        with open(outfile_path, "w", encoding="utf-8") as f:
-            f.write(result["output_text"])
-        print(f"\n✅ 已保存到：{os.path.abspath(outfile_path)}")
-    else:
-        outfile_path = save_to_file(result["output_text"], start_date, args.repos)
-        print(f"\n✅ 已保存到：{outfile_path}")
+    saved = save_to_file(output_text, file_name)
 
-    print(f"\n===== 统计 =====")
-    print(f"合计提交：{result['total_commits']} 条")
-    print(f"涉及仓库：{result['repo_count']} 个")
+    print(f"\n[已保存] {saved}")
+    print("\n===== 统计 =====")
+    print(f"合计提交：{commit_count} 条")
 
 
 if __name__ == "__main__":
