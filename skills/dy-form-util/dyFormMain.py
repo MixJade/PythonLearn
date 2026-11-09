@@ -28,7 +28,7 @@ def main():
     print("  请选择后续操作：")
     print("  0. 退出")
     print("  2. 表单zip布局样式移植（需追加输入新表单路径）")
-    print("  3. 添加实体字段")
+    print("  3. 添加实体 / 表单字段")
     print("=" * 50)
 
     choice = input("请选择: ").strip()
@@ -48,7 +48,7 @@ def main():
         # 执行移植，将探查的表单作为老zip，新路径作为新zip
         form_migrate.run_with_paths(old_zip=input_path, new_zip=new_zip)
     elif choice == "3":
-        # 使用已探查的zip路径添加实体字段
+        # 使用已探查的zip路径添加字段（实体字段 + 表单字段）
         entity_field_add.run(input_path)
     else:
         print("无效选择，退出。")

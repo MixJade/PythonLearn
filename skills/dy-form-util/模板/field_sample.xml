@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dyFormConfig>
+
+    <!-- ==================== 一、实体字段（写入 desEntityField.json） ==================== -->
+    <entityFields>
+        <field code="nodeNm" name="节点描述"/>
+    </entityFields>
+
+    <!-- ==================== 二、表单字段（写入 desFormControl.json + desFormLayout.json） ==================== -->
+    <!-- controlType枚举：输入框=1，多行文本=2，数字框=3，下拉框=4，单选框=5，自定义组件=54（中文名或编码均可，建议写中文名）-->
+    <formFields>
+    <!--
+        <field controlType="输入框" code="nodeInfo.nodeNm" name="节点名称"/>
+
+        <field controlType="下拉框" code="nodeInfo.isChannel" name="是否渠道节点" generalDictionary="1162129618061365248"/>
+
+        <field controlType="单选框" code="nodeInfo.isIgnoreRollback" name="不受回退影响" generalDictionary="1162129618061365248"/>
+
+        <field controlType="自定义组件" code="nodeInfo.classifyId" name="所属阶段" customFieldName="lifeNodeStgId"/>
+    -->
+    </formFields>
+
+</dyFormConfig>

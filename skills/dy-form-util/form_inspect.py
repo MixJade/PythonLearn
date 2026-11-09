@@ -93,11 +93,9 @@ def run() -> str:
     返回: 成功时返回输入的文件路径，失败时返回空字符串
     """
     print("=" * 50)
-    print("  探查 desFormControl.json -> Markdown 表格")
-    print("  (支持输入 zip 或 desFormControl.json)")
-    print("=" * 50)
 
-    input_path = input("\n请输入文件路径（zip 或 desFormControl.json）：").strip()
+    # 其实允许直接输入desFormControl.json（单独调试时使用），但这里不进行提示
+    input_path = input("\n请输入文件路径（包含desFormControl.json的zip）：").strip()
     if not input_path:
         print("未输入路径，退出。")
         return ""
