@@ -94,17 +94,15 @@ else:
 
 # ==============================[第二步：按 json 清单下载]==============================
 def download_file(file_url, save_path):
-    """流式下载单个文件，已存在且非空则跳过"""
+    """下载单个文件，已存在且非空则跳过"""
     if os.path.exists(save_path) and os.path.getsize(save_path) > 0:
         print(f"  已存在，跳过: {save_path}")
         return
     print("  下载: " + file_url)
-    with requests.get(url=file_url, headers=header, stream=True, timeout=60) as resp:
+    with requests.get(url=file_url, headers=header, timeout=60) as resp:
         resp.raise_for_status()
         with open(save_path, mode='wb') as fw:
-            for chunk in resp.iter_content(chunk_size=1024 * 256):
-                if chunk:
-                    fw.write(chunk)
+            fw.write(resp.content)
 
 
 # 读取清单
